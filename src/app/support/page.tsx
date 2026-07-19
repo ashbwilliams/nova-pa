@@ -8,7 +8,7 @@ import { getSiteState } from "@/lib/nova-data";
 export const metadata: Metadata = {
   title: "Support NOVA",
   description:
-    "Help NOVA Performing Arts build an accessible marching percussion academy through donations, sponsorship, instruments, rehearsal space, and community partnership.",
+    "Help NOVA Performing Arts build NOVA 8 through donations, sponsorship, instruments, rehearsal space, and community partnership.",
 };
 
 const priorities = [
@@ -57,7 +57,7 @@ export default async function SupportPage() {
           <p>
             A high-quality percussion program requires far more than music stands and
             rehearsal time. Instruments, facilities, instruction, safety, and student
-            assistance all determine who can participate and what the academy can become.
+            assistance all determine who can participate and what NOVA 8 can become.
           </p>
           <p>
             NOVA is building each part intentionally, with donor and community support
@@ -70,7 +70,7 @@ export default async function SupportPage() {
         <div className="section-heading-row">
           <div>
             <p className="eyebrow light">Funding priorities</p>
-            <h2>Four investments create the academy.</h2>
+            <h2>Four investments create NOVA 8.</h2>
           </div>
           <span className="ghost-number" aria-hidden="true">01</span>
         </div>
@@ -91,7 +91,7 @@ export default async function SupportPage() {
         </div>
         <div className="ways-copy">
           <p className="eyebrow">Ways to help</p>
-          <h2>There is more than one way to move the academy forward.</h2>
+          <h2>There is more than one way to move NOVA 8 forward.</h2>
           <div className="ways-list">
             <article>
               <h3>Give</h3>
@@ -120,7 +120,7 @@ export default async function SupportPage() {
         <div className="partner-banner-overlay" />
         <div className="partner-banner-copy">
           <p className="eyebrow light">Founding support</p>
-          <h2>Help establish an academy designed to last.</h2>
+          <h2>Help establish NOVA 8 for the long term.</h2>
           <p>
             We welcome conversations with individual donors, foundations, businesses,
             school partners, arts organizations, and facility hosts.

@@ -7,14 +7,14 @@ import { getSiteState } from "@/lib/nova-data";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact NOVA Performing Arts about the academy, student interest, donations, sponsorships, instruments, facilities, or community partnership.",
+    "Contact NOVA Performing Arts about NOVA 8, student interest, donations, sponsorships, instruments, facilities, or community partnership.",
 };
 
 const contactPaths = [
   {
     number: "01",
     title: "Students & families",
-    body: "Ask about the academy or be notified when program dates, location, costs, and participation details are available.",
+    body: "Ask about NOVA 8 or be notified when program dates, location, costs, and participation details are available.",
     action: "Express interest",
   },
   {

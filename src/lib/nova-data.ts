@@ -45,12 +45,12 @@ export const defaultSiteContent: SiteContent = {
   announcementEnabled: false,
   announcementText: "",
   homeHeroBody:
-    "NOVA Performing Arts is building a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
+    "NOVA Performing Arts is building NOVA 8, a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
   missionStatement:
     "Talent is everywhere. Access to sustained, high-quality marching arts education is not.",
   academyHeadline: "A place to keep developing.",
   academyOverview:
-    "A noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
+    "NOVA 8 is a noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
   supportHeadline: "Help build the place students keep going.",
   supportOverview:
     "Your support can turn an off-season gap into months of instruction, mentorship, artistry, and belonging for young percussionists across Central Texas.",
@@ -58,6 +58,27 @@ export const defaultSiteContent: SiteContent = {
   contactIntro:
     "Whether you are a student, parent, educator, donor, or community partner, we would like to hear what brings you to NOVA.",
 };
+
+const legacySiteContent = {
+  homeHeroBody:
+    "NOVA Performing Arts is building a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
+  academyOverview:
+    "A noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
+};
+
+function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
+  const merged = { ...defaultSiteContent, ...(content ?? {}) };
+
+  if (merged.homeHeroBody === legacySiteContent.homeHeroBody) {
+    merged.homeHeroBody = defaultSiteContent.homeHeroBody;
+  }
+
+  if (merged.academyOverview === legacySiteContent.academyOverview) {
+    merged.academyOverview = defaultSiteContent.academyOverview;
+  }
+
+  return merged;
+}
 
 export const defaultProgramDetails: ProgramDetails = {
   statusLabel: "In development",
@@ -138,7 +159,7 @@ export async function getSiteState() {
     const row = rows[0];
 
     return {
-      content: { ...defaultSiteContent, ...(row?.content ?? {}) },
+      content: mergeSiteContent(row?.content),
       program: { ...defaultProgramDetails, ...(row?.program ?? {}) },
       configured: true,
     };

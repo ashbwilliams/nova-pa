@@ -39,10 +39,10 @@ export default async function Home() {
           <p>{content.homeHeroBody}</p>
           <div className="button-row">
             <Link className="button button-accent" href="/support">
-              Help build the academy
+              Help build NOVA 8
             </Link>
             <Link className="text-link light" href="/academy">
-              Explore the program <ArrowUpRightIcon />
+              Explore NOVA 8 <ArrowUpRightIcon />
             </Link>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default async function Home() {
           <p className="eyebrow light">The flagship program</p>
           <h2>A serious academy without the competitive finish line.</h2>
           <p>
-            The NOVA Marching Percussion Academy will offer structured instruction,
+            NOVA 8 will offer structured instruction,
             ensemble experience, and individual growth during the non-marching season.
             Students can work with purpose without competing for a ranking.
           </p>
@@ -107,7 +107,7 @@ export default async function Home() {
             <li>A culture centered on growth, safety, and artistry</li>
           </ul>
           <Link className="button button-light" href="/academy">
-            Meet the academy
+            Meet NOVA 8
           </Link>
         </div>
       </section>
@@ -145,7 +145,7 @@ export default async function Home() {
             local independent percussion opportunity.
           </p>
           <p className="fine-print">
-            28 total responses. The academy evolves that demonstrated need into an
+            28 total responses. NOVA 8 evolves that demonstrated need into an
             accessible, noncompetitive model focused on continued education.
           </p>
         </div>
@@ -154,7 +154,7 @@ export default async function Home() {
       <CtaBand
         eyebrow="Build what comes next"
         title="Every instrument, rehearsal hour, and scholarship opens another path forward."
-        body="NOVA is gathering the partners and resources needed to launch an academy built for students who want to keep going."
+        body="NOVA is gathering the partners and resources needed to launch NOVA 8 for students who want to keep going."
         primaryHref="/support"
         primaryLabel="Support NOVA"
         secondaryHref="/contact"
