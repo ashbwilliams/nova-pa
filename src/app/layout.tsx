@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nova-pa.vercel.app"),
   title: {
     default: "NOVA Performing Arts | Central Texas Youth Percussion",
     template: "%s | NOVA Performing Arts",
@@ -24,14 +23,6 @@ export const metadata: Metadata = {
       "More time to grow. More room to belong. Help build an accessible off-season percussion academy for Central Texas youth.",
     type: "website",
     locale: "en_US",
-    images: [
-      {
-        url: "/images/hero-percussion.jpg",
-        width: 926,
-        height: 343,
-        alt: "Young percussionists performing together",
-      },
-    ],
   },
 };
 
