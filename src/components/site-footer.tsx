@@ -1,0 +1,39 @@
+import Image from "next/image";
+import Link from "next/link";
+
+export function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <div className="footer-orbit" aria-hidden="true">
+        <Image src="/brand/nova-mark.png" alt="" width={448} height={487} />
+      </div>
+      <div className="footer-grid">
+        <div className="footer-statement">
+          <p className="eyebrow light">NOVA Performing Arts</p>
+          <h2>More time to grow. More room to belong.</h2>
+          <p>
+            A Central Texas 501(c)(3) nonprofit expanding access to high-quality
+            youth performing arts education.
+          </p>
+        </div>
+        <div className="footer-links">
+          <p className="footer-label">Explore</p>
+          <Link href="/about">About NOVA</Link>
+          <Link href="/academy">The Academy</Link>
+          <Link href="/impact">Access & Impact</Link>
+          <Link href="/support">Support NOVA</Link>
+        </div>
+        <div className="footer-links">
+          <p className="footer-label">Connect</p>
+          <a href="mailto:ashbw@pm.me">ashbw@pm.me</a>
+          <a href="tel:+17376153164">737-615-3164</a>
+          <Link href="/contact">Start a conversation</Link>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} NOVA Performing Arts</span>
+        <span>Youth-centered. Access-driven. Artistically ambitious.</span>
+      </div>
+    </footer>
+  );
+}
