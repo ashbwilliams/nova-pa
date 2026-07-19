@@ -25,9 +25,8 @@ export function SiteFooter() {
         </div>
         <div className="footer-links">
           <p className="footer-label">Connect</p>
-          <a href="mailto:ashbw@pm.me">ashbw@pm.me</a>
-          <a href="tel:+17376153164">737-615-3164</a>
           <Link href="/contact">Start a conversation</Link>
+          <Link href="/contact#contact-form">Send an inquiry</Link>
         </div>
       </div>
       <div className="footer-bottom">

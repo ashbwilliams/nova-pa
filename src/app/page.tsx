@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { CtaBand } from "@/components/cta-band";
+import { getSiteState } from "@/lib/nova-data";
 
 const outcomes = [
   ["Musicianship", "Build technique, listening, timing, and ensemble awareness."],
@@ -10,9 +11,17 @@ const outcomes = [
   ["Continuity", "Keep learning when the traditional marching season ends."],
 ];
 
-export default function Home() {
+export default async function Home() {
+  const { content } = await getSiteState();
+
   return (
     <>
+      {content.announcementEnabled && content.announcementText ? (
+        <div className="announcement-bar" role="status">
+          <span>News</span>
+          <p>{content.announcementText}</p>
+        </div>
+      ) : null}
       <section className="home-hero">
         <div className="home-hero-media">
           <Image
@@ -27,10 +36,7 @@ export default function Home() {
         <div className="home-hero-copy">
           <p className="eyebrow light">Central Texas · Youth percussion education</p>
           <h1>More time<br />to grow.</h1>
-          <p>
-            NOVA Performing Arts is building a noncompetitive, off-season marching
-            percussion academy where young musicians can keep developing their craft.
-          </p>
+          <p>{content.homeHeroBody}</p>
           <div className="button-row">
             <Link className="button button-accent" href="/support">
               Help build the academy
@@ -45,10 +51,7 @@ export default function Home() {
 
       <section className="mission-band">
         <p className="eyebrow">Our purpose</p>
-        <p className="mission-statement">
-          Talent is everywhere. Access to sustained, high-quality marching arts
-          education is not.
-        </p>
+        <p className="mission-statement">{content.missionStatement}</p>
         <Link className="round-link" href="/about" aria-label="Learn about NOVA">
           <span>About</span>
           <ArrowUpRightIcon />

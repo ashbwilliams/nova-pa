@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
+import { getSiteState } from "@/lib/nova-data";
 
 export const metadata: Metadata = {
   title: "The Academy",
@@ -19,17 +20,38 @@ const experience = [
   ["Performance", "Meaningful opportunities to share work without a competitive ranking."],
 ];
 
-export default function AcademyPage() {
+export default async function AcademyPage() {
+  const { content, program } = await getSiteState();
+
   return (
     <>
       <PageHero
         eyebrow="The Marching Percussion Academy"
-        title="A place to keep developing."
-        description="A noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love."
+        title={content.academyHeadline}
+        description={content.academyOverview}
         image="/images/cymbal-performer.jpg"
         imageAlt="A young cymbal performer viewed during a rehearsal"
         number="02"
       />
+
+      <section className="program-status-section" aria-labelledby="program-status-heading">
+        <div className="program-status-heading">
+          <p className="eyebrow">Current academy status</p>
+          <h2 id="program-status-heading">{program.statusLabel}</h2>
+          <p>{program.statusMessage}</p>
+          {program.interestOpen ? (
+            <Link className="button button-dark" href="/contact#contact-form">
+              Join the interest list
+            </Link>
+          ) : null}
+        </div>
+        <dl className="program-details-grid">
+          <div><dt>Season dates</dt><dd>{program.seasonDates || "To be announced"}</dd></div>
+          <div><dt>Location</dt><dd>{program.location || "To be announced"}</dd></div>
+          <div><dt>Participation cost</dt><dd>{program.participationCost || "To be announced"}</dd></div>
+          <div><dt>Who it is for</dt><dd>{program.eligibility || "Details to be announced"}</dd></div>
+        </dl>
+      </section>
 
       <section className="academy-intro">
         <div className="academy-intro-title">
@@ -112,10 +134,7 @@ export default function AcademyPage() {
             structure will account for experience level and program capacity without
             treating advanced skill as the only measure of potential.
           </p>
-          <p className="availability-note">
-            Program schedule, location, participation costs, and interest details will
-            be announced as the academy&apos;s launch resources are secured.
-          </p>
+          <p className="availability-note">{program.statusMessage}</p>
           <Link className="button button-dark" href="/contact">
             Join the interest list
           </Link>

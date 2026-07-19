@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { PageHero } from "@/components/page-hero";
+import { getSiteState } from "@/lib/nova-data";
 
 export const metadata: Metadata = {
   title: "Support NOVA",
@@ -33,13 +34,15 @@ const priorities = [
   },
 ];
 
-export default function SupportPage() {
+export default async function SupportPage() {
+  const { content } = await getSiteState();
+
   return (
     <>
       <PageHero
         eyebrow="Support NOVA"
-        title="Help build the place students keep going."
-        description="Your support can turn an off-season gap into months of instruction, mentorship, artistry, and belonging for young percussionists across Central Texas."
+        title={content.supportHeadline}
+        description={content.supportOverview}
         image="/images/ensemble-performance.jpg"
         imageAlt="Young percussionists performing together"
         number="04"
@@ -123,9 +126,9 @@ export default function SupportPage() {
             school partners, arts organizations, and facility hosts.
           </p>
           <div className="button-row">
-            <a className="button button-accent" href="mailto:ashbw@pm.me?subject=Supporting%20NOVA%20Performing%20Arts">
+            <Link className="button button-accent" href="/contact#contact-form">
               Start a giving conversation
-            </a>
+            </Link>
             <Link className="text-link light" href="/contact">
               Other ways to connect <ArrowUpRightIcon />
             </Link>
@@ -137,8 +140,8 @@ export default function SupportPage() {
         <p className="eyebrow">NOVA Performing Arts</p>
         <p>
           NOVA Performing Arts is a 501(c)(3) nonprofit organization. Formal giving
-          instructions and online donation options are available through direct contact
-          while our public giving system is completed.
+          instructions and online donation options are available through our secure
+          inquiry form while the public giving system is completed.
         </p>
       </section>
     </>
