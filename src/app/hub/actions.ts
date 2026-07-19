@@ -89,7 +89,7 @@ export async function saveSiteContent(formData: FormData) {
 
   await updateSiteContent(content);
   revalidatePath("/");
-  revalidatePath("/academy");
+  revalidatePath("/nova-8");
   revalidatePath("/support");
   revalidatePath("/contact");
   revalidatePath("/hub/dashboard");
@@ -115,7 +115,7 @@ export async function saveProgramDetails(formData: FormData) {
 
   await updateProgramDetails(program);
   revalidatePath("/");
-  revalidatePath("/academy");
+  revalidatePath("/nova-8");
   revalidatePath("/hub/dashboard");
 }
 

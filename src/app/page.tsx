@@ -8,7 +8,7 @@ const outcomes = [
   ["Musicianship", "Build technique, listening, timing, and ensemble awareness."],
   ["Confidence", "Develop through focused work, meaningful feedback, and visible progress."],
   ["Belonging", "Find a community of students who care about the same craft."],
-  ["Continuity", "Keep learning when the traditional marching season ends."],
+  ["Continuity", "Keep learning across seasons and throughout more of the year."],
 ];
 
 export default async function Home() {
@@ -41,7 +41,7 @@ export default async function Home() {
             <Link className="button button-accent" href="/support">
               Help build NOVA 8 Percussion
             </Link>
-            <Link className="text-link light" href="/academy">
+            <Link className="text-link light" href="/nova-8">
               Explore NOVA 8 Percussion <ArrowUpRightIcon />
             </Link>
           </div>
@@ -94,11 +94,12 @@ export default async function Home() {
         </div>
         <div className="academy-copy">
           <p className="eyebrow light">NOVA 8 Percussion · The flagship program</p>
-          <h2>A serious academy without the competitive finish line.</h2>
+          <h2>Serious development without the competitive finish line.</h2>
           <p>
             NOVA 8 Percussion will offer structured instruction,
-            ensemble experience, and individual growth during the non-marching season.
-            Students can work with purpose without competing for a ranking.
+            ensemble experience, and individual growth throughout more of the year,
+            especially beyond the school marching season. Students can work with
+            purpose without competing for a ranking.
           </p>
           <ul className="check-list light-list">
             <li>Technique and musicianship</li>
@@ -106,7 +107,7 @@ export default async function Home() {
             <li>Mentorship and collaborative rehearsal</li>
             <li>A culture centered on growth, safety, and artistry</li>
           </ul>
-          <Link className="button button-light" href="/academy">
+          <Link className="button button-light" href="/nova-8">
             Meet NOVA 8 Percussion
           </Link>
         </div>

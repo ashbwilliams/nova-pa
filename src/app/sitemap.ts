@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://nova-pa-alpha.vercel.app";
-  const routes = ["", "/about", "/academy", "/impact", "/support", "/contact"];
+  const routes = ["", "/about", "/nova-8", "/impact", "/support", "/contact"];
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,

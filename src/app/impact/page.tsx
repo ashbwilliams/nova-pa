@@ -36,7 +36,7 @@ export default function ImpactPage() {
           <p>
             Competitive independent ensembles can provide transformative experiences,
             but their cost, location, and selection model leave many students without a
-            practical off-season path.
+            practical path for continued development.
           </p>
         </div>
         <div className="barrier-grid">

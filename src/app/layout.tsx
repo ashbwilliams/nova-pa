@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | NOVA Performing Arts",
   },
   description:
-    "NOVA Performing Arts expands access to high-quality youth performing arts education through NOVA 8 Percussion, a noncompetitive marching percussion academy in Central Texas.",
+    "NOVA Performing Arts expands access to high-quality youth performing arts education through NOVA 8 Percussion, a noncompetitive marching percussion development program in Central Texas.",
   keywords: [
     "NOVA 8 Percussion",
     "NOVA Performing Arts",

@@ -2,7 +2,7 @@
 
 Public website for NOVA Performing Arts, a Central Texas 501(c)(3) nonprofit expanding access to youth performing arts education.
 
-The site introduces NOVA 8 Percussion, NOVA's flagship noncompetitive marching percussion academy, under the signature line "More time to grow." It explains the access challenge the program addresses and provides clear paths for students, families, educators, donors, and community partners.
+The site introduces NOVA 8 Percussion, NOVA's flagship noncompetitive marching percussion development program, under the signature line "More time to grow." It explains the access challenge the program addresses and provides clear paths for students, families, educators, donors, and community partners.
 
 ## Development
 
@@ -23,8 +23,8 @@ npm run build
 The owner workspace is available at `/hub`. It includes:
 
 - a private inquiry inbox with statuses and internal notes
-- public academy status, dates, location, cost, and eligibility controls
-- editable homepage, academy, support, and contact copy
+- public program status, dates, location, cost, and eligibility controls
+- editable homepage, NOVA 8 Percussion, support, and contact copy
 - an optional public announcement bar
 
 The public contact form stores inquiries in Supabase. Public pages continue to use
