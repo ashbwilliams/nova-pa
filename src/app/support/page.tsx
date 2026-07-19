@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
@@ -126,7 +127,7 @@ export default function SupportPage() {
               Start a giving conversation
             </a>
             <Link className="text-link light" href="/contact">
-              Other ways to connect <span aria-hidden="true">↗</span>
+              Other ways to connect <ArrowUpRightIcon />
             </Link>
           </div>
         </div>

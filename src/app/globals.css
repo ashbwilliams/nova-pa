@@ -186,11 +186,24 @@ h3 {
   letter-spacing: 0.04em;
 }
 
-.text-link span {
+.arrow-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 1.7;
+}
+
+.text-link .arrow-icon {
+  width: 1rem;
+  height: 1rem;
   transition: transform 180ms ease;
 }
 
-.text-link:hover span {
+.text-link:hover .arrow-icon {
   transform: translate(3px, -3px);
 }
 
@@ -405,14 +418,20 @@ h3 {
   transition: background 180ms ease, color 180ms ease;
 }
 
-.round-link b {
-  font-size: 1rem;
-  font-weight: 400;
+.round-link .arrow-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.2rem;
+  transition: transform 180ms ease;
 }
 
 .round-link:hover {
   background: var(--ink);
   color: var(--white);
+}
+
+.round-link:hover .arrow-icon {
+  transform: translate(2px, -2px);
 }
 
 .editorial-section {
@@ -1490,8 +1509,15 @@ h3 {
   font-weight: 700;
 }
 
-.contact-grid a b {
-  font-weight: 400;
+.contact-grid a .arrow-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.05rem;
+  transition: transform 180ms ease;
+}
+
+.contact-grid a:hover .arrow-icon {
+  transform: translate(2px, -2px);
 }
 
 .direct-contact {

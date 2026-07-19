@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 
 type CtaBandProps = {
   eyebrow?: string;
@@ -33,7 +34,7 @@ export function CtaBand({
           </Link>
           {secondaryHref && secondaryLabel ? (
             <Link className="text-link light" href={secondaryHref}>
-              {secondaryLabel} <span aria-hidden="true">↗</span>
+              {secondaryLabel} <ArrowUpRightIcon />
             </Link>
           ) : null}
         </div>

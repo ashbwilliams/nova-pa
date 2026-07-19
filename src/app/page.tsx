@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { CtaBand } from "@/components/cta-band";
 
 const outcomes = [
@@ -35,7 +36,7 @@ export default function Home() {
               Help build the academy
             </Link>
             <Link className="text-link light" href="/academy">
-              Explore the program <span aria-hidden="true">↗</span>
+              Explore the program <ArrowUpRightIcon />
             </Link>
           </div>
         </div>
@@ -50,7 +51,7 @@ export default function Home() {
         </p>
         <Link className="round-link" href="/about" aria-label="Learn about NOVA">
           <span>About</span>
-          <b aria-hidden="true">↗</b>
+          <ArrowUpRightIcon />
         </Link>
       </section>
 
@@ -65,7 +66,7 @@ export default function Home() {
             out of reach.
           </p>
           <Link className="text-link" href="/impact">
-            See the access challenge <span aria-hidden="true">↗</span>
+            See the access challenge <ArrowUpRightIcon />
           </Link>
         </div>
         <div className="feature-image tall-image">

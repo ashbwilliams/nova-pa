@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
@@ -67,7 +68,7 @@ export default function ContactPage() {
               <h3>{path.title}</h3>
               <p>{path.body}</p>
               <a href={`mailto:ashbw@pm.me?subject=${encodeURIComponent(path.subject)}`}>
-                {path.action} <b aria-hidden="true">↗</b>
+                {path.action} <ArrowUpRightIcon />
               </a>
             </article>
           ))}
