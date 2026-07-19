@@ -88,8 +88,8 @@ export default function AboutPage() {
           <article>
             <time>Now</time>
             <div>
-              <h3>NOVA 8 takes shape</h3>
-              <p>NOVA is channeling its experience and INOV8 roots into NOVA 8, a noncompetitive, off-season academy centered on education, access, and sustained student growth.</p>
+              <h3>NOVA 8 Percussion takes shape</h3>
+              <p>NOVA is channeling its experience and INOV8 roots into NOVA 8 Percussion, a noncompetitive, off-season academy centered on education, access, and sustained student growth.</p>
             </div>
           </article>
         </div>
@@ -147,11 +147,11 @@ export default function AboutPage() {
 
       <CtaBand
         title="NOVA is building for the long term."
-        body="NOVA 8 is our first major program, and a foundation for future youth performing arts opportunities across Central Texas."
+        body="NOVA 8 Percussion is our first major program, and a foundation for future youth performing arts opportunities across Central Texas."
         primaryHref="/support"
         primaryLabel="Help build the foundation"
         secondaryHref="/academy"
-        secondaryLabel="Explore NOVA 8"
+        secondaryLabel="Explore NOVA 8 Percussion"
       />
     </>
   );

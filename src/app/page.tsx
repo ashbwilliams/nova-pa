@@ -34,15 +34,15 @@ export default async function Home() {
         </div>
         <div className="home-hero-overlay" />
         <div className="home-hero-copy">
-          <p className="eyebrow light">Central Texas · Youth percussion education</p>
+          <p className="eyebrow light">NOVA 8 Percussion · A program of NOVA Performing Arts</p>
           <h1>More time<br />to grow.</h1>
           <p>{content.homeHeroBody}</p>
           <div className="button-row">
             <Link className="button button-accent" href="/support">
-              Help build NOVA 8
+              Help build NOVA 8 Percussion
             </Link>
             <Link className="text-link light" href="/academy">
-              Explore NOVA 8 <ArrowUpRightIcon />
+              Explore NOVA 8 Percussion <ArrowUpRightIcon />
             </Link>
           </div>
         </div>
@@ -93,10 +93,10 @@ export default async function Home() {
           <span aria-hidden="true">02</span>
         </div>
         <div className="academy-copy">
-          <p className="eyebrow light">The flagship program</p>
+          <p className="eyebrow light">NOVA 8 Percussion · The flagship program</p>
           <h2>A serious academy without the competitive finish line.</h2>
           <p>
-            NOVA 8 will offer structured instruction,
+            NOVA 8 Percussion will offer structured instruction,
             ensemble experience, and individual growth during the non-marching season.
             Students can work with purpose without competing for a ranking.
           </p>
@@ -107,7 +107,7 @@ export default async function Home() {
             <li>A culture centered on growth, safety, and artistry</li>
           </ul>
           <Link className="button button-light" href="/academy">
-            Meet NOVA 8
+            Meet NOVA 8 Percussion
           </Link>
         </div>
       </section>
@@ -145,7 +145,7 @@ export default async function Home() {
             local independent percussion opportunity.
           </p>
           <p className="fine-print">
-            28 total responses. NOVA 8 evolves that demonstrated need into an
+            28 total responses. NOVA 8 Percussion evolves that demonstrated need into an
             accessible, noncompetitive model focused on continued education.
           </p>
         </div>
@@ -154,7 +154,7 @@ export default async function Home() {
       <CtaBand
         eyebrow="Build what comes next"
         title="Every instrument, rehearsal hour, and scholarship opens another path forward."
-        body="NOVA is gathering the partners and resources needed to launch NOVA 8 for students who want to keep going."
+        body="NOVA is gathering the partners and resources needed to launch NOVA 8 Percussion for students who want to keep going."
         primaryHref="/support"
         primaryLabel="Support NOVA"
         secondaryHref="/contact"

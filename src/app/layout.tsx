@@ -6,13 +6,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://nova-pa-alpha.vercel.app"),
   title: {
-    default: "NOVA 8 | NOVA Performing Arts",
+    default: "NOVA 8 Percussion | NOVA Performing Arts",
     template: "%s | NOVA Performing Arts",
   },
   description:
-    "NOVA Performing Arts expands access to high-quality youth performing arts education through NOVA 8, a noncompetitive marching percussion academy in Central Texas.",
+    "NOVA Performing Arts expands access to high-quality youth performing arts education through NOVA 8 Percussion, a noncompetitive marching percussion academy in Central Texas.",
   keywords: [
-    "NOVA 8",
+    "NOVA 8 Percussion",
     "NOVA Performing Arts",
     "youth percussion",
     "marching percussion",
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     "performing arts nonprofit",
   ],
   openGraph: {
-    title: "NOVA 8 | NOVA Performing Arts",
+    title: "NOVA 8 Percussion | NOVA Performing Arts",
     description:
-      "More time to grow. More room to belong. Help build NOVA 8 for Central Texas youth.",
+      "More time to grow. Help build NOVA 8 Percussion for Central Texas youth.",
     type: "website",
     locale: "en_US",
     images: [

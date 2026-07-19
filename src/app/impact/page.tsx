@@ -6,7 +6,7 @@ import { PageHero } from "@/components/page-hero";
 export const metadata: Metadata = {
   title: "Access & Impact",
   description:
-    "See the barriers facing Central Texas youth percussionists and how NOVA 8 can create continued access, development, and belonging.",
+    "See the barriers facing Central Texas youth percussionists and how NOVA 8 Percussion can create continued access, development, and belonging.",
 };
 
 const measures = [
@@ -69,7 +69,7 @@ export default function ImpactPage() {
           <p>
             In an earlier NOVA survey, 93% of 28 responding band directors supported
             their students participating in a local independent percussion opportunity.
-            NOVA 8 translates that affirmed need into a more accessible,
+            NOVA 8 Percussion translates that affirmed need into a more accessible,
             noncompetitive educational model.
           </p>
           <blockquote>
@@ -86,10 +86,10 @@ export default function ImpactPage() {
           <span aria-hidden="true">04</span>
         </div>
         <div className="impact-model-copy">
-          <p className="eyebrow">The NOVA 8 response</p>
+          <p className="eyebrow">The NOVA 8 Percussion response</p>
           <h2>Remove the barrier. Keep the standard.</h2>
           <p>
-            NOVA 8 is designed to widen the entry point while preserving
+            NOVA 8 Percussion is designed to widen the entry point while preserving
             high-quality teaching and meaningful artistic work.
           </p>
           <ul className="impact-actions">

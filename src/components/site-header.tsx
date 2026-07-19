@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const navigation = [
   { href: "/about", label: "About" },
-  { href: "/academy", label: "NOVA 8" },
+  { href: "/academy", label: "NOVA 8 Percussion" },
   { href: "/impact", label: "Access & Impact" },
   { href: "/contact", label: "Contact" },
 ];

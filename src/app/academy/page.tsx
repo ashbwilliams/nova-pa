@@ -6,9 +6,9 @@ import { PageHero } from "@/components/page-hero";
 import { getSiteState } from "@/lib/nova-data";
 
 export const metadata: Metadata = {
-  title: "NOVA 8",
+  title: "NOVA 8 Percussion",
   description:
-    "Discover NOVA 8, a noncompetitive, off-season marching percussion academy for young musicians in Central Texas.",
+    "Discover NOVA 8 Percussion, a noncompetitive, off-season marching percussion academy for young musicians in Central Texas.",
 };
 
 const experience = [
@@ -26,8 +26,8 @@ export default async function AcademyPage() {
   return (
     <>
       <PageHero
-        eyebrow="Marching Percussion Academy"
-        title="NOVA 8"
+        eyebrow="A program of NOVA Performing Arts"
+        title="NOVA 8 Percussion"
         description={`${content.academyHeadline} ${content.academyOverview}`}
         image="/images/cymbal-performer.jpg"
         imageAlt="A young cymbal performer viewed during a rehearsal"
@@ -36,7 +36,7 @@ export default async function AcademyPage() {
 
       <section className="program-status-section" aria-labelledby="program-status-heading">
         <div className="program-status-heading">
-          <p className="eyebrow">Current NOVA 8 status</p>
+          <p className="eyebrow">Current NOVA 8 Percussion status</p>
           <h2 id="program-status-heading">{program.statusLabel}</h2>
           <p>{program.statusMessage}</p>
           {program.interestOpen ? (
@@ -60,7 +60,7 @@ export default async function AcademyPage() {
         </div>
         <div className="academy-intro-copy">
           <p>
-            NOVA 8 is designed for young percussionists who want to continue
+            NOVA 8 Percussion is designed for young percussionists who want to continue
             learning after their school marching season ends. It carries forward the
             discipline and excitement of the marching arts without making trophies,
             placement, or selective ranking the purpose of the experience.
@@ -80,7 +80,7 @@ export default async function AcademyPage() {
           <p className="eyebrow light">What noncompetitive means</p>
           <h2>Ambitious does not have to mean exclusive.</h2>
           <p>
-            Noncompetitive does not mean casual. NOVA 8 will hold students to
+            Noncompetitive does not mean casual. NOVA 8 Percussion will hold students to
             meaningful artistic and personal standards while keeping the focus on
             education, progress, and participation.
           </p>
@@ -126,10 +126,10 @@ export default async function AcademyPage() {
 
       <section className="who-section">
         <div className="who-copy">
-          <p className="eyebrow">Who NOVA 8 is for</p>
+          <p className="eyebrow">Who NOVA 8 Percussion is for</p>
           <h2>Young musicians ready for their next season of growth.</h2>
           <p>
-            NOVA 8 is being developed for Central Texas youth with marching
+            NOVA 8 Percussion is being developed for Central Texas youth with marching
             percussion experience or a serious interest in building it. The final
             structure will account for experience level and program capacity without
             treating advanced skill as the only measure of potential.
@@ -145,9 +145,9 @@ export default async function AcademyPage() {
       </section>
 
       <CtaBand
-        eyebrow="Make NOVA 8 possible"
+        eyebrow="Make NOVA 8 Percussion possible"
         title="Students are ready to keep learning."
-        body="Your support can help secure instruments, rehearsal space, instruction, and student assistance for NOVA 8's first season."
+        body="Your support can help secure instruments, rehearsal space, instruction, and student assistance for the first season of NOVA 8 Percussion."
         primaryHref="/support"
         primaryLabel="See what support can do"
         secondaryHref="/impact"

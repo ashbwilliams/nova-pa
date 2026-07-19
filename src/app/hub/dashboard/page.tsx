@@ -55,7 +55,7 @@ export default async function HubDashboardPage() {
         <nav aria-label="Hub sections">
           <a href="#overview">Overview</a>
           <a href="#inquiries">Inquiries</a>
-          <a href="#program">NOVA 8</a>
+          <a href="#program">NOVA 8 Percussion</a>
           <a href="#content">Site content</a>
         </nav>
         <div className="hub-sidebar-actions">
@@ -157,7 +157,7 @@ export default async function HubDashboardPage() {
         <section className="hub-section" id="program">
           <div className="hub-section-heading">
             <div>
-              <p className="eyebrow">NOVA 8 controls</p>
+              <p className="eyebrow">NOVA 8 Percussion controls</p>
               <h2>Public program details</h2>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default async function HubDashboardPage() {
               <input type="checkbox" name="interestOpen" defaultChecked={program.interestOpen} />
               Show the interest-list invitation publicly
             </label>
-            <button className="hub-save-button" type="submit" disabled={!storageConfigured}>Publish NOVA 8 details</button>
+            <button className="hub-save-button" type="submit" disabled={!storageConfigured}>Publish NOVA 8 Percussion details</button>
           </form>
         </section>
 
@@ -196,10 +196,10 @@ export default async function HubDashboardPage() {
             <label>Homepage introduction<textarea name="homeHeroBody" defaultValue={content.homeHeroBody} rows={4} required maxLength={500} /></label>
             <label>Mission statement<textarea name="missionStatement" defaultValue={content.missionStatement} rows={3} required maxLength={300} /></label>
             <div className="hub-form-grid">
-              <label>NOVA 8 headline<input name="academyHeadline" defaultValue={content.academyHeadline} required maxLength={180} /></label>
+              <label>NOVA 8 Percussion headline<input name="academyHeadline" defaultValue={content.academyHeadline} required maxLength={180} /></label>
               <label>Support headline<input name="supportHeadline" defaultValue={content.supportHeadline} required maxLength={180} /></label>
             </div>
-            <label>NOVA 8 overview<textarea name="academyOverview" defaultValue={content.academyOverview} rows={4} required maxLength={700} /></label>
+            <label>NOVA 8 Percussion overview<textarea name="academyOverview" defaultValue={content.academyOverview} rows={4} required maxLength={700} /></label>
             <label>Support overview<textarea name="supportOverview" defaultValue={content.supportOverview} rows={4} required maxLength={700} /></label>
             <label>Contact headline<input name="contactHeadline" defaultValue={content.contactHeadline} required maxLength={180} /></label>
             <label>Contact introduction<textarea name="contactIntro" defaultValue={content.contactIntro} rows={4} required maxLength={700} /></label>

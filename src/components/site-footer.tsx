@@ -10,7 +10,7 @@ export function SiteFooter() {
       <div className="footer-grid">
         <div className="footer-statement">
           <p className="eyebrow light">NOVA Performing Arts</p>
-          <h2>More time to grow. More room to belong.</h2>
+          <h2>More time to grow.</h2>
           <p>
             A Central Texas 501(c)(3) nonprofit expanding access to high-quality
             youth performing arts education.
@@ -19,7 +19,7 @@ export function SiteFooter() {
         <div className="footer-links">
           <p className="footer-label">Explore</p>
           <Link href="/about">About NOVA</Link>
-          <Link href="/academy">NOVA 8</Link>
+          <Link href="/academy">NOVA 8 Percussion</Link>
           <Link href="/impact">Access & Impact</Link>
           <Link href="/support">Support NOVA</Link>
         </div>

@@ -45,12 +45,12 @@ export const defaultSiteContent: SiteContent = {
   announcementEnabled: false,
   announcementText: "",
   homeHeroBody:
-    "NOVA Performing Arts is building NOVA 8, a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
+    "NOVA Performing Arts is building NOVA 8 Percussion, a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
   missionStatement:
     "Talent is everywhere. Access to sustained, high-quality marching arts education is not.",
-  academyHeadline: "A place to keep developing.",
+  academyHeadline: "More time to grow.",
   academyOverview:
-    "NOVA 8 is a noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
+    "NOVA 8 Percussion is a noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
   supportHeadline: "Help build the place students keep going.",
   supportOverview:
     "Your support can turn an off-season gap into months of instruction, mentorship, artistry, and belonging for young percussionists across Central Texas.",
@@ -60,20 +60,29 @@ export const defaultSiteContent: SiteContent = {
 };
 
 const legacySiteContent = {
-  homeHeroBody:
+  homeHeroBody: [
     "NOVA Performing Arts is building a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
-  academyOverview:
+    "NOVA Performing Arts is building NOVA 8, a noncompetitive, off-season marching percussion academy where young musicians can keep developing their craft.",
+  ],
+  academyHeadline: ["A place to keep developing."],
+  academyOverview: [
     "A noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
+    "NOVA 8 is a noncompetitive, off-season academy where Central Texas youth can strengthen their marching percussion skills, learn together, and stay connected to the activity they love.",
+  ],
 };
 
 function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
   const merged = { ...defaultSiteContent, ...(content ?? {}) };
 
-  if (merged.homeHeroBody === legacySiteContent.homeHeroBody) {
+  if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
     merged.homeHeroBody = defaultSiteContent.homeHeroBody;
   }
 
-  if (merged.academyOverview === legacySiteContent.academyOverview) {
+  if (legacySiteContent.academyHeadline.includes(merged.academyHeadline)) {
+    merged.academyHeadline = defaultSiteContent.academyHeadline;
+  }
+
+  if (legacySiteContent.academyOverview.includes(merged.academyOverview)) {
     merged.academyOverview = defaultSiteContent.academyOverview;
   }
 

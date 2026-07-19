@@ -15,7 +15,7 @@ export default async function HubLoginPage() {
         <p className="eyebrow">Protected owner workspace</p>
         <h1>NOVA Hub</h1>
         <p>
-          Review inquiries, publish NOVA 8 details, and keep the public NOVA site
+          Review inquiries, publish NOVA 8 Percussion details, and keep the public NOVA site
           current.
         </p>
         <HubLoginForm />
