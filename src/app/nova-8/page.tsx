@@ -33,6 +33,28 @@ export default async function Nova8Page() {
         imageAlt="A young percussionist rehearsing on a keyboard percussion instrument"
       />
 
+      <section className="why-eight-section" id="why-eight">
+        <div className="why-eight-count">
+          <p className="eyebrow">Why 8?</p>
+          <p className="count-off" aria-label="Five, six. Five, six, seven, eight.">
+            <span aria-hidden="true">5</span>
+            <span aria-hidden="true">6</span>
+            <span className="count-break" aria-hidden="true">·</span>
+            <span aria-hidden="true">5</span>
+            <span aria-hidden="true">6</span>
+            <span aria-hidden="true">7</span>
+            <strong aria-hidden="true">8</strong>
+          </p>
+        </div>
+        <div className="why-eight-copy">
+          <h2>The last count before what comes next.</h2>
+          <p>
+            Named for the final count before an ensemble begins, NOVA 8 prepares
+            young musicians for what comes next.
+          </p>
+        </div>
+      </section>
+
       <section className="program-status-section" aria-labelledby="program-status-heading">
         <div className="program-status-heading">
           <p className="eyebrow">Program status</p>

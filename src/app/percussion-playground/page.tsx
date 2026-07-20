@@ -180,8 +180,8 @@ export default function PercussionPlaygroundPage() {
             mean for young musicians through NOVA 8 Percussion.
           </p>
           <div className="button-row">
-            <Link className="button button-light" href="/nova-8">
-              Discover NOVA 8 Percussion
+            <Link className="button button-light" href="/nova-8#why-eight">
+              Discover what the 8 means
             </Link>
             <Link className="text-link light" href="/support">
               Learn how to support NOVA <ArrowUpRightIcon />

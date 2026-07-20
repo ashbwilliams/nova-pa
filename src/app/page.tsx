@@ -122,6 +122,10 @@ export default async function Home() {
             emphasis on the months beyond the school marching season. Students can
             work with purpose without competing for a ranking.
           </p>
+          <p className="academy-name-story">
+            Named for the final count before an ensemble begins, NOVA 8 prepares
+            young musicians for what comes next.
+          </p>
           <ul className="check-list light-list">
             <li>Technique and musicianship</li>
             <li>Battery and front ensemble development</li>
