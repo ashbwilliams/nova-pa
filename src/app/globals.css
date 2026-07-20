@@ -385,6 +385,7 @@ h3 {
 
 .nav-support[aria-current="page"] {
   background: var(--accent);
+  color: var(--white);
 }
 
 .mobile-nav {
