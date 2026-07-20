@@ -31,7 +31,21 @@ export function SiteFooter() {
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} NOVA Performing Arts</span>
-        <span>Youth-centered. Access-driven. Artistically ambitious.</span>
+        <div className="footer-bottom-meta">
+          <span>Youth-centered. Access-driven. Artistically ambitious.</span>
+          <Link
+            className="footer-hub-link"
+            href="/hub"
+            aria-label="Open the NOVA Hub"
+            title="NOVA Hub"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10" />
+              <rect x="4.5" y="10" width="15" height="10" rx="1.5" />
+              <circle cx="12" cy="15" r="1" />
+            </svg>
+          </Link>
+        </div>
       </div>
     </footer>
   );
