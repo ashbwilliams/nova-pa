@@ -36,11 +36,13 @@ the built-in fallback content if the data service is temporarily unavailable.
 2. Run `supabase/migrations/20260719000000_nova_hub.sql` in the Supabase SQL editor.
 3. Copy `.env.example` to `.env.local` for local development.
 4. Add the same four values to the Vercel project's environment variables:
-   `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NOVA_HUB_PASSWORD`,
+   `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `NOVA_HUB_PASSWORD`,
    and `NOVA_SESSION_SECRET`.
 5. Generate `NOVA_SESSION_SECRET` with a cryptographically secure random value of
    at least 32 bytes. Do not reuse the hub password.
 6. Redeploy after adding the Vercel environment variables.
 
-The Supabase service-role key is server-only. Never expose it in browser code or
-prefix it with `NEXT_PUBLIC_`.
+Use a current `sb_secret_...` Supabase key for `SUPABASE_SECRET_KEY`. It is
+server-only. Never expose it in browser code or prefix it with `NEXT_PUBLIC_`.
+The legacy `SUPABASE_SERVICE_ROLE_KEY` variable remains supported temporarily
+for existing deployments, but should not be used for a new project.

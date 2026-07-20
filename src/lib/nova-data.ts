@@ -117,7 +117,9 @@ type SiteStateRow = {
 
 function getConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key =
+    process.env.SUPABASE_SECRET_KEY ??
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   return url && key ? { url, key } : null;
 }
@@ -141,7 +143,9 @@ async function supabaseRequest<T>(
     cache: "no-store",
     headers: {
       apikey: config.key,
-      Authorization: `Bearer ${config.key}`,
+      ...(config.key.startsWith("sb_secret_")
+        ? {}
+        : { Authorization: `Bearer ${config.key}` }),
       "Content-Type": "application/json",
       ...init.headers,
     },
