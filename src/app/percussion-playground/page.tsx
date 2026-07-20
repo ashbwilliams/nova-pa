@@ -40,7 +40,7 @@ export default async function PercussionPlaygroundPage() {
   const audienceImage = resolveMediaSlot(content.media, "playground.audience");
 
   return (
-    <>
+    <div className="playground-page">
       <section className="playground-hero">
         <div className="playground-hero-media">
           <ManagedImage
@@ -205,6 +205,6 @@ export default async function PercussionPlaygroundPage() {
         </div>
         <EventInterestForm />
       </section>
-    </>
+    </div>
   );
 }

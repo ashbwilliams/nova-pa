@@ -35,6 +35,7 @@ export function SiteHeader() {
   const programMenuRef = useRef<HTMLDetailsElement>(null);
   const mobileMenuRef = useRef<HTMLDetailsElement>(null);
   const programIsActive = programNavigation.some((item) => item.href === pathname);
+  const playgroundIsActive = pathname === "/percussion-playground";
 
   useEffect(() => {
     programMenuRef.current?.removeAttribute("open");
@@ -42,7 +43,9 @@ export function SiteHeader() {
   }, [pathname]);
 
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${playgroundIsActive ? " site-header-playground" : ""}`}
+    >
       <div className="site-header-inner">
         <BrandLockup />
 
