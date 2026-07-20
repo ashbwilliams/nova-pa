@@ -393,55 +393,55 @@ h3 {
 }
 
 .site-header-playground {
-  border-bottom-color: rgba(38, 22, 63, 0.18);
-  background: rgba(255, 248, 238, 0.97);
-  color: #26163f;
+  border-bottom-color: rgba(33, 24, 43, 0.16);
+  background: rgba(248, 245, 239, 0.97);
+  color: #21182b;
 }
 
 .site-header-playground .desktop-nav > a:not(.nav-support)::after,
 .site-header-playground .desktop-programs > summary::after {
-  background: #e84f2e;
+  background: #a1583f;
 }
 
 .site-header-playground .desktop-programs-menu,
 .site-header-playground .mobile-nav nav {
-  border-color: #e6cfbd;
-  background: #fff8ee;
+  border-color: #d8cdc2;
+  background: #f8f5ef;
 }
 
 .site-header-playground .desktop-programs-menu a,
 .site-header-playground .mobile-nav nav a {
-  border-color: #e6cfbd;
+  border-color: #d8cdc2;
 }
 
 .site-header-playground .desktop-programs-menu a:hover,
 .site-header-playground .desktop-programs-menu a[aria-current="page"] {
-  background: #ffe3d3;
-  color: #b93622;
+  background: #eee5dc;
+  color: #7a402f;
 }
 
 .site-header-playground .mobile-nav nav a[aria-current="page"] {
-  border-left-color: #e84f2e;
-  color: #b93622;
+  border-left-color: #a1583f;
+  color: #7a402f;
 }
 
 .site-header-playground .mobile-nav-group-label {
-  color: #b93622;
+  color: #7a402f;
 }
 
 .site-header-playground .menu-lines i {
-  background: #26163f;
+  background: #21182b;
 }
 
 .site-header-playground .nav-support,
 .site-header-playground .mobile-nav nav .mobile-support {
-  background: #26163f;
-  color: #fff8ee;
+  background: #21182b;
+  color: #f8f5ef;
 }
 
 .site-header-playground .nav-support:hover {
-  background: #e84f2e;
-  color: #26163f;
+  background: #a1583f;
+  color: #f8f5ef;
 }
 
 /* Home */
@@ -1609,14 +1609,14 @@ h3 {
 /* Percussion Playground */
 
 .playground-page {
-  --playground-ink: #26163f;
-  --playground-ink-soft: #382253;
-  --playground-accent: #e84f2e;
-  --playground-accent-dark: #b93622;
-  --playground-gold: #ffd166;
-  --playground-paper: #fff3e6;
-  --playground-blush: #ffd9cb;
-  --playground-white: #fffaf3;
+  --playground-ink: #21182b;
+  --playground-ink-soft: #30253a;
+  --playground-accent: #a1583f;
+  --playground-accent-dark: #7a402f;
+  --playground-gold: #d8b778;
+  --playground-paper: #eee8df;
+  --playground-blush: #e3d9d1;
+  --playground-white: #f8f5ef;
   background: var(--playground-white);
   color: var(--playground-ink);
 }
@@ -1631,7 +1631,7 @@ h3 {
 
 .playground-page .button-accent {
   background: var(--playground-accent);
-  color: var(--playground-ink);
+  color: var(--playground-white);
 }
 
 .playground-page .button-accent:hover {
@@ -1688,8 +1688,8 @@ h3 {
 
 .playground-hero-overlay {
   background:
-    linear-gradient(90deg, rgba(38, 22, 63, 0.98) 0%, rgba(38, 22, 63, 0.91) 38%, rgba(88, 35, 77, 0.54) 72%, rgba(232, 79, 46, 0.18) 100%),
-    linear-gradient(0deg, rgba(38, 22, 63, 0.78), transparent 48%);
+    linear-gradient(90deg, rgba(33, 24, 43, 0.98) 0%, rgba(33, 24, 43, 0.92) 38%, rgba(58, 40, 62, 0.58) 72%, rgba(161, 88, 63, 0.14) 100%),
+    linear-gradient(0deg, rgba(33, 24, 43, 0.78), transparent 48%);
 }
 
 .playground-hero-copy {
@@ -1725,7 +1725,7 @@ h3 {
 .playground-hero-description {
   max-width: 660px;
   margin-bottom: 2.2rem;
-  color: rgba(255, 250, 243, 0.78);
+  color: rgba(248, 245, 239, 0.76);
   font-size: 1.03rem;
 }
 
@@ -1733,7 +1733,7 @@ h3 {
   margin: 2.4rem 0 0;
   padding: 0.75rem 1rem;
   border-left: 2px solid var(--playground-gold);
-  background: rgba(38, 22, 63, 0.62);
+  background: rgba(33, 24, 43, 0.62);
   color: var(--playground-gold);
   font-size: 0.76rem;
   font-weight: 750;
@@ -1758,7 +1758,7 @@ h3 {
 
 .playground-intro-copy {
   align-self: end;
-  color: #6e5f6a;
+  color: #685f67;
   font-size: 1.03rem;
 }
 
@@ -1787,7 +1787,7 @@ h3 {
 .playground-station {
   display: grid;
   min-height: 620px;
-  border-top: 1px solid rgba(255, 209, 102, 0.24);
+  border-top: 1px solid rgba(216, 183, 120, 0.24);
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
@@ -1801,7 +1801,7 @@ h3 {
 .playground-station-image::after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(38, 22, 63, 0.48), transparent 56%);
+  background: linear-gradient(0deg, rgba(33, 24, 43, 0.48), transparent 56%);
   content: "";
 }
 
@@ -1825,7 +1825,7 @@ h3 {
 .playground-station-copy > p:not(.eyebrow) {
   max-width: 590px;
   margin: 0;
-  color: rgba(255, 250, 243, 0.7);
+  color: rgba(248, 245, 239, 0.7);
   font-size: 1rem;
 }
 
@@ -1860,7 +1860,7 @@ h3 {
 
 .playground-flow p {
   margin: 0;
-  color: rgba(38, 22, 63, 0.78);
+  color: rgba(33, 24, 43, 0.76);
   font-size: 0.9rem;
 }
 
@@ -1896,7 +1896,7 @@ h3 {
 .playground-audience-copy > p:not(.eyebrow) {
   max-width: 620px;
   margin: 0;
-  color: #70535d;
+  color: #665b60;
   font-size: 1.03rem;
 }
 
@@ -1926,7 +1926,7 @@ h3 {
 }
 
 .playground-purpose-copy > p {
-  color: rgba(255, 250, 243, 0.78);
+  color: rgba(248, 245, 239, 0.78);
 }
 
 .playground-purpose-copy .button-row {
@@ -1951,7 +1951,7 @@ h3 {
 .playground-updates-heading > p:last-child {
   max-width: 570px;
   margin: 0;
-  color: #6e5f6a;
+  color: #685f67;
 }
 
 .event-interest-form {
@@ -1981,7 +1981,7 @@ h3 {
 .event-interest-form .form-field input {
   min-height: 52px;
   padding: 0.7rem 0.85rem;
-  border: 1px solid #d9bda9;
+  border: 1px solid #cfc2b7;
   border-radius: 0;
   background: var(--playground-white);
   color: var(--playground-ink);
@@ -1991,7 +1991,7 @@ h3 {
 
 .event-interest-form .form-field input:focus {
   border-color: var(--playground-accent);
-  box-shadow: 0 0 0 2px rgba(232, 79, 46, 0.18);
+  box-shadow: 0 0 0 2px rgba(161, 88, 63, 0.16);
 }
 
 .event-interest-actions {
@@ -2004,7 +2004,7 @@ h3 {
 .event-interest-actions > p {
   max-width: 390px;
   margin: 0;
-  color: #6e5f6a;
+  color: #685f67;
   font-size: 0.76rem;
 }
 
@@ -2565,7 +2565,7 @@ h3 {
   }
 
   .playground-hero-overlay {
-    background: linear-gradient(0deg, rgba(38, 22, 63, 0.98) 0%, rgba(38, 22, 63, 0.84) 58%, rgba(232, 79, 46, 0.24) 100%);
+    background: linear-gradient(0deg, rgba(33, 24, 43, 0.98) 0%, rgba(33, 24, 43, 0.86) 58%, rgba(161, 88, 63, 0.2) 100%);
   }
 
   .playground-hero-copy {
