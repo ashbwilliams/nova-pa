@@ -53,10 +53,10 @@ export default async function ContactPage() {
       <section className="contact-section">
         <div className="contact-intro">
           <p className="eyebrow">Find the right path</p>
-          <h2>What would you like to help move forward?</h2>
+          <h2>How would you like to connect with NOVA?</h2>
           <p>
-            Choose the closest topic below, then use the secure inquiry form to tell
-            us what you would like us to know.
+            Choose the topic that best fits, then use the secure inquiry form to tell
+            us how you would like to be involved.
           </p>
         </div>
         <div className="contact-grid">
@@ -78,8 +78,7 @@ export default async function ContactPage() {
           <p className="eyebrow light">Send an inquiry</p>
           <h2>Tell us what brings you to NOVA.</h2>
           <p>
-            Your message goes directly into the protected NOVA Hub for review by
-            organization leadership.
+            Your message will be reviewed privately by NOVA leadership.
           </p>
         </div>
         <ContactForm />
@@ -88,8 +87,8 @@ export default async function ContactPage() {
       <section className="youth-safety-note">
         <p className="eyebrow">A note for students</p>
         <p>
-          Students under 18 should include a parent, guardian, or school music educator
-          in initial conversations with NOVA.
+          If you are under 18, please involve a parent, guardian, or school music
+          educator when contacting NOVA.
         </p>
       </section>
     </>

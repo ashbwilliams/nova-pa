@@ -22,7 +22,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About NOVA"
         title="An organization built around access."
-        description="NOVA Performing Arts is a youth-centered 501(c)(3) nonprofit creating high-quality performing arts opportunities across geographic and socioeconomic boundaries."
+        description="NOVA Performing Arts is a youth-centered 501(c)(3) nonprofit creating high-quality performing arts opportunities regardless of where students live or what their families can afford."
         image="/images/rehearsal-overhead.jpg"
         imageAlt="Percussion students and educators rehearsing together"
       />
@@ -30,17 +30,17 @@ export default function AboutPage() {
       <section className="statement-section">
         <div>
           <p className="eyebrow">Our mission</p>
-          <h2>Expand access to the marching arts so more young musicians can continue pursuing their potential.</h2>
+          <h2>Expand access to the marching arts so more young musicians can keep learning, performing, and growing.</h2>
         </div>
         <div className="statement-body">
           <p>
             We believe a student&apos;s opportunity to grow should not depend on where
-            they live, what their school can fund, or whether they are ready to win a
-            highly selective audition.
+            they live, what their school can fund, or whether they can earn a place
+            through a highly selective audition.
           </p>
           <p>
-            NOVA exists to create another path: serious instruction, ambitious
-            artistry, and a community where development matters more than placement.
+            NOVA exists to create another path: serious instruction, high artistic
+            standards, and a community where development matters more than placement.
           </p>
         </div>
       </section>
@@ -66,14 +66,14 @@ export default function AboutPage() {
       <section className="history-section">
         <div className="history-heading">
           <p className="eyebrow">Our history</p>
-          <h2>Experience behind a new direction.</h2>
+          <h2>Built on experience. Focused on what comes next.</h2>
         </div>
         <div className="timeline">
           <article>
             <time>2012</time>
             <div>
               <h3>INOV8 begins</h3>
-              <p>An independent percussion organization is founded in Kentucky, establishing the creative and educational roots that would later inform NOVA.</p>
+              <p>An independent percussion organization is founded in Kentucky, establishing educational and artistic roots that would later help shape NOVA.</p>
             </div>
           </article>
           <article>
@@ -110,8 +110,8 @@ export default function AboutPage() {
               <h3>Ash Williams</h3>
               <p>
                 Ash is a former marching arts educator and touring performer who
-                believes movement-based music can build confidence, community, and
-                lifelong creative connection.
+                believes the marching arts can build confidence, community, and
+                lifelong creative connections.
               </p>
             </div>
           </article>
@@ -124,8 +124,8 @@ export default function AboutPage() {
               <h3>James Procell</h3>
               <p>
                 James is a former band director, music educator, and university music
-                librarian with a career grounded in teaching and expanding access to
-                musical knowledge.
+                librarian with a career devoted to teaching and making musical
+                knowledge more accessible.
               </p>
             </div>
           </article>

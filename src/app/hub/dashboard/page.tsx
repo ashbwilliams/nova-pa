@@ -142,7 +142,7 @@ export default async function HubDashboardPage() {
                     Internal notes
                     <textarea name="internalNotes" defaultValue={inquiry.internal_notes} rows={3} maxLength={2000} />
                   </label>
-                  <button className="hub-save-button" type="submit">Save review</button>
+                  <button className="hub-save-button" type="submit">Save changes</button>
                 </form>
               </article>
             )) : (
@@ -172,7 +172,7 @@ export default async function HubDashboardPage() {
             <label>Eligibility<textarea name="eligibility" defaultValue={program.eligibility} rows={3} maxLength={500} /></label>
             <label className="hub-check-field">
               <input type="checkbox" name="interestOpen" defaultChecked={program.interestOpen} />
-              Show the interest-list invitation publicly
+              Show the interest-list invitation on the public site
             </label>
             <button className="hub-save-button" type="submit" disabled={!storageConfigured}>Publish NOVA 8 Percussion details</button>
           </form>

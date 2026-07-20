@@ -8,7 +8,7 @@ const outcomes = [
   ["Musicianship", "Build technique, listening, timing, and ensemble awareness."],
   ["Confidence", "Develop through focused work, meaningful feedback, and visible progress."],
   ["Belonging", "Find a community of students who care about the same craft."],
-  ["Continuity", "Keep learning across seasons and throughout more of the year."],
+  ["Continuity", "Keep learning and growing beyond the school marching season."],
 ];
 
 export default async function Home() {
@@ -95,9 +95,9 @@ export default async function Home() {
           <h2>Serious development without the competitive finish line.</h2>
           <p>
             NOVA 8 Percussion will offer structured instruction,
-            ensemble experience, and individual growth throughout more of the year,
-            especially beyond the school marching season. Students can work with
-            purpose without competing for a ranking.
+            ensemble experience, and individual growth for more of the year, with an
+            emphasis on the months beyond the school marching season. Students can
+            work with purpose without competing for a ranking.
           </p>
           <ul className="check-list light-list">
             <li>Technique and musicianship</li>
@@ -144,8 +144,8 @@ export default async function Home() {
             local independent percussion opportunity.
           </p>
           <p className="fine-print">
-            28 total responses. NOVA 8 Percussion evolves that demonstrated need into an
-            accessible, noncompetitive model focused on continued education.
+            28 total responses. NOVA 8 Percussion responds to that demonstrated need
+            with an accessible, noncompetitive model focused on continued education.
           </p>
         </div>
       </section>

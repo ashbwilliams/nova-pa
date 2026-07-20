@@ -47,13 +47,13 @@ export async function submitContactInquiry(
     return {
       status: "success",
       message:
-        "Thank you. Your message is now with NOVA, and we will follow up using the email address you provided.",
+        "Thank you. We have received your message and will follow up at the email address you provided.",
     };
   } catch {
     return {
       status: "error",
       message:
-        "The inquiry system is not available yet. Please try again after NOVA finishes connecting its secure data service.",
+        "We could not send your message. Please try again later.",
     };
   }
 }

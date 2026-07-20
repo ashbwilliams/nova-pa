@@ -29,8 +29,8 @@ const priorities = [
   },
   {
     number: "04",
-    title: "A durable organization",
-    body: "Strengthen youth safety, insurance, transportation, administration, and the operating foundation behind every rehearsal.",
+    title: "A strong, sustainable organization",
+    body: "Strengthen youth safety, insurance, transportation, administration, and the day-to-day operations that make every rehearsal possible.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default async function SupportPage() {
       <section className="support-intro">
         <div>
           <p className="eyebrow">The case for support</p>
-          <h2>The students bring the ambition. A community builds the opportunity.</h2>
+          <h2>Students bring the ambition. The community helps create the opportunity.</h2>
         </div>
         <div>
           <p>
@@ -60,7 +60,7 @@ export default async function SupportPage() {
           </p>
           <p>
             NOVA is building each part intentionally, with donor and community support
-            directed toward the resources students experience most directly.
+            directed toward the resources that most directly shape the student experience.
           </p>
         </div>
       </section>
@@ -69,7 +69,7 @@ export default async function SupportPage() {
         <div className="section-heading-row">
           <div>
             <p className="eyebrow light">Funding priorities</p>
-            <h2>Four investments create NOVA 8 Percussion.</h2>
+            <h2>Four priorities will make NOVA 8 Percussion possible.</h2>
           </div>
         </div>
         <div className="priority-grid">
@@ -97,11 +97,11 @@ export default async function SupportPage() {
             </article>
             <article>
               <h3>Sponsor</h3>
-              <p>Connect your company or foundation with student access, education, and community impact.</p>
+              <p>Support student access, music education, and community impact through your company or foundation.</p>
             </article>
             <article>
               <h3>Equip</h3>
-              <p>Donate, loan, consign, or help maintain percussion instruments and supporting equipment.</p>
+              <p>Donate or loan instruments, or help with maintenance and repairs.</p>
             </article>
             <article>
               <h3>Host</h3>
@@ -137,9 +137,9 @@ export default async function SupportPage() {
       <section className="giving-note">
         <p className="eyebrow">NOVA Performing Arts</p>
         <p>
-          NOVA Performing Arts is a 501(c)(3) nonprofit organization. Formal giving
-          instructions and online donation options are available through our secure
-          inquiry form while the public giving system is completed.
+          NOVA Performing Arts is a 501(c)(3) nonprofit organization. Until our online
+          donation system is ready, use the secure inquiry form to request giving
+          instructions or discuss a contribution.
         </p>
       </section>
     </>

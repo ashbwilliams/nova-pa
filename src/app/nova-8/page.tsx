@@ -35,7 +35,7 @@ export default async function Nova8Page() {
 
       <section className="program-status-section" aria-labelledby="program-status-heading">
         <div className="program-status-heading">
-          <p className="eyebrow">Current NOVA 8 Percussion status</p>
+          <p className="eyebrow">Program status</p>
           <h2 id="program-status-heading">{program.statusLabel}</h2>
           <p>{program.statusMessage}</p>
           {program.interestOpen ? (
@@ -63,11 +63,12 @@ export default async function Nova8Page() {
             perform, and grow throughout the year, with a particular focus on the
             months beyond their school marching season. It carries forward the
             discipline and excitement of the marching arts without making trophies,
-            placement, or selective ranking the purpose of the experience.
+            rankings, or audition results the purpose of the experience.
           </p>
           <p>
             Students will rehearse toward shared musical goals, receive thoughtful
-            instruction, and see their progress through the work itself.
+            instruction, and see their progress in stronger individual and ensemble
+            performance.
           </p>
         </div>
       </section>
@@ -109,7 +110,7 @@ export default async function Nova8Page() {
         <div className="section-heading-row dark-text">
           <div>
             <p className="eyebrow">The student experience</p>
-            <h2>Six dimensions of continued development.</h2>
+            <h2>What students will develop.</h2>
           </div>
         </div>
         <div className="experience-grid">
@@ -129,9 +130,9 @@ export default async function Nova8Page() {
           <h2>Young musicians ready for their next season of growth.</h2>
           <p>
             NOVA 8 Percussion is being developed for Central Texas youth with marching
-            percussion experience or a serious interest in building it. The final
-            structure will account for experience level and program capacity without
-            treating advanced skill as the only measure of potential.
+            percussion experience or a serious interest in developing those skills.
+            We will consider experience and available space, but advanced skill will
+            not be the only measure of potential.
           </p>
           <p className="availability-note">{program.statusMessage}</p>
           <Link className="button button-dark" href="/contact">

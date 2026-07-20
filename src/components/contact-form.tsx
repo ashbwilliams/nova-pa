@@ -61,8 +61,8 @@ export function ContactForm() {
 
       <div className="form-submit-row">
         <p>
-          Students under 18 should include a parent, guardian, or school music
-          educator in their message.
+          If you are under 18, please involve a parent, guardian, or school music
+          educator when contacting NOVA.
         </p>
         <button className="button button-accent" type="submit" disabled={pending}>
           {pending ? "Sending..." : "Send inquiry"}

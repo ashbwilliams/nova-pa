@@ -23,7 +23,7 @@ export default function ImpactPage() {
       <PageHero
         eyebrow="Access & Impact"
         title="Talent is everywhere. Access is not."
-        description="Young musicians can have the ambition and work ethic to grow while still facing financial, geographic, and instructional barriers they cannot overcome alone."
+        description="Young musicians may have the ambition and work ethic to grow yet still face financial, geographic, and instructional barriers they cannot overcome alone."
         image="/images/outdoor-ensemble.jpg"
         imageAlt="A youth percussion ensemble rehearsing outdoors"
       />
@@ -34,7 +34,7 @@ export default function ImpactPage() {
           <h2>Three barriers close too many doors.</h2>
           <p>
             Competitive independent ensembles can provide transformative experiences,
-            but their cost, location, and selection model leave many students without a
+            but their cost, distance, and audition process leave many students without a
             practical path for continued development.
           </p>
         </div>
@@ -47,7 +47,7 @@ export default function ImpactPage() {
           <article>
             <span>02</span>
             <h3>Geography</h3>
-            <p>Many established opportunities are concentrated far from students in Central Texas, making regular travel unrealistic for families.</p>
+            <p>Many established programs are too far from Central Texas students to make regular travel realistic for families.</p>
           </article>
           <article>
             <span>03</span>
@@ -67,8 +67,8 @@ export default function ImpactPage() {
           <h2>Central Texas educators have already told us the opportunity matters.</h2>
           <p>
             In an earlier NOVA survey, 93% of 28 responding band directors supported
-            their students participating in a local independent percussion opportunity.
-            NOVA 8 Percussion translates that affirmed need into a more accessible,
+            their students&apos; participation in a local independent percussion program.
+            NOVA 8 Percussion responds to that need with a more accessible,
             noncompetitive educational model.
           </p>
           <blockquote>
@@ -85,14 +85,14 @@ export default function ImpactPage() {
         </div>
         <div className="impact-model-copy">
           <p className="eyebrow">The NOVA 8 Percussion response</p>
-          <h2>Remove the barrier. Keep the standard.</h2>
+          <h2>Remove barriers. Keep standards high.</h2>
           <p>
-            NOVA 8 Percussion is designed to widen the entry point while preserving
-            high-quality teaching and meaningful artistic work.
+            NOVA 8 Percussion is designed to open high-quality instruction to more
+            students while preserving meaningful artistic work.
           </p>
           <ul className="impact-actions">
             <li><strong>Bring instruction closer</strong><span>Create a Central Texas program that families can realistically reach.</span></li>
-            <li><strong>Build financial access</strong><span>Use donor support to reduce participation costs and provide assistance.</span></li>
+            <li><strong>Make participation affordable</strong><span>Use donor support to reduce participation costs and provide assistance.</span></li>
             <li><strong>Welcome developing talent</strong><span>Structure learning around growth rather than a single high-stakes audition.</span></li>
             <li><strong>Create continuity</strong><span>Give students a reason and a place to keep practicing after marching season.</span></li>
           </ul>
@@ -102,7 +102,7 @@ export default function ImpactPage() {
       <section className="measurement-section">
         <div>
           <p className="eyebrow light">Accountability</p>
-          <h2>We will measure what access makes possible.</h2>
+          <h2>We will measure participation, growth, and reach.</h2>
         </div>
         <ul>
           {measures.map((measure, index) => (

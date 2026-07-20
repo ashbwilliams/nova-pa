@@ -51,7 +51,7 @@ export const defaultSiteContent: SiteContent = {
   academyHeadline: "More time to grow.",
   academyOverview:
     "NOVA 8 Percussion is a noncompetitive marching percussion development program where Central Texas youth can strengthen their skills, learn together, and stay connected across seasons.",
-  supportHeadline: "Help build the place students keep going.",
+  supportHeadline: "Help give students more time to grow.",
   supportOverview:
     "Your support can give young percussionists across Central Texas more opportunities for instruction, mentorship, artistry, and belonging throughout the year.",
   contactHeadline: "Start with a conversation.",
@@ -74,6 +74,7 @@ const legacySiteContent = {
   supportOverview: [
     "Your support can turn an off-season gap into months of instruction, mentorship, artistry, and belonging for young percussionists across Central Texas.",
   ],
+  supportHeadline: ["Help build the place students keep going."],
 };
 
 function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
@@ -95,13 +96,17 @@ function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
     merged.supportOverview = defaultSiteContent.supportOverview;
   }
 
+  if (legacySiteContent.supportHeadline.includes(merged.supportHeadline)) {
+    merged.supportHeadline = defaultSiteContent.supportHeadline;
+  }
+
   return merged;
 }
 
 export const defaultProgramDetails: ProgramDetails = {
   statusLabel: "In development",
   statusMessage:
-    "Program schedule, location, participation costs, and enrollment details will be announced as launch resources are secured.",
+    "Program schedule, location, participation costs, and enrollment details will be announced as launch plans and resources are finalized.",
   seasonDates: "",
   location: "Central Texas",
   participationCost: "",
@@ -109,6 +114,22 @@ export const defaultProgramDetails: ProgramDetails = {
     "Central Texas youth with marching percussion experience or a serious interest in developing it.",
   interestOpen: true,
 };
+
+const legacyProgramStatusMessages = [
+  "Program schedule, location, participation costs, and enrollment details will be announced as launch resources are secured.",
+];
+
+function mergeProgramDetails(
+  program: Partial<ProgramDetails> | null | undefined,
+) {
+  const merged = { ...defaultProgramDetails, ...(program ?? {}) };
+
+  if (legacyProgramStatusMessages.includes(merged.statusMessage)) {
+    merged.statusMessage = defaultProgramDetails.statusMessage;
+  }
+
+  return merged;
+}
 
 type SiteStateRow = {
   content?: Partial<SiteContent> | null;
@@ -182,7 +203,7 @@ export async function getSiteState() {
 
     return {
       content: mergeSiteContent(row?.content),
-      program: { ...defaultProgramDetails, ...(row?.program ?? {}) },
+      program: mergeProgramDetails(row?.program),
       configured: true,
     };
   } catch {
