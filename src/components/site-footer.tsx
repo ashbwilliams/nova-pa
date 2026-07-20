@@ -42,7 +42,7 @@ export function SiteFooter() {
             <svg aria-hidden="true" viewBox="0 0 24 24">
               <path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10" />
               <rect x="4.5" y="10" width="15" height="10" rx="1.5" />
-              <circle cx="12" cy="15" r="1" />
+              <path d="M12 14.2v2" />
             </svg>
           </Link>
         </div>

@@ -52,8 +52,8 @@ export default async function Home() {
       <section className="mission-band">
         <p className="eyebrow">Our purpose</p>
         <p className="mission-statement">{content.missionStatement}</p>
-        <Link className="round-link" href="/about" aria-label="Learn about NOVA">
-          <span>About</span>
+        <Link className="text-link mission-link" href="/about">
+          About NOVA
           <ArrowUpRightIcon />
         </Link>
       </section>
