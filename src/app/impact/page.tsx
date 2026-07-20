@@ -26,7 +26,6 @@ export default function ImpactPage() {
         description="Young musicians can have the ambition and work ethic to grow while still facing financial, geographic, and instructional barriers they cannot overcome alone."
         image="/images/outdoor-ensemble.jpg"
         imageAlt="A youth percussion ensemble rehearsing outdoors"
-        number="03"
       />
 
       <section className="barriers-section">
@@ -83,7 +82,6 @@ export default function ImpactPage() {
       <section className="impact-model-section">
         <div className="impact-model-image">
           <Image src="/images/mallets-hands.jpg" alt="A percussionist performing on a marimba" fill sizes="(max-width: 800px) 100vw, 42vw" />
-          <span aria-hidden="true">04</span>
         </div>
         <div className="impact-model-copy">
           <p className="eyebrow">The NOVA 8 Percussion response</p>

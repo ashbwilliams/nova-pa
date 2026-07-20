@@ -25,7 +25,6 @@ export default function AboutPage() {
         description="NOVA Performing Arts is a youth-centered 501(c)(3) nonprofit creating high-quality performing arts opportunities across geographic and socioeconomic boundaries."
         image="/images/rehearsal-overhead.jpg"
         imageAlt="Percussion students and educators rehearsing together"
-        number="01"
       />
 
       <section className="statement-section">
@@ -52,7 +51,6 @@ export default function AboutPage() {
             <p className="eyebrow light">How we work</p>
             <h2>Four values shape every program.</h2>
           </div>
-          <span className="ghost-number" aria-hidden="true">02</span>
         </div>
         <div className="values-grid">
           {values.map(([title, body], index) => (
@@ -101,7 +99,6 @@ export default function AboutPage() {
             <p className="eyebrow">Leadership</p>
             <h2>Educators and advocates who believe in the power of performance.</h2>
           </div>
-          <span className="ghost-number dark-ghost" aria-hidden="true">03</span>
         </div>
         <div className="leader-grid">
           <article className="leader-card">

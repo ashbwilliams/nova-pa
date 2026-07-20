@@ -29,9 +29,8 @@ export default async function Nova8Page() {
         eyebrow="A program of NOVA Performing Arts"
         title="NOVA 8 Percussion"
         description={`${content.academyHeadline} ${content.academyOverview}`}
-        image="/images/cymbal-performer.jpg"
-        imageAlt="A young cymbal performer viewed during a rehearsal"
-        number="02"
+        image="/images/mallet-rehearsal.jpg"
+        imageAlt="A young percussionist rehearsing on a keyboard percussion instrument"
       />
 
       <section className="program-status-section" aria-labelledby="program-status-heading">
@@ -112,7 +111,6 @@ export default async function Nova8Page() {
             <p className="eyebrow">The student experience</p>
             <h2>Six dimensions of continued development.</h2>
           </div>
-          <span className="ghost-number dark-ghost" aria-hidden="true">03</span>
         </div>
         <div className="experience-grid">
           {experience.map(([title, body], index) => (

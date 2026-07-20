@@ -59,7 +59,6 @@ export default async function Home() {
       </section>
 
       <section className="editorial-section split-feature">
-        <div className="section-index" aria-hidden="true">01</div>
         <div className="feature-copy">
           <p className="eyebrow">The need</p>
           <h2>The season ends.<br />The ambition does not.</h2>
@@ -90,7 +89,6 @@ export default async function Home() {
             fill
             sizes="(max-width: 900px) 100vw, 50vw"
           />
-          <span aria-hidden="true">02</span>
         </div>
         <div className="academy-copy">
           <p className="eyebrow light">NOVA 8 Percussion · The flagship program</p>

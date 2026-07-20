@@ -6,7 +6,6 @@ type PageHeroProps = {
   description: string;
   image: string;
   imageAlt: string;
-  number: string;
 };
 
 export function PageHero({
@@ -15,7 +14,6 @@ export function PageHero({
   description,
   image,
   imageAlt,
-  number,
 }: PageHeroProps) {
   return (
     <section className="page-hero">
@@ -26,9 +24,6 @@ export function PageHero({
       </div>
       <div className="page-hero-image">
         <Image src={image} alt={imageAlt} fill sizes="(max-width: 800px) 100vw, 48vw" priority />
-        <span className="page-hero-number" aria-hidden="true">
-          {number}
-        </span>
       </div>
     </section>
   );

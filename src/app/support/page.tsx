@@ -45,7 +45,6 @@ export default async function SupportPage() {
         description={content.supportOverview}
         image="/images/ensemble-performance.jpg"
         imageAlt="Young percussionists performing together"
-        number="04"
       />
 
       <section className="support-intro">
@@ -72,7 +71,6 @@ export default async function SupportPage() {
             <p className="eyebrow light">Funding priorities</p>
             <h2>Four investments create NOVA 8 Percussion.</h2>
           </div>
-          <span className="ghost-number" aria-hidden="true">01</span>
         </div>
         <div className="priority-grid">
           {priorities.map((priority) => (

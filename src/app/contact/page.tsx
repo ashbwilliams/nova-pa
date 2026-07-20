@@ -48,7 +48,6 @@ export default async function ContactPage() {
         description={content.contactIntro}
         image="/images/music-clinic.jpg"
         imageAlt="A percussion educator working with young musicians"
-        number="05"
       />
 
       <section className="contact-section">
