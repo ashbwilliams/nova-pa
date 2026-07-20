@@ -1446,6 +1446,8 @@ h3 {
 }
 
 /* Keep full-width editorial sections on one shared split and content axis. */
+.home-event-feature,
+.page-hero,
 .split-feature,
 .academy-feature,
 .evidence-section,
