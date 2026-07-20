@@ -1,8 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { CtaBand } from "@/components/cta-band";
+import { ManagedImage } from "@/components/managed-image";
 import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 const outcomes = [
   ["Musicianship", "Build technique, listening, timing, and ensemble awareness."],
@@ -13,6 +14,11 @@ const outcomes = [
 
 export default async function Home() {
   const { content } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "home.hero");
+  const playgroundImage = resolveMediaSlot(content.media, "home.playground");
+  const needImage = resolveMediaSlot(content.media, "home.need");
+  const nova8Image = resolveMediaSlot(content.media, "home.nova8");
+  const evidenceImage = resolveMediaSlot(content.media, "home.evidence");
 
   return (
     <>
@@ -24,9 +30,8 @@ export default async function Home() {
       ) : null}
       <section className="home-hero">
         <div className="home-hero-media">
-          <Image
-            src="/images/hero-percussion.jpg"
-            alt="Young percussionists performing in an ensemble"
+          <ManagedImage
+            media={heroImage}
             fill
             sizes="100vw"
             priority
@@ -60,9 +65,8 @@ export default async function Home() {
 
       <section className="home-event-feature">
         <div className="home-event-image">
-          <Image
-            src="/images/rehearsal-overhead.jpg"
-            alt="A percussion ensemble arranged in a rehearsal space"
+          <ManagedImage
+            media={playgroundImage}
             fill
             sizes="(max-width: 820px) 100vw, 50vw"
           />
@@ -95,9 +99,8 @@ export default async function Home() {
           </Link>
         </div>
         <div className="feature-image tall-image">
-          <Image
-            src="/images/students-together.jpg"
-            alt="Young musicians gathered together during rehearsal"
+          <ManagedImage
+            media={needImage}
             fill
             sizes="(max-width: 800px) 100vw, 42vw"
           />
@@ -106,9 +109,8 @@ export default async function Home() {
 
       <section className="academy-feature">
         <div className="academy-image">
-          <Image
-            src="/images/mallet-rehearsal.jpg"
-            alt="A student rehearsing on a keyboard percussion instrument"
+          <ManagedImage
+            media={nova8Image}
             fill
             sizes="(max-width: 900px) 100vw, 50vw"
           />
@@ -156,9 +158,8 @@ export default async function Home() {
 
       <section className="evidence-section">
         <div className="evidence-image">
-          <Image
-            src="/images/conductor.jpg"
-            alt="An educator conducting a musical ensemble"
+          <ManagedImage
+            media={evidenceImage}
             fill
             sizes="(max-width: 800px) 100vw, 42vw"
           />

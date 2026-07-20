@@ -3,6 +3,7 @@ import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { ContactForm } from "@/components/contact-form";
 import { PageHero } from "@/components/page-hero";
 import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -39,6 +40,7 @@ const contactPaths = [
 
 export default async function ContactPage() {
   const { content } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "contact.hero");
 
   return (
     <>
@@ -46,8 +48,9 @@ export default async function ContactPage() {
         eyebrow="Contact NOVA"
         title={content.contactHeadline}
         description={content.contactIntro}
-        image="/images/music-clinic.jpg"
-        imageAlt="A percussion educator working with young musicians"
+        image={heroImage.src}
+        imageAlt={heroImage.alt}
+        imagePosition={heroImage.objectPosition}
       />
 
       <section className="contact-section">

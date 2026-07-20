@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { CtaBand } from "@/components/cta-band";
+import { ManagedImage } from "@/components/managed-image";
 import { PageHero } from "@/components/page-hero";
+import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 export const metadata: Metadata = {
   title: "Access & Impact",
@@ -17,15 +19,20 @@ const measures = [
   "Growth reported by students, families, and educators",
 ];
 
-export default function ImpactPage() {
+export default async function ImpactPage() {
+  const { content } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "impact.hero");
+  const modelImage = resolveMediaSlot(content.media, "impact.model");
+
   return (
     <>
       <PageHero
         eyebrow="Access & Impact"
         title="Talent is everywhere. Access is not."
         description="Young musicians may have the ambition and work ethic to grow yet still face financial, geographic, and instructional barriers they cannot overcome alone."
-        image="/images/outdoor-ensemble.jpg"
-        imageAlt="A youth percussion ensemble rehearsing outdoors"
+        image={heroImage.src}
+        imageAlt={heroImage.alt}
+        imagePosition={heroImage.objectPosition}
       />
 
       <section className="barriers-section">
@@ -81,7 +88,7 @@ export default function ImpactPage() {
 
       <section className="impact-model-section">
         <div className="impact-model-image">
-          <Image src="/images/mallets-hands.jpg" alt="A percussionist performing on a marimba" fill sizes="(max-width: 800px) 100vw, 42vw" />
+          <ManagedImage media={modelImage} fill sizes="(max-width: 800px) 100vw, 42vw" />
         </div>
         <div className="impact-model-copy">
           <p className="eyebrow">The NOVA 8 Percussion response</p>

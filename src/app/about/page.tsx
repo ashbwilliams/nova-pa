@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { CtaBand } from "@/components/cta-band";
+import { ManagedImage } from "@/components/managed-image";
 import { PageHero } from "@/components/page-hero";
+import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 export const metadata: Metadata = {
   title: "About",
@@ -16,15 +18,21 @@ const values = [
   ["Artistry", "We teach technique in service of expression, curiosity, and meaningful musical experiences."],
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const { content } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "about.hero");
+  const ashImage = resolveMediaSlot(content.media, "about.ash");
+  const jamesImage = resolveMediaSlot(content.media, "about.james");
+
   return (
     <>
       <PageHero
         eyebrow="About NOVA"
         title="An organization built around access."
         description="NOVA Performing Arts is a youth-centered 501(c)(3) nonprofit creating high-quality performing arts opportunities regardless of where students live or what their families can afford."
-        image="/images/rehearsal-overhead.jpg"
-        imageAlt="Percussion students and educators rehearsing together"
+        image={heroImage.src}
+        imageAlt={heroImage.alt}
+        imagePosition={heroImage.objectPosition}
       />
 
       <section className="statement-section">
@@ -103,7 +111,7 @@ export default function AboutPage() {
         <div className="leader-grid">
           <article className="leader-card">
             <div className="leader-image">
-              <Image src="/images/ash-williams.jpg" alt="Ash Williams" fill sizes="(max-width: 700px) 100vw, 30vw" />
+              <ManagedImage media={ashImage} fill sizes="(max-width: 700px) 100vw, 30vw" />
             </div>
             <div>
               <p className="eyebrow">Founder & Board President</p>
@@ -117,7 +125,7 @@ export default function AboutPage() {
           </article>
           <article className="leader-card">
             <div className="leader-image leader-image-james">
-              <Image src="/images/james-procell.jpg" alt="James Procell" fill sizes="(max-width: 700px) 100vw, 30vw" />
+              <ManagedImage media={jamesImage} fill sizes="(max-width: 700px) 100vw, 30vw" />
             </div>
             <div>
               <p className="eyebrow">Board Leadership</p>

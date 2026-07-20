@@ -25,6 +25,8 @@ The owner workspace is available at `/hub`. It includes:
 - a private inquiry inbox with statuses and internal notes
 - public program status, dates, location, cost, and eligibility controls
 - editable homepage, NOVA 8 Percussion, support, and contact copy
+- fixed, page-by-page photo slots with uploads, focal-point controls, alt text,
+  one-step photo restoration, and built-in fallbacks
 - an optional public announcement bar
 
 The public contact form stores inquiries in Supabase. Public pages continue to use
@@ -46,3 +48,7 @@ Use a current `sb_secret_...` Supabase key for `SUPABASE_SECRET_KEY`. It is
 server-only. Never expose it in browser code or prefix it with `NEXT_PUBLIC_`.
 The legacy `SUPABASE_SERVICE_ROLE_KEY` variable remains supported temporarily
 for existing deployments, but should not be used for a new project.
+
+The first photo uploaded through the Hub creates a public `site-media` Storage
+bucket automatically. Photo placement data is stored inside the existing
+`nova_site_state.content` JSON, so no additional database migration is required.

@@ -13,6 +13,8 @@ import {
   isNovaDataConfigured,
   listInquiries,
 } from "@/lib/nova-data";
+import { HubMediaSlotEditor } from "@/components/hub-media-slot-editor";
+import { mediaSlotDefinitions, resolveMediaSlot } from "@/lib/nova-media";
 
 export const dynamic = "force-dynamic";
 
@@ -29,8 +31,17 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
-export default async function HubDashboardPage() {
+type HubDashboardPageProps = {
+  searchParams: Promise<{
+    mediaStatus?: string;
+    mediaMessage?: string;
+  }>;
+};
+
+export default async function HubDashboardPage({ searchParams }: HubDashboardPageProps) {
   if (!(await hasHubSession())) redirect("/hub");
+
+  const mediaResult = await searchParams;
 
   const [{ content, program }, inquiries] = await Promise.all([
     getSiteState(),
@@ -43,6 +54,7 @@ export default async function HubDashboardPage() {
     supporters: inquiries.filter((item) => item.topic === "Donor or sponsor").length,
   };
   const storageConfigured = isNovaDataConfigured();
+  const mediaGroups = [...new Set(mediaSlotDefinitions.map((slot) => slot.group))];
 
   return (
     <div className="hub-shell">
@@ -57,6 +69,7 @@ export default async function HubDashboardPage() {
           <a href="#inquiries">Inquiries</a>
           <a href="#program">NOVA 8 Percussion</a>
           <a href="#content">Site content</a>
+          <a href="#photos">Site photos</a>
         </nav>
         <div className="hub-sidebar-actions">
           <Link href="/" target="_blank">View public site</Link>
@@ -205,6 +218,62 @@ export default async function HubDashboardPage() {
             <label>Contact introduction<textarea name="contactIntro" defaultValue={content.contactIntro} rows={4} required maxLength={700} /></label>
             <button className="hub-save-button" type="submit" disabled={!storageConfigured}>Publish site content</button>
           </form>
+        </section>
+
+        <section className="hub-section hub-media-section" id="photos">
+          <div className="hub-section-heading">
+            <div>
+              <p className="eyebrow">Public site</p>
+              <h2>Site photos</h2>
+            </div>
+            <span>{mediaSlotDefinitions.length} fixed placements</span>
+          </div>
+          {mediaResult.mediaMessage ? (
+            <div
+              className={`hub-media-notice ${
+                mediaResult.mediaStatus === "error" ? "error" : "success"
+              }`}
+              role={mediaResult.mediaStatus === "error" ? "alert" : "status"}
+            >
+              {mediaResult.mediaMessage}
+            </div>
+          ) : null}
+          <div className="hub-media-intro">
+            <p>
+              Each placement is fixed, so replacing a photo changes only the location
+              named here. The built-in image remains available as a fallback.
+            </p>
+            <p>
+              Use the focus controls to keep the important part of the photograph in
+              frame across desktop and mobile layouts.
+            </p>
+          </div>
+
+          <div className="hub-media-groups">
+            {mediaGroups.map((group) => (
+              <section className="hub-media-group" key={group}>
+                <div className="hub-media-group-heading">
+                  <h3>{group}</h3>
+                  <span>
+                    {mediaSlotDefinitions.filter((slot) => slot.group === group).length}
+                    {" placements"}
+                  </span>
+                </div>
+                <div className="hub-media-grid">
+                  {mediaSlotDefinitions
+                    .filter((slot) => slot.group === group)
+                    .map((slot) => (
+                      <HubMediaSlotEditor
+                        definition={slot}
+                        media={resolveMediaSlot(content.media, slot.key)}
+                        storageConfigured={storageConfigured}
+                        key={`${slot.key}:${content.media[slot.key]?.updatedAt ?? "built-in"}`}
+                      />
+                    ))}
+                </div>
+              </section>
+            ))}
+          </div>
         </section>
       </div>
     </div>

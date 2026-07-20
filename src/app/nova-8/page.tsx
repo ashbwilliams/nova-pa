@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/cta-band";
+import { ManagedImage } from "@/components/managed-image";
 import { PageHero } from "@/components/page-hero";
 import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 export const metadata: Metadata = {
   title: "NOVA 8 Percussion",
@@ -22,6 +23,9 @@ const experience = [
 
 export default async function Nova8Page() {
   const { content, program } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "nova8.hero");
+  const modelImage = resolveMediaSlot(content.media, "nova8.noncompetitive");
+  const audienceImage = resolveMediaSlot(content.media, "nova8.audience");
 
   return (
     <>
@@ -29,8 +33,9 @@ export default async function Nova8Page() {
         eyebrow="A program of NOVA Performing Arts"
         title="NOVA 8 Percussion"
         description={`${content.academyHeadline} ${content.academyOverview}`}
-        image="/images/mallet-rehearsal.jpg"
-        imageAlt="A young percussionist rehearsing on a keyboard percussion instrument"
+        image={heroImage.src}
+        imageAlt={heroImage.alt}
+        imagePosition={heroImage.objectPosition}
       />
 
       <section className="why-eight-section" id="why-eight">
@@ -97,7 +102,7 @@ export default async function Nova8Page() {
 
       <section className="not-competition-section">
         <div className="not-competition-image">
-          <Image src="/images/battery-instruments.jpg" alt="Marching percussion drums arranged in a rehearsal space" fill sizes="(max-width: 800px) 100vw, 48vw" />
+          <ManagedImage media={modelImage} fill sizes="(max-width: 800px) 100vw, 48vw" />
         </div>
         <div className="not-competition-copy">
           <p className="eyebrow light">What noncompetitive means</p>
@@ -162,7 +167,7 @@ export default async function Nova8Page() {
           </Link>
         </div>
         <div className="who-image">
-          <Image src="/images/music-clinic.jpg" alt="Students taking part in a percussion clinic" fill sizes="(max-width: 800px) 100vw, 48vw" />
+          <ManagedImage media={audienceImage} fill sizes="(max-width: 800px) 100vw, 48vw" />
         </div>
       </section>
 

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { EventInterestForm } from "@/components/event-interest-form";
+import { ManagedImage } from "@/components/managed-image";
+import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 export const metadata: Metadata = {
   title: "Percussion Playground",
@@ -30,14 +32,19 @@ const experienceFlow = [
   ["Connect", "Stay with the music, the people, and the ideas behind it."],
 ];
 
-export default function PercussionPlaygroundPage() {
+export default async function PercussionPlaygroundPage() {
+  const { content } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "playground.hero");
+  const keyboardImage = resolveMediaSlot(content.media, "playground.keyboard");
+  const drumsImage = resolveMediaSlot(content.media, "playground.drums");
+  const audienceImage = resolveMediaSlot(content.media, "playground.audience");
+
   return (
     <>
       <section className="playground-hero">
         <div className="playground-hero-media">
-          <Image
-            src="/images/rehearsal-overhead.jpg"
-            alt="A percussion ensemble arranged in a rehearsal space"
+          <ManagedImage
+            media={heroImage}
             fill
             sizes="100vw"
             priority
@@ -90,9 +97,8 @@ export default function PercussionPlaygroundPage() {
 
         <article className="playground-station">
           <div className="playground-station-image">
-            <Image
-              src="/images/mallets-hands.jpg"
-              alt="Musicians playing keyboard percussion instruments"
+            <ManagedImage
+              media={keyboardImage}
               fill
               sizes="(max-width: 820px) 100vw, 50vw"
             />
@@ -118,9 +124,8 @@ export default function PercussionPlaygroundPage() {
             </p>
           </div>
           <div className="playground-station-image">
-            <Image
-              src="/images/battery-instruments.jpg"
-              alt="A collection of percussion drums prepared for rehearsal"
+            <ManagedImage
+              media={drumsImage}
               fill
               sizes="(max-width: 820px) 100vw, 50vw"
             />
@@ -145,9 +150,8 @@ export default function PercussionPlaygroundPage() {
 
       <section className="playground-audience-section">
         <div className="playground-audience-image">
-          <Image
-            src="/images/ensemble-performance.jpg"
-            alt="A percussion ensemble performing together"
+          <ManagedImage
+            media={audienceImage}
             fill
             sizes="(max-width: 820px) 100vw, 50vw"
           />

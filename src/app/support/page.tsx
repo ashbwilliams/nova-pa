@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
+import { ManagedImage } from "@/components/managed-image";
 import { PageHero } from "@/components/page-hero";
 import { getSiteState } from "@/lib/nova-data";
+import { resolveMediaSlot } from "@/lib/nova-media";
 
 export const metadata: Metadata = {
   title: "Support NOVA",
@@ -36,6 +37,9 @@ const priorities = [
 
 export default async function SupportPage() {
   const { content } = await getSiteState();
+  const heroImage = resolveMediaSlot(content.media, "support.hero");
+  const waysImage = resolveMediaSlot(content.media, "support.ways");
+  const bannerImage = resolveMediaSlot(content.media, "support.banner");
 
   return (
     <>
@@ -43,8 +47,9 @@ export default async function SupportPage() {
         eyebrow="Support NOVA"
         title={content.supportHeadline}
         description={content.supportOverview}
-        image="/images/ensemble-performance.jpg"
-        imageAlt="Young percussionists performing together"
+        image={heroImage.src}
+        imageAlt={heroImage.alt}
+        imagePosition={heroImage.objectPosition}
       />
 
       <section className="support-intro">
@@ -85,7 +90,7 @@ export default async function SupportPage() {
 
       <section className="ways-section">
         <div className="ways-image">
-          <Image src="/images/community-outreach.jpg" alt="NOVA representatives meeting community members" fill sizes="(max-width: 800px) 100vw, 40vw" />
+          <ManagedImage media={waysImage} fill sizes="(max-width: 800px) 100vw, 40vw" />
         </div>
         <div className="ways-copy">
           <p className="eyebrow">Ways to help</p>
@@ -113,7 +118,7 @@ export default async function SupportPage() {
 
       <section className="partner-banner">
         <div className="partner-banner-image">
-          <Image src="/images/austin-skyline.jpg" alt="The Austin skyline representing NOVA's Central Texas community" fill sizes="100vw" />
+          <ManagedImage media={bannerImage} fill sizes="100vw" />
         </div>
         <div className="partner-banner-overlay" />
         <div className="partner-banner-copy">

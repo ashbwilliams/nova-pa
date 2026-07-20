@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
+import type { SiteMediaState } from "@/lib/nova-media";
 
 export { inquiryStatuses, inquiryTopics } from "@/lib/nova-types";
 export type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
@@ -29,6 +30,7 @@ export type SiteContent = {
   supportOverview: string;
   contactHeadline: string;
   contactIntro: string;
+  media: SiteMediaState;
 };
 
 export type ProgramDetails = {
@@ -57,6 +59,7 @@ export const defaultSiteContent: SiteContent = {
   contactHeadline: "Start with a conversation.",
   contactIntro:
     "Whether you are a student, parent, educator, donor, or community partner, we would like to hear what brings you to NOVA.",
+  media: {},
 };
 
 const legacySiteContent = {
@@ -78,7 +81,11 @@ const legacySiteContent = {
 };
 
 function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
-  const merged = { ...defaultSiteContent, ...(content ?? {}) };
+  const merged = {
+    ...defaultSiteContent,
+    ...(content ?? {}),
+    media: { ...defaultSiteContent.media, ...(content?.media ?? {}) },
+  };
 
   if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
     merged.homeHeroBody = defaultSiteContent.homeHeroBody;
@@ -136,7 +143,7 @@ type SiteStateRow = {
   program?: Partial<ProgramDetails> | null;
 };
 
-function getConfig() {
+export function getNovaDataConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
   const key =
     process.env.SUPABASE_SECRET_KEY ??
@@ -146,14 +153,14 @@ function getConfig() {
 }
 
 export function isNovaDataConfigured() {
-  return Boolean(getConfig());
+  return Boolean(getNovaDataConfig());
 }
 
 async function supabaseRequest<T>(
   path: string,
   init: RequestInit = {},
 ): Promise<T> {
-  const config = getConfig();
+  const config = getNovaDataConfig();
 
   if (!config) {
     throw new Error("NOVA data storage is not configured.");
@@ -185,7 +192,7 @@ async function supabaseRequest<T>(
 }
 
 export async function getSiteState() {
-  const config = getConfig();
+  const config = getNovaDataConfig();
 
   if (!config) {
     return {
@@ -223,6 +230,11 @@ export async function updateSiteContent(content: SiteContent) {
   });
 }
 
+export async function updateSiteMedia(media: SiteMediaState) {
+  const { content } = await getSiteState();
+  await updateSiteContent({ ...content, media });
+}
+
 export async function updateProgramDetails(program: ProgramDetails) {
   await supabaseRequest<void>("nova_site_state?id=eq.primary", {
     method: "PATCH",
@@ -254,7 +266,7 @@ export async function createInquiry(input: {
 }
 
 export async function listInquiries() {
-  if (!getConfig()) return [];
+  if (!getNovaDataConfig()) return [];
 
   try {
     return await supabaseRequest<Inquiry[]>(

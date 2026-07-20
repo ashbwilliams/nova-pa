@@ -6,6 +6,7 @@ type PageHeroProps = {
   description: string;
   image: string;
   imageAlt: string;
+  imagePosition?: string;
 };
 
 export function PageHero({
@@ -14,6 +15,7 @@ export function PageHero({
   description,
   image,
   imageAlt,
+  imagePosition,
 }: PageHeroProps) {
   return (
     <section className="page-hero">
@@ -23,7 +25,14 @@ export function PageHero({
         <p className="page-hero-description">{description}</p>
       </div>
       <div className="page-hero-image">
-        <Image src={image} alt={imageAlt} fill sizes="(max-width: 800px) 100vw, 48vw" priority />
+        <Image
+          src={image}
+          alt={imageAlt}
+          fill
+          sizes="(max-width: 800px) 100vw, 48vw"
+          style={{ objectPosition: imagePosition }}
+          priority
+        />
       </div>
     </section>
   );

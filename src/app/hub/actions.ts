@@ -10,15 +10,24 @@ import {
   verifyHubPassword,
 } from "@/lib/hub-auth";
 import {
+  getSiteState,
   inquiryStatuses,
   isNovaDataConfigured,
   updateInquiry,
   updateProgramDetails,
   updateSiteContent,
+  updateSiteMedia,
   type InquiryStatus,
   type ProgramDetails,
   type SiteContent,
 } from "@/lib/nova-data";
+import {
+  isMediaSlotKey,
+  resolveMediaSlot,
+  toMediaVersion,
+  type MediaVersion,
+} from "@/lib/nova-media";
+import { uploadSitePhoto } from "@/lib/nova-media-storage";
 
 export type HubLoginState = {
   status: "idle" | "error";
@@ -33,6 +42,29 @@ function storageIsReady() {
   if (!isNovaDataConfigured()) {
     throw new Error("NOVA data storage is not configured.");
   }
+}
+
+function focalPoint(formData: FormData, key: string, fallback: number) {
+  const value = Number(formData.get(key));
+  return Number.isFinite(value)
+    ? Math.min(100, Math.max(0, Math.round(value)))
+    : fallback;
+}
+
+function revalidateMediaPages() {
+  revalidatePath("/");
+  revalidatePath("/about");
+  revalidatePath("/nova-8");
+  revalidatePath("/percussion-playground");
+  revalidatePath("/impact");
+  revalidatePath("/support");
+  revalidatePath("/contact");
+  revalidatePath("/hub/dashboard");
+}
+
+function mediaRedirect(status: "success" | "error", message: string): never {
+  const params = new URLSearchParams({ mediaStatus: status, mediaMessage: message });
+  redirect(`/hub/dashboard?${params.toString()}#photos`);
 }
 
 export async function loginHub(
@@ -63,6 +95,7 @@ export async function logoutHub() {
 export async function saveSiteContent(formData: FormData) {
   await requireHubSession();
   storageIsReady();
+  const { content: currentContent } = await getSiteState();
 
   const content: SiteContent = {
     announcementEnabled: formData.get("announcementEnabled") === "on",
@@ -75,6 +108,7 @@ export async function saveSiteContent(formData: FormData) {
     supportOverview: text(formData, "supportOverview", 700),
     contactHeadline: text(formData, "contactHeadline", 180),
     contactIntro: text(formData, "contactIntro", 700),
+    media: currentContent.media,
   };
 
   if (
@@ -93,6 +127,90 @@ export async function saveSiteContent(formData: FormData) {
   revalidatePath("/support");
   revalidatePath("/contact");
   revalidatePath("/hub/dashboard");
+}
+
+export async function saveMediaSlot(formData: FormData) {
+  await requireHubSession();
+  storageIsReady();
+
+  try {
+    const slotKey = text(formData, "slotKey", 80);
+    if (!isMediaSlotKey(slotKey)) throw new Error("Invalid site-photo slot.");
+
+    const { content } = await getSiteState();
+    const current = resolveMediaSlot(content.media, slotKey);
+    const alt = text(formData, "alt", 240);
+    if (alt.length < 3) throw new Error("Alternative text is required.");
+
+    const fileValue = formData.get("photo");
+    const file = fileValue instanceof File && fileValue.size ? fileValue : null;
+    const uploaded = file ? await uploadSitePhoto(slotKey, file) : null;
+    const existing = content.media[slotKey];
+    const previous = uploaded ? toMediaVersion(current) : existing?.previous;
+
+    const nextMedia = { ...content.media };
+    nextMedia[slotKey] = {
+      src: uploaded?.publicUrl ?? current.src,
+      storagePath: uploaded?.storagePath ?? current.storagePath,
+      alt,
+      focalX: focalPoint(formData, "focalX", current.focalX),
+      focalY: focalPoint(formData, "focalY", current.focalY),
+      updatedAt: new Date().toISOString(),
+      previous,
+    };
+
+    await updateSiteMedia(nextMedia);
+    revalidateMediaPages();
+  } catch {
+    mediaRedirect("error", "The photo slot could not be saved. Check the file and try again.");
+  }
+
+  mediaRedirect("success", "The photo slot was saved and published.");
+}
+
+export async function restoreMediaSlot(formData: FormData) {
+  await requireHubSession();
+  storageIsReady();
+
+  const slotKey = text(formData, "slotKey", 80);
+  if (!isMediaSlotKey(slotKey)) throw new Error("Invalid site-photo slot.");
+
+  const { content } = await getSiteState();
+  const existing = content.media[slotKey];
+  if (!existing?.previous) {
+    mediaRedirect("error", "No previous photo is available for this placement.");
+  }
+
+  const current: MediaVersion = {
+    src: existing.src,
+    storagePath: existing.storagePath,
+    alt: existing.alt,
+    focalX: existing.focalX,
+    focalY: existing.focalY,
+    updatedAt: existing.updatedAt,
+  };
+  const nextMedia = { ...content.media };
+  nextMedia[slotKey] = { ...existing.previous, previous: current };
+
+  await updateSiteMedia(nextMedia);
+  revalidateMediaPages();
+  mediaRedirect("success", "The previous photo and its settings were restored.");
+}
+
+export async function resetMediaSlot(formData: FormData) {
+  await requireHubSession();
+  storageIsReady();
+
+  const slotKey = text(formData, "slotKey", 80);
+  if (!isMediaSlotKey(slotKey)) throw new Error("Invalid site-photo slot.");
+
+  const { content } = await getSiteState();
+  const nextMedia = { ...content.media };
+  delete nextMedia[slotKey];
+
+  await updateSiteMedia(nextMedia);
+  revalidateMediaPages();
+  mediaRedirect("success", "The built-in photo was restored for this placement.");
 }
 
 export async function saveProgramDetails(formData: FormData) {
