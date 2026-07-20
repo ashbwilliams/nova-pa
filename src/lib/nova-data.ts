@@ -53,9 +53,9 @@ export const defaultSiteContent: SiteContent = {
   academyHeadline: "More time to grow.",
   academyOverview:
     "NOVA 8 Percussion is a noncompetitive marching percussion development program where Central Texas youth can strengthen their skills, learn together, and stay connected across seasons.",
-  supportHeadline: "Help give students more time to grow.",
+  supportHeadline: "The instruments are ready. Help bring the program to life.",
   supportOverview:
-    "Your support can give young percussionists across Central Texas more opportunities for instruction, mentorship, artistry, and belonging throughout the year.",
+    "Your support funds educator and staff salaries, rehearsal space, student access, and the day-to-day operations that turn those instruments into a lasting program.",
   contactHeadline: "Start with a conversation.",
   contactIntro:
     "Whether you are a student, parent, educator, donor, or community partner, we would like to hear what brings you to NOVA.",
@@ -76,8 +76,12 @@ const legacySiteContent = {
   ],
   supportOverview: [
     "Your support can turn an off-season gap into months of instruction, mentorship, artistry, and belonging for young percussionists across Central Texas.",
+    "Your support can give young percussionists across Central Texas more opportunities for instruction, mentorship, artistry, and belonging throughout the year.",
   ],
-  supportHeadline: ["Help build the place students keep going."],
+  supportHeadline: [
+    "Help build the place students keep going.",
+    "Help give students more time to grow.",
+  ],
 };
 
 function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {

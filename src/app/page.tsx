@@ -146,9 +146,8 @@ export default async function Home() {
           <h2>Development that carries beyond rehearsal.</h2>
         </div>
         <div className="outcomes-grid">
-          {outcomes.map(([title, body], index) => (
+          {outcomes.map(([title, body]) => (
             <article key={title}>
-              <span>0{index + 1}</span>
               <h3>{title}</h3>
               <p>{body}</p>
             </article>
@@ -180,8 +179,8 @@ export default async function Home() {
 
       <CtaBand
         eyebrow="Build what comes next"
-        title="Every instrument, rehearsal hour, and scholarship opens another path forward."
-        body="NOVA is gathering the partners and resources needed to launch NOVA 8 Percussion for students who want to keep going."
+        title="The instruments are ready. Now we bring the program to life."
+        body="NOVA is gathering support for instructors, salaries, rehearsal space, student access, and the operations needed to launch NOVA 8 Percussion."
         primaryHref="/support"
         primaryLabel="Support NOVA"
         secondaryHref="/contact"

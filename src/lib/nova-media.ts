@@ -13,7 +13,7 @@ export type MediaOverride = MediaVersion & {
 
 export type SiteMediaState = Partial<Record<MediaSlotKey, MediaOverride>>;
 
-type MediaSlotDefinition = {
+export type MediaSlotDefinition = {
   key: string;
   group: string;
   label: string;

@@ -21,7 +21,9 @@ export function PageHero({
     <section className="page-hero">
       <div className="page-hero-copy">
         <p className="eyebrow light">{eyebrow}</p>
-        <h1>{title}</h1>
+        <h1 className={title.length > 30 ? "page-hero-title-long" : undefined}>
+          {title}
+        </h1>
         <p className="page-hero-description">{description}</p>
       </div>
       <div className="page-hero-image">

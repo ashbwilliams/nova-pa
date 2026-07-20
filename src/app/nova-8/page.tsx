@@ -66,7 +66,7 @@ export default async function Nova8Page() {
           <h2 id="program-status-heading">{program.statusLabel}</h2>
           <p>{program.statusMessage}</p>
           {program.interestOpen ? (
-            <Link className="button button-dark" href="/contact#contact-form">
+            <Link className="button button-dark" href="/contact?topic=Student+or+family#contact-form">
               Join the interest list
             </Link>
           ) : null}
@@ -141,9 +141,8 @@ export default async function Nova8Page() {
           </div>
         </div>
         <div className="experience-grid">
-          {experience.map(([title, body], index) => (
+          {experience.map(([title, body]) => (
             <article key={title}>
-              <span>0{index + 1}</span>
               <h3>{title}</h3>
               <p>{body}</p>
             </article>
@@ -162,7 +161,7 @@ export default async function Nova8Page() {
             not be the only measure of potential.
           </p>
           <p className="availability-note">{program.statusMessage}</p>
-          <Link className="button button-dark" href="/contact">
+          <Link className="button button-dark" href="/contact?topic=Student+or+family#contact-form">
             Join the interest list
           </Link>
         </div>
@@ -174,7 +173,7 @@ export default async function Nova8Page() {
       <CtaBand
         eyebrow="Make NOVA 8 Percussion possible"
         title="Students are ready to keep learning."
-        body="Your support can help secure instruments, rehearsal space, instruction, and student assistance for the first season of NOVA 8 Percussion."
+        body="The instruments are ready. Your support can fund instructors, staff, rehearsal space, student access, and the operations needed for the first season of NOVA 8 Percussion."
         primaryHref="/support"
         primaryLabel="See what support can do"
         secondaryHref="/impact"

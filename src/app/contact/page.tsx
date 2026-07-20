@@ -1,44 +1,54 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { ContactForm } from "@/components/contact-form";
 import { PageHero } from "@/components/page-hero";
 import { getSiteState } from "@/lib/nova-data";
 import { resolveMediaSlot } from "@/lib/nova-media";
+import { inquiryTopics, type InquiryTopic } from "@/lib/nova-types";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact NOVA Performing Arts about NOVA 8 Percussion, student interest, donations, sponsorships, instruments, facilities, or community partnership.",
+    "Contact NOVA Performing Arts about NOVA 8 Percussion, student interest, donations, sponsorships, rehearsal space, instruction, operations, or community partnership.",
 };
 
 const contactPaths = [
   {
-    number: "01",
     title: "Students & families",
+    topic: "Student or family" as InquiryTopic,
     body: "Ask about NOVA 8 Percussion or be notified when program dates, location, costs, and participation details are available.",
     action: "Express interest",
   },
   {
-    number: "02",
     title: "Donors & sponsors",
+    topic: "Donor or sponsor" as InquiryTopic,
     body: "Discuss charitable giving, founding support, sponsorship, or a contribution directed to a particular program need.",
     action: "Discuss support",
   },
   {
-    number: "03",
     title: "Schools & educators",
+    topic: "School or educator" as InquiryTopic,
     body: "Connect about student referrals, regional need, educational partnership, clinics, or collaboration with school music programs.",
     action: "Connect as an educator",
   },
   {
-    number: "04",
     title: "Community partners",
-    body: "Talk with us about instruments, rehearsal facilities, event partnerships, volunteer expertise, or other resources.",
+    topic: "Community partner" as InquiryTopic,
+    body: "Talk with us about rehearsal facilities, event partnerships, professional expertise, operations, or other community resources.",
     action: "Explore a partnership",
   },
 ];
 
-export default async function ContactPage() {
+type ContactPageProps = {
+  searchParams: Promise<{ topic?: string }>;
+};
+
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+  const requestedTopic = (await searchParams).topic;
+  const initialTopic = inquiryTopics.includes(requestedTopic as InquiryTopic)
+    ? (requestedTopic as InquiryTopic)
+    : "";
   const { content } = await getSiteState();
   const heroImage = resolveMediaSlot(content.media, "contact.hero");
 
@@ -64,13 +74,12 @@ export default async function ContactPage() {
         </div>
         <div className="contact-grid">
           {contactPaths.map((path) => (
-            <article key={path.number}>
-              <span>{path.number}</span>
+            <article key={path.title}>
               <h3>{path.title}</h3>
               <p>{path.body}</p>
-              <a href="#contact-form">
+              <Link href={`/contact?topic=${encodeURIComponent(path.topic)}#contact-form`}>
                 {path.action} <ArrowUpRightIcon />
-              </a>
+              </Link>
             </article>
           ))}
         </div>
@@ -84,15 +93,7 @@ export default async function ContactPage() {
             Your message will be reviewed privately by NOVA leadership.
           </p>
         </div>
-        <ContactForm />
-      </section>
-
-      <section className="youth-safety-note">
-        <p className="eyebrow">A note for students</p>
-        <p>
-          If you are under 18, please involve a parent, guardian, or school music
-          educator when contacting NOVA.
-        </p>
+        <ContactForm initialTopic={initialTopic} />
       </section>
     </>
   );

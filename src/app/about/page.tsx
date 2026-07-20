@@ -61,9 +61,8 @@ export default async function AboutPage() {
           </div>
         </div>
         <div className="values-grid">
-          {values.map(([title, body], index) => (
+          {values.map(([title, body]) => (
             <article key={title}>
-              <span>0{index + 1}</span>
               <h3>{title}</h3>
               <p>{body}</p>
             </article>

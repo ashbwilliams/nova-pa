@@ -13,7 +13,7 @@ import {
   isNovaDataConfigured,
   listInquiries,
 } from "@/lib/nova-data";
-import { HubMediaSlotEditor } from "@/components/hub-media-slot-editor";
+import { HubMediaLibrary } from "@/components/hub-media-library";
 import { mediaSlotDefinitions, resolveMediaSlot } from "@/lib/nova-media";
 
 export const dynamic = "force-dynamic";
@@ -54,7 +54,10 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
     supporters: inquiries.filter((item) => item.topic === "Donor or sponsor").length,
   };
   const storageConfigured = isNovaDataConfigured();
-  const mediaGroups = [...new Set(mediaSlotDefinitions.map((slot) => slot.group))];
+  const mediaItems = mediaSlotDefinitions.map((definition) => ({
+    definition,
+    media: resolveMediaSlot(content.media, definition.key),
+  }));
 
   return (
     <div className="hub-shell">
@@ -249,31 +252,7 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
             </p>
           </div>
 
-          <div className="hub-media-groups">
-            {mediaGroups.map((group) => (
-              <section className="hub-media-group" key={group}>
-                <div className="hub-media-group-heading">
-                  <h3>{group}</h3>
-                  <span>
-                    {mediaSlotDefinitions.filter((slot) => slot.group === group).length}
-                    {" placements"}
-                  </span>
-                </div>
-                <div className="hub-media-grid">
-                  {mediaSlotDefinitions
-                    .filter((slot) => slot.group === group)
-                    .map((slot) => (
-                      <HubMediaSlotEditor
-                        definition={slot}
-                        media={resolveMediaSlot(content.media, slot.key)}
-                        storageConfigured={storageConfigured}
-                        key={`${slot.key}:${content.media[slot.key]?.updatedAt ?? "built-in"}`}
-                      />
-                    ))}
-                </div>
-              </section>
-            ))}
-          </div>
+          <HubMediaLibrary items={mediaItems} storageConfigured={storageConfigured} />
         </section>
       </div>
     </div>

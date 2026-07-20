@@ -47,17 +47,14 @@ export default async function ImpactPage() {
         </div>
         <div className="barrier-grid">
           <article>
-            <span>01</span>
             <h3>Finances</h3>
-            <p>Instruments, instruction, facilities, transportation, and participation fees make sustained percussion education expensive.</p>
+            <p>Instruction, rehearsal facilities, transportation, and participation fees can make sustained percussion education expensive.</p>
           </article>
           <article>
-            <span>02</span>
             <h3>Geography</h3>
             <p>Many established programs are too far from Central Texas students to make regular travel realistic for families.</p>
           </article>
           <article>
-            <span>03</span>
             <h3>Skill level</h3>
             <p>Highly selective auditions can exclude developing musicians who would benefit most from additional instruction and ensemble experience.</p>
           </article>
@@ -112,9 +109,8 @@ export default async function ImpactPage() {
           <h2>We will measure participation, growth, and reach.</h2>
         </div>
         <ul>
-          {measures.map((measure, index) => (
+          {measures.map((measure) => (
             <li key={measure}>
-              <span>0{index + 1}</span>
               {measure}
             </li>
           ))}
@@ -123,10 +119,10 @@ export default async function ImpactPage() {
 
       <CtaBand
         title="Access becomes impact when a student can actually participate."
-        body="Help NOVA turn local need into rehearsal hours, instruction, equipment, and a lasting community for young musicians."
+        body="Help NOVA turn local need into rehearsal hours, excellent instruction, student access, and a lasting community for young musicians."
         primaryHref="/support"
         primaryLabel="Invest in access"
-        secondaryHref="/contact"
+        secondaryHref="/contact?topic=Community+partner#contact-form"
         secondaryLabel="Discuss a partnership"
       />
     </>

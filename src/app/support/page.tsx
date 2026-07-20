@@ -9,29 +9,25 @@ import { resolveMediaSlot } from "@/lib/nova-media";
 export const metadata: Metadata = {
   title: "Support NOVA",
   description:
-    "Help NOVA Performing Arts build NOVA 8 Percussion through donations, sponsorship, instruments, rehearsal space, and community partnership.",
+    "Help NOVA Performing Arts fund instruction, educator and staff salaries, student access, rehearsal space, and sustainable operations for NOVA 8 Percussion.",
 };
 
 const priorities = [
   {
-    number: "01",
-    title: "Instruction & student access",
-    body: "Support excellent educators, reduce participation costs, and create financial assistance for students who need it.",
+    title: "Excellent instructors",
+    body: "Fund experienced educators and teaching staff who can give students consistent, thoughtful instruction.",
   },
   {
-    number: "02",
-    title: "Instruments & maintenance",
-    body: "Help secure battery instruments, keyboard equipment, electronics, hardware, and the ongoing care that keeps them usable.",
+    title: "Educator & staff salaries",
+    body: "Build a reliable team by compensating the people who teach, coordinate, communicate, and care for the program.",
   },
   {
-    number: "03",
     title: "A reliable place to rehearse",
     body: "Give students a safe, consistent, geographically practical space for focused ensemble work.",
   },
   {
-    number: "04",
-    title: "A strong, sustainable organization",
-    body: "Strengthen youth safety, insurance, transportation, administration, and the day-to-day operations that make every rehearsal possible.",
+    title: "Student access & operations",
+    body: "Reduce participation barriers while supporting youth safety, insurance, administration, and the work behind every rehearsal.",
   },
 ];
 
@@ -59,13 +55,15 @@ export default async function SupportPage() {
         </div>
         <div>
           <p>
-            A high-quality percussion program requires far more than music stands and
-            rehearsal time. Instruments, facilities, instruction, safety, and student
-            assistance all determine who can participate and what NOVA 8 Percussion can become.
+            NOVA already has the instruments needed to begin. The next step is funding
+            the people, time, and place that transform those instruments into a
+            dependable educational experience.
           </p>
           <p>
-            NOVA is building each part intentionally, with donor and community support
-            directed toward the resources that most directly shape the student experience.
+            Community support will go directly toward instructors, educator and staff
+            salaries, rehearsal space, student access, youth safety, and the daily
+            operations that make every rehearsal possible. No capital investment in
+            instruments is needed.
           </p>
         </div>
       </section>
@@ -79,8 +77,7 @@ export default async function SupportPage() {
         </div>
         <div className="priority-grid">
           {priorities.map((priority) => (
-            <article key={priority.number}>
-              <span>{priority.number}</span>
+            <article key={priority.title}>
               <h3>{priority.title}</h3>
               <p>{priority.body}</p>
             </article>
@@ -105,8 +102,8 @@ export default async function SupportPage() {
               <p>Support student access, music education, and community impact through your company or foundation.</p>
             </article>
             <article>
-              <h3>Equip</h3>
-              <p>Donate or loan instruments, or help with maintenance and repairs.</p>
+              <h3>Invest in people</h3>
+              <p>Help NOVA hire and retain excellent instructors, staff, and program leadership.</p>
             </article>
             <article>
               <h3>Host</h3>
@@ -126,10 +123,10 @@ export default async function SupportPage() {
           <h2>Help establish NOVA 8 Percussion for the long term.</h2>
           <p>
             We welcome conversations with individual donors, foundations, businesses,
-            school partners, arts organizations, and facility hosts.
+            school partners, arts organizations, and rehearsal-space hosts.
           </p>
           <div className="button-row">
-            <Link className="button button-accent" href="/contact#contact-form">
+            <Link className="button button-accent" href="/contact?topic=Donor+or+sponsor#contact-form">
               Start a giving conversation
             </Link>
             <Link className="text-link light" href="/contact">

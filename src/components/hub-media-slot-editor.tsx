@@ -30,7 +30,9 @@ export function HubMediaSlotEditor({
   const [focalX, setFocalX] = useState(media.focalX);
   const [focalY, setFocalY] = useState(media.focalY);
   const [fileError, setFileError] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
   const previewUrl = useRef<string | null>(null);
+  const editorId = `media-editor-${definition.key.replaceAll(".", "-")}`;
 
   useEffect(
     () => () => {
@@ -67,34 +69,45 @@ export function HubMediaSlotEditor({
   }
 
   return (
-    <article className="hub-media-card">
-      <div
-        className="hub-media-preview"
-        role="img"
-        aria-label={`Preview of ${definition.label}`}
-        style={{
-          aspectRatio: definition.aspectRatioCss,
-          backgroundImage: `url(${JSON.stringify(previewSrc)})`,
-          backgroundPosition: `${focalX}% ${focalY}%`,
-        }}
-      >
-        <span>
-          {media.isCustom
-            ? "Custom photo"
-            : media.isModified
-              ? "Adjusted built-in"
-              : "Built-in photo"}
-        </span>
-      </div>
-      <div className="hub-media-card-heading">
-        <div>
-          <h4>{definition.label}</h4>
-          <p>{definition.description}</p>
+    <article className="hub-media-card" data-expanded={isExpanded ? "true" : "false"}>
+      <div className="hub-media-card-summary">
+        <div
+          className="hub-media-preview"
+          role="img"
+          aria-label={`Preview of ${definition.label}`}
+          style={{
+            aspectRatio: definition.aspectRatioCss,
+            backgroundImage: `url(${JSON.stringify(previewSrc)})`,
+            backgroundPosition: `${focalX}% ${focalY}%`,
+          }}
+        >
+          <span>
+            {media.isCustom
+              ? "Custom photo"
+              : media.isModified
+                ? "Adjusted built-in"
+                : "Built-in photo"}
+          </span>
         </div>
-        <span>{definition.aspectRatio}</span>
+        <div className="hub-media-card-heading">
+          <div>
+            <h4>{definition.label}</h4>
+            <p>{definition.description}</p>
+          </div>
+          <span>{definition.aspectRatio}</span>
+        </div>
+        <button
+          className="hub-media-edit-toggle"
+          type="button"
+          aria-controls={editorId}
+          aria-expanded={isExpanded}
+          onClick={() => setIsExpanded((value) => !value)}
+        >
+          {isExpanded ? "Close" : "Edit"}
+        </button>
       </div>
 
-      <form action={saveMediaSlot} className="hub-media-form">
+      <form action={saveMediaSlot} className="hub-media-form" id={editorId}>
         <input type="hidden" name="slotKey" value={definition.key} />
         <label className="hub-media-file">
           Replace photo
