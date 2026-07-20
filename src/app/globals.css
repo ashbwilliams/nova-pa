@@ -420,7 +420,6 @@ h3 {
   display: grid;
   min-height: 720px;
   background: var(--paper);
-  grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
 }
 
 .feature-copy {
@@ -465,7 +464,6 @@ h3 {
   min-height: 760px;
   background: var(--ink-soft);
   color: var(--white);
-  grid-template-columns: 1fr 1fr;
 }
 
 .academy-image {
@@ -586,7 +584,6 @@ h3 {
   min-height: 680px;
   background: var(--ink);
   color: var(--white);
-  grid-template-columns: 0.9fr 1.1fr;
 }
 
 .evidence-image {
@@ -642,7 +639,6 @@ h3 {
   min-height: 650px;
   background: var(--ink);
   color: var(--white);
-  grid-template-columns: 1.05fr 0.95fr;
 }
 
 .page-hero-copy {
@@ -901,7 +897,6 @@ h3 {
   min-height: 720px;
   background: var(--ink);
   color: var(--white);
-  grid-template-columns: 0.95fr 1.05fr;
 }
 
 .not-competition-image {
@@ -995,7 +990,6 @@ h3 {
   display: grid;
   min-height: 650px;
   background: var(--paper);
-  grid-template-columns: 1.05fr 0.95fr;
 }
 
 .who-copy {
@@ -1147,7 +1141,6 @@ h3 {
   display: grid;
   min-height: 720px;
   background: var(--paper);
-  grid-template-columns: 0.9fr 1.1fr;
 }
 
 .impact-model-image {
@@ -1254,7 +1247,6 @@ h3 {
   display: grid;
   min-height: 740px;
   background: var(--paper);
-  grid-template-columns: 0.86fr 1.14fr;
 }
 
 .ways-image {
