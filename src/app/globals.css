@@ -383,7 +383,7 @@ h3 {
   background: var(--accent);
 }
 
-.nav-support[aria-current="page"] {
+.desktop-nav > .nav-support[aria-current="page"] {
   background: var(--accent);
   color: var(--white);
 }
