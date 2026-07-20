@@ -133,7 +133,7 @@ export default function AboutPage() {
         <div className="governance-list">
           <div>
             <p className="eyebrow">Board of Directors</p>
-            <p>Ash Williams · James Procell · Russell Shartzer · Eric Ricchiardi</p>
+            <p>Ash Williams · James Procell</p>
           </div>
           <div>
             <p className="eyebrow">Artistic & Educational Advisors</p>
