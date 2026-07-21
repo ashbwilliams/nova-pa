@@ -17,6 +17,501 @@
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/* Partnership opportunities and Teaching Fellowship */
+
+.partnerships-intro {
+  display: grid;
+  max-width: calc(var(--content) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.partnerships-intro h2 {
+  max-width: 840px;
+  margin-bottom: 0;
+  font-size: clamp(2.8rem, 5.4vw, 5.6rem);
+}
+
+.partnerships-intro > p {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.03rem;
+}
+
+.partnership-opportunities-section {
+  padding: var(--section) var(--gutter);
+  background: var(--ink-soft);
+  color: var(--white);
+}
+
+.partnership-opportunities-grid {
+  display: grid;
+  max-width: var(--content);
+  margin: 0 auto;
+  border-top: 1px solid var(--line-dark);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.partnership-opportunities-grid article {
+  min-height: 330px;
+  padding: 2rem 1.6rem;
+  border-right: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.partnership-opportunities-grid article:nth-child(3n) {
+  border-right: 0;
+}
+
+.partnership-opportunities-grid article > span {
+  color: var(--accent-light);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.partnership-opportunities-grid h3 {
+  margin-top: 2.25rem;
+}
+
+.partnership-opportunities-grid p {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.partnership-opportunities-grid a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--white);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.partnership-opportunities-grid a .arrow-icon {
+  width: 1rem;
+}
+
+.fellowship-intro {
+  display: grid;
+  max-width: calc(var(--content) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.fellowship-intro h2 {
+  max-width: 800px;
+  margin-bottom: 0;
+  font-size: clamp(2.8rem, 5.4vw, 5.6rem);
+}
+
+.fellowship-intro-copy {
+  align-self: end;
+  color: var(--muted);
+  font-size: 1.03rem;
+}
+
+.fellowship-intro-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.fellowship-skills-section {
+  padding: var(--section) var(--gutter);
+  background: var(--ink-soft);
+  color: var(--white);
+}
+
+.fellowship-skills-grid {
+  display: grid;
+  max-width: var(--content);
+  margin: 0 auto;
+  border-top: 1px solid var(--line-dark);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.fellowship-skills-grid article {
+  min-height: 225px;
+  padding: 2rem 1.6rem;
+  border-right: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.fellowship-skills-grid article:nth-child(3n) {
+  border-right: 0;
+}
+
+.fellowship-skills-grid p {
+  max-width: 26rem;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.partnership-section {
+  padding: var(--section) var(--gutter);
+  background: var(--paper);
+}
+
+.partnership-heading {
+  display: grid;
+  max-width: var(--content);
+  margin: 0 auto clamp(3.5rem, 7vw, 6rem);
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr) minmax(250px, 0.56fr);
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.partnership-heading h2 {
+  margin: 0;
+  font-size: clamp(2.7rem, 5vw, 5.2rem);
+}
+
+.partnership-heading > p:last-child {
+  align-self: end;
+  margin: 0;
+  color: var(--muted);
+}
+
+.partnership-exchange {
+  display: grid;
+  max-width: var(--content);
+  margin: 0 auto;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.partnership-exchange article {
+  padding: clamp(2rem, 4vw, 4rem);
+}
+
+.partnership-exchange article:first-child {
+  padding-left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.partnership-exchange article:last-child {
+  padding-right: 0;
+}
+
+.partnership-label,
+.benefit-audience {
+  color: var(--accent-dark);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.partnership-exchange h3 {
+  max-width: 620px;
+  margin-bottom: 2rem;
+  font-size: clamp(1.9rem, 3.5vw, 3.4rem);
+}
+
+.partnership-exchange ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partnership-exchange li {
+  position: relative;
+  padding: 1rem 0 1rem 1.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.partnership-exchange li::before {
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+  width: 0.48rem;
+  height: 0.48rem;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+}
+
+.logistics-band {
+  display: grid;
+  max-width: var(--content);
+  margin: clamp(3rem, 6vw, 5rem) auto 0;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  background: var(--ink);
+  color: var(--white);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 7vw, 7rem);
+}
+
+.logistics-band h3 {
+  margin-bottom: 0;
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
+}
+
+.logistics-band > p {
+  align-self: end;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1.02rem;
+}
+
+.fellowship-benefits-section {
+  padding: var(--section) var(--gutter);
+}
+
+.fellowship-benefits-grid {
+  display: grid;
+  max-width: var(--content);
+  margin: 0 auto;
+  border-top: 1px solid var(--ink);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.fellowship-benefits-grid article {
+  min-height: 310px;
+  padding: 2rem 1.6rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.fellowship-benefits-grid article:last-child {
+  border-right: 0;
+}
+
+.fellowship-benefits-grid h3 {
+  margin-top: 2.2rem;
+}
+
+.fellowship-benefits-grid article > p:last-child {
+  color: var(--muted);
+}
+
+.fellowship-progression-section {
+  display: grid;
+  padding: var(--section) var(--gutter);
+  background: var(--ink-soft);
+  color: var(--white);
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.fellowship-progression-heading {
+  max-width: 610px;
+}
+
+.fellowship-progression-heading h2 {
+  font-size: clamp(2.7rem, 5vw, 5.1rem);
+}
+
+.fellowship-progression-heading > p:last-child {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.fellowship-progression {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-dark);
+  list-style: none;
+}
+
+.fellowship-progression li {
+  display: grid;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--line-dark);
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.fellowship-progression li > span {
+  color: var(--accent-light);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.fellowship-progression h3 {
+  margin-bottom: 0.45rem;
+}
+
+.fellowship-progression p {
+  max-width: 680px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.fellowship-interest-section {
+  display: grid;
+  max-width: calc(var(--content) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.fellowship-interest-section > div:first-child h2 {
+  font-size: clamp(2.7rem, 5vw, 5.2rem);
+}
+
+.fellowship-interest-paths {
+  border-top: 1px solid var(--ink);
+}
+
+.fellowship-interest-paths article {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.fellowship-interest-paths p {
+  color: var(--muted);
+}
+
+.fellowship-interest-paths a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fellowship-interest-paths a .arrow-icon {
+  width: 1rem;
+  transition: transform 160ms ease;
+}
+
+.fellowship-interest-paths a:hover .arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+.fellowship-feature-section {
+  display: grid;
+  padding: var(--section) var(--gutter);
+  background: var(--accent-dark);
+  color: var(--white);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.fellowship-feature-section h2 {
+  max-width: 850px;
+  margin-bottom: 0;
+  font-size: clamp(2.7rem, 5vw, 5.2rem);
+}
+
+.fellowship-feature-section > div:last-child {
+  align-self: end;
+}
+
+.fellowship-feature-section > div:last-child p {
+  max-width: 680px;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 900px) {
+  .partnerships-intro,
+  .fellowship-intro,
+  .partnership-heading,
+  .fellowship-progression-section,
+  .fellowship-interest-section,
+  .fellowship-feature-section {
+    grid-template-columns: 1fr;
+  }
+
+  .fellowship-skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .partnership-opportunities-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .partnership-opportunities-grid article:nth-child(3n) {
+    border-right: 1px solid var(--line-dark);
+  }
+
+  .partnership-opportunities-grid article:nth-child(even) {
+    border-right: 0;
+  }
+
+  .fellowship-skills-grid article,
+  .fellowship-skills-grid article:nth-child(3n) {
+    border-right: 1px solid var(--line-dark);
+  }
+
+  .fellowship-skills-grid article:nth-child(even) {
+    border-right: 0;
+  }
+
+  .partnership-heading > p:last-child {
+    max-width: 720px;
+  }
+
+  .fellowship-benefits-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fellowship-benefits-grid article:nth-child(even) {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 650px) {
+  .partnership-opportunities-grid,
+  .fellowship-skills-grid,
+  .partnership-exchange,
+  .logistics-band,
+  .fellowship-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnership-opportunities-grid article,
+  .partnership-opportunities-grid article:nth-child(3n),
+  .partnership-opportunities-grid article:nth-child(even) {
+    min-height: 0;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 0;
+  }
+
+  .fellowship-skills-grid article,
+  .fellowship-skills-grid article:nth-child(3n),
+  .fellowship-skills-grid article:nth-child(even),
+  .fellowship-benefits-grid article {
+    min-height: 0;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 0;
+  }
+
+  .partnership-exchange article,
+  .partnership-exchange article:first-child,
+  .partnership-exchange article:last-child {
+    padding: 2.5rem 0;
+    border-right: 0;
+  }
+
+  .partnership-exchange article:first-child {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .logistics-band {
+    padding: 2rem;
+  }
+
+  .fellowship-progression li {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
