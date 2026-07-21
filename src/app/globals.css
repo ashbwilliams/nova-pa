@@ -4899,7 +4899,8 @@ body:has(.hub-shell) {
   background: var(--white);
 }
 
-.relationship-record.follow-up-due {
+.relationship-record.follow-up-due,
+.relationship-record.action-pending {
   border-left-color: #b26a3d;
 }
 
@@ -4951,6 +4952,46 @@ body:has(.hub-shell) {
 
 .relationship-person > strong {
   font-size: 0.9rem !important;
+}
+
+.relationship-person-name {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.relationship-person-name > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.relationship-action-alert {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: #a6532f;
+}
+
+.relationship-action-alert svg {
+  width: 100%;
+  height: 100%;
+}
+
+.relationship-action-toggle {
+  align-self: end;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.relationship-action-toggle.is-pending {
+  border-color: #c98b65;
+  background: #f7eade;
+  color: #884425;
 }
 
 .relationship-status,
