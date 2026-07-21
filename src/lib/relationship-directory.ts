@@ -68,6 +68,7 @@ export type RelationshipRecord = {
   lastContactDate: string;
   nextFollowUpDate: string;
   nextAction: string;
+  actionPending?: boolean;
   tags: string;
   notes: string;
   createdAt: string;
@@ -129,6 +130,7 @@ function normalizeRecord(value: unknown, index: number): RelationshipRecord | nu
     lastContactDate: dateValue(input.lastContactDate),
     nextFollowUpDate: dateValue(input.nextFollowUpDate),
     nextAction: stringValue(input.nextAction, 500),
+    actionPending: input.actionPending === true,
     tags: stringValue(input.tags, 500),
     notes: stringValue(input.notes, 5000),
     createdAt: stringValue(input.createdAt, 40),
