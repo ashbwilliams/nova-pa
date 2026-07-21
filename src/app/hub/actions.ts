@@ -16,6 +16,7 @@ import {
   updateInquiry,
   updatePlaygroundPlan,
   updateProgramDetails,
+  updateRelationshipDirectory,
   updateSiteContent,
   updateSiteMedia,
   type InquiryStatus,
@@ -23,6 +24,7 @@ import {
   type SiteContent,
 } from "@/lib/nova-data";
 import { normalizePlaygroundPlan } from "@/lib/playground-plan";
+import { normalizeRelationshipDirectory } from "@/lib/relationship-directory";
 import {
   isMediaSlotKey,
   resolveMediaSlot,
@@ -37,6 +39,12 @@ export type HubLoginState = {
 };
 
 export type PlaygroundPlanSaveState = {
+  status: "idle" | "success" | "error";
+  message: string;
+  savedAt?: string;
+};
+
+export type RelationshipDirectorySaveState = {
   status: "idle" | "success" | "error";
   message: string;
   savedAt?: string;
@@ -118,6 +126,7 @@ export async function saveSiteContent(formData: FormData) {
     contactIntro: text(formData, "contactIntro", 700),
     media: currentContent.media,
     playgroundPlan: currentContent.playgroundPlan,
+    relationshipDirectory: currentContent.relationshipDirectory,
   };
 
   if (
@@ -298,6 +307,53 @@ export async function savePlaygroundPlan(
     return {
       status: "error",
       message: "The event plan could not be saved. Review the entries and try again.",
+    };
+  }
+}
+
+export async function saveRelationshipDirectory(
+  _previousState: RelationshipDirectorySaveState,
+  formData: FormData,
+): Promise<RelationshipDirectorySaveState> {
+  await requireHubSession();
+
+  if (!isNovaDataConfigured()) {
+    return {
+      status: "error",
+      message: "Connect the NOVA data service before saving relationships.",
+    };
+  }
+
+  const payload = String(formData.get("directory") ?? "");
+  if (!payload || payload.length > 1_000_000) {
+    return {
+      status: "error",
+      message: "The relationship directory could not be saved.",
+    };
+  }
+
+  try {
+    const directory = normalizeRelationshipDirectory(JSON.parse(payload));
+    if (directory.contacts.some((contact) => contact.name.length < 2)) {
+      return {
+        status: "error",
+        message: "Every relationship needs a name before the directory can be saved.",
+      };
+    }
+
+    const savedAt = new Date().toISOString();
+    await updateRelationshipDirectory({ ...directory, updatedAt: savedAt });
+    revalidatePath("/hub/relationships");
+    revalidatePath("/hub/dashboard");
+    return {
+      status: "success",
+      message: "Relationship directory saved.",
+      savedAt,
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "The relationship directory could not be saved. Review the entries and try again.",
     };
   }
 }

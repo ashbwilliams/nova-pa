@@ -7,6 +7,11 @@ import {
   normalizePlaygroundPlan,
   type PlaygroundPlan,
 } from "@/lib/playground-plan";
+import {
+  defaultRelationshipDirectory,
+  normalizeRelationshipDirectory,
+  type RelationshipDirectory,
+} from "@/lib/relationship-directory";
 
 export { inquiryStatuses, inquiryTopics } from "@/lib/nova-types";
 export type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
@@ -37,6 +42,7 @@ export type SiteContent = {
   contactIntro: string;
   media: SiteMediaState;
   playgroundPlan: PlaygroundPlan;
+  relationshipDirectory: RelationshipDirectory;
 };
 
 export type ProgramDetails = {
@@ -67,6 +73,7 @@ export const defaultSiteContent: SiteContent = {
     "Whether you are a student, parent, educator, donor, or community partner, we would like to hear what brings you to NOVA.",
   media: {},
   playgroundPlan: defaultPlaygroundPlan,
+  relationshipDirectory: defaultRelationshipDirectory,
 };
 
 const legacySiteContent = {
@@ -97,6 +104,9 @@ function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
     ...(content ?? {}),
     media: { ...defaultSiteContent.media, ...(content?.media ?? {}) },
     playgroundPlan: normalizePlaygroundPlan(content?.playgroundPlan),
+    relationshipDirectory: normalizeRelationshipDirectory(
+      content?.relationshipDirectory,
+    ),
   };
 
   if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
@@ -250,6 +260,13 @@ export async function updateSiteMedia(media: SiteMediaState) {
 export async function updatePlaygroundPlan(playgroundPlan: PlaygroundPlan) {
   const { content } = await getSiteState();
   await updateSiteContent({ ...content, playgroundPlan });
+}
+
+export async function updateRelationshipDirectory(
+  relationshipDirectory: RelationshipDirectory,
+) {
+  const { content } = await getSiteState();
+  await updateSiteContent({ ...content, relationshipDirectory });
 }
 
 export async function updateProgramDetails(program: ProgramDetails) {

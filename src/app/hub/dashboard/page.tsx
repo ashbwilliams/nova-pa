@@ -50,8 +50,16 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
   const counts = {
     new: inquiries.filter((item) => item.status === "new").length,
     active: inquiries.filter((item) => item.status === "in_progress").length,
-    students: inquiries.filter((item) => item.topic === "Student or family").length,
-    supporters: inquiries.filter((item) => item.topic === "Donor or sponsor").length,
+    relationships: content.relationshipDirectory.contacts.length,
+    followUps: content.relationshipDirectory.contacts.filter((contact) => {
+      const today = new Date().toISOString().slice(0, 10);
+      return (
+        contact.status !== "Closed" &&
+        contact.status !== "On hold" &&
+        contact.nextFollowUpDate &&
+        contact.nextFollowUpDate <= today
+      );
+    }).length,
   };
   const storageConfigured = isNovaDataConfigured();
   const mediaItems = mediaSlotDefinitions.map((definition) => ({
@@ -68,6 +76,7 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
           <strong>Owner Hub</strong>
         </div>
         <nav aria-label="Hub sections">
+          <Link href="/hub/relationships">Relationship manager</Link>
           <Link href="/hub/playground">Percussion Playground planner</Link>
           <a href="#overview">Overview</a>
           <a href="#inquiries">Inquiries</a>
@@ -115,8 +124,8 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
           <div className="hub-stat-grid">
             <article><span>New</span><strong>{counts.new}</strong><p>Unreviewed inquiries</p></article>
             <article><span>Active</span><strong>{counts.active}</strong><p>Conversations underway</p></article>
-            <article><span>Students</span><strong>{counts.students}</strong><p>Student and family inquiries</p></article>
-            <article><span>Support</span><strong>{counts.supporters}</strong><p>Donor and sponsor inquiries</p></article>
+            <article><span>Relationships</span><strong>{counts.relationships}</strong><p>Organization-wide records</p></article>
+            <article><span>Follow-up</span><strong>{counts.followUps}</strong><p>Due today or overdue</p></article>
           </div>
         </section>
 

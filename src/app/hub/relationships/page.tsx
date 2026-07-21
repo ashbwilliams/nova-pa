@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { logoutHub } from "@/app/hub/actions";
-import { PlaygroundPlanner } from "@/components/playground-planner";
+import { RelationshipManager } from "@/components/relationship-manager";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
 
 export const dynamic = "force-dynamic";
 
-export default async function PlaygroundPlanningPage() {
+export default async function RelationshipsPage() {
   if (!(await hasHubSession())) redirect("/hub");
 
   const { content } = await getSiteState();
@@ -23,38 +23,52 @@ export default async function PlaygroundPlanningPage() {
         </div>
         <nav aria-label="Hub sections">
           <Link href="/hub/dashboard">Organization dashboard</Link>
-          <Link href="/hub/relationships">Relationships</Link>
-          <Link className="active" href="/hub/playground">Percussion Playground</Link>
-          <a href="/hub/playground#planner">Event workspace</a>
+          <Link className="active" href="/hub/relationships">
+            Relationships
+          </Link>
+          <Link href="/hub/playground">Percussion Playground</Link>
         </nav>
         <div className="hub-sidebar-actions">
-          <Link href="/percussion-playground" target="_blank">View event page</Link>
+          <Link href="/" target="_blank">
+            View public site
+          </Link>
           <form action={logoutHub}>
             <button type="submit">Sign out</button>
           </form>
         </div>
       </aside>
 
-      <main className="hub-main planner-main" id="planner">
+      <main className="hub-main planner-main">
         <header className="hub-topbar planner-topbar">
           <div>
-            <p className="eyebrow">Percussion Playground</p>
-            <h1>Event planning hub</h1>
-            <p>Build the room, stage the experience, and manage every relationship that follows.</p>
+            <p className="eyebrow">NOVA operations</p>
+            <h1>Relationship management</h1>
+            <p>
+              Maintain NOVA&apos;s organization-wide network independently of any
+              single program or event.
+            </p>
           </div>
-          <span className={`hub-system-status ${storageConfigured ? "ready" : "setup"}`}>
-            {storageConfigured ? "Private plan connected" : "Setup required"}
+          <span
+            className={`hub-system-status ${storageConfigured ? "ready" : "setup"}`}
+          >
+            {storageConfigured ? "Private directory connected" : "Setup required"}
           </span>
         </header>
 
         {!storageConfigured ? (
           <section className="hub-alert" role="status">
-            <strong>Connect secure storage to save the event plan.</strong>
-            <p>You can review the full workspace now, but changes will not persist until the existing NOVA data service is connected.</p>
+            <strong>Connect secure storage to save relationships.</strong>
+            <p>
+              The directory is private and available only through the protected
+              owner hub.
+            </p>
           </section>
         ) : null}
 
-        <PlaygroundPlanner initialPlan={content.playgroundPlan} storageConfigured={storageConfigured} />
+        <RelationshipManager
+          initialDirectory={content.relationshipDirectory}
+          storageConfigured={storageConfigured}
+        />
       </main>
     </div>
   );
