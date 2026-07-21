@@ -2,6 +2,11 @@ import "server-only";
 
 import type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
 import type { SiteMediaState } from "@/lib/nova-media";
+import {
+  defaultPlaygroundPlan,
+  normalizePlaygroundPlan,
+  type PlaygroundPlan,
+} from "@/lib/playground-plan";
 
 export { inquiryStatuses, inquiryTopics } from "@/lib/nova-types";
 export type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
@@ -31,6 +36,7 @@ export type SiteContent = {
   contactHeadline: string;
   contactIntro: string;
   media: SiteMediaState;
+  playgroundPlan: PlaygroundPlan;
 };
 
 export type ProgramDetails = {
@@ -60,6 +66,7 @@ export const defaultSiteContent: SiteContent = {
   contactIntro:
     "Whether you are a student, parent, educator, donor, or community partner, we would like to hear what brings you to NOVA.",
   media: {},
+  playgroundPlan: defaultPlaygroundPlan,
 };
 
 const legacySiteContent = {
@@ -89,6 +96,7 @@ function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
     ...defaultSiteContent,
     ...(content ?? {}),
     media: { ...defaultSiteContent.media, ...(content?.media ?? {}) },
+    playgroundPlan: normalizePlaygroundPlan(content?.playgroundPlan),
   };
 
   if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
@@ -237,6 +245,11 @@ export async function updateSiteContent(content: SiteContent) {
 export async function updateSiteMedia(media: SiteMediaState) {
   const { content } = await getSiteState();
   await updateSiteContent({ ...content, media });
+}
+
+export async function updatePlaygroundPlan(playgroundPlan: PlaygroundPlan) {
+  const { content } = await getSiteState();
+  await updateSiteContent({ ...content, playgroundPlan });
 }
 
 export async function updateProgramDetails(program: ProgramDetails) {

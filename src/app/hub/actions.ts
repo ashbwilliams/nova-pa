@@ -14,6 +14,7 @@ import {
   inquiryStatuses,
   isNovaDataConfigured,
   updateInquiry,
+  updatePlaygroundPlan,
   updateProgramDetails,
   updateSiteContent,
   updateSiteMedia,
@@ -21,6 +22,7 @@ import {
   type ProgramDetails,
   type SiteContent,
 } from "@/lib/nova-data";
+import { normalizePlaygroundPlan } from "@/lib/playground-plan";
 import {
   isMediaSlotKey,
   resolveMediaSlot,
@@ -32,6 +34,12 @@ import { uploadSitePhoto } from "@/lib/nova-media-storage";
 export type HubLoginState = {
   status: "idle" | "error";
   message: string;
+};
+
+export type PlaygroundPlanSaveState = {
+  status: "idle" | "success" | "error";
+  message: string;
+  savedAt?: string;
 };
 
 function text(formData: FormData, key: string, max: number) {
@@ -109,6 +117,7 @@ export async function saveSiteContent(formData: FormData) {
     contactHeadline: text(formData, "contactHeadline", 180),
     contactIntro: text(formData, "contactIntro", 700),
     media: currentContent.media,
+    playgroundPlan: currentContent.playgroundPlan,
   };
 
   if (
@@ -254,4 +263,41 @@ export async function saveInquiryReview(formData: FormData) {
 
   await updateInquiry(id, status, internalNotes);
   revalidatePath("/hub/dashboard");
+}
+
+export async function savePlaygroundPlan(
+  _previousState: PlaygroundPlanSaveState,
+  formData: FormData,
+): Promise<PlaygroundPlanSaveState> {
+  await requireHubSession();
+
+  if (!isNovaDataConfigured()) {
+    return {
+      status: "error",
+      message: "Connect the NOVA data service before saving the event plan.",
+    };
+  }
+
+  const payload = String(formData.get("plan") ?? "");
+  if (!payload || payload.length > 1_000_000) {
+    return { status: "error", message: "The event plan could not be saved." };
+  }
+
+  try {
+    const plan = normalizePlaygroundPlan(JSON.parse(payload));
+    const savedAt = new Date().toISOString();
+    await updatePlaygroundPlan({ ...plan, updatedAt: savedAt });
+    revalidatePath("/hub/playground");
+    revalidatePath("/hub/dashboard");
+    return {
+      status: "success",
+      message: "Event plan saved.",
+      savedAt,
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "The event plan could not be saved. Review the entries and try again.",
+    };
+  }
 }

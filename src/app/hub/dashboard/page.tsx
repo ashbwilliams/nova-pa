@@ -68,6 +68,7 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
           <strong>Owner Hub</strong>
         </div>
         <nav aria-label="Hub sections">
+          <Link href="/hub/playground">Percussion Playground planner</Link>
           <a href="#overview">Overview</a>
           <a href="#inquiries">Inquiries</a>
           <a href="#program">NOVA 8 Percussion</a>
