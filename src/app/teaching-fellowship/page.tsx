@@ -83,61 +83,6 @@ export default async function TeachingFellowshipPage() {
         </div>
       </section>
 
-      <section className="partnership-section">
-        <div className="partnership-heading">
-          <p className="eyebrow">Institutional instructional partnerships</p>
-          <h2>A reciprocal relationship, built around shared educational goals.</h2>
-          <p>
-            NOVA 8 is not asking a partner to supply free labor or take responsibility
-            for operating a youth program. The partnership combines what each
-            organization is best positioned to provide. Together, we create a
-            stronger learning environment for young musicians and a practical
-            development pathway for emerging educators.
-          </p>
-        </div>
-
-        <div className="partnership-exchange" aria-label="Partnership responsibilities">
-          <article>
-            <p className="partnership-label">NOVA provides</p>
-            <h3>The teaching environment</h3>
-            <ul>
-              <li>A consistent ensemble in which fellows can build real relationships and skills</li>
-              <li>An experienced lead educator responsible for curriculum and instructional quality</li>
-              <li>Defined assignments, observation, mentorship, and practical feedback</li>
-              <li>Youth-safety orientation, required screening, and clear professional boundaries</li>
-              <li>Program operations, instruments, family communication, and organizational accountability</li>
-            </ul>
-          </article>
-          <article>
-            <p className="partnership-label">The partner provides</p>
-            <h3>The talent pipeline and institutional connection</h3>
-            <ul>
-              <li>Help identifying advanced performers with the musicianship, maturity, and interest to teach</li>
-              <li>A faculty, staff, or ensemble liaison who helps align the experience with participant goals</li>
-              <li>Artistic or educational guidance that strengthens fellow development</li>
-              <li>Periodic mentorship, observation, or feedback when appropriate</li>
-              <li>Practical collaboration on logistics where the partner has useful capacity</li>
-            </ul>
-          </article>
-        </div>
-
-        <div className="logistics-band">
-          <div>
-            <p className="eyebrow light">A flexible contribution</p>
-            <h3>Logistical support can take different forms.</h3>
-          </div>
-          <p>
-            Depending on the partner, collaboration might include rehearsal-space
-            access, scheduling coordination, equipment or storage support,
-            transportation planning, recruitment, communications, guest instruction,
-            fellowship stipends or joint funding efforts, or connections to other
-            educational resources. No partner is expected to provide every form of
-            support. The agreement should reflect the strengths and limits of both
-            organizations.
-          </p>
-        </div>
-      </section>
-
       <section className="fellowship-benefits-section">
         <div className="section-heading-row dark-text">
           <div>
@@ -204,12 +149,11 @@ export default async function TeachingFellowshipPage() {
           <article>
             <h3>Build an institutional instructional partnership</h3>
             <p>
-              NOVA welcomes conversations with collegiate percussion studios,
-              independent ensembles, professional organizations, and other groups
-              that develop advanced percussionists.
+              The fellowship operates within a reciprocal partnership between NOVA
+              and the studio, ensemble, or organization developing the fellows.
             </p>
-            <Link href="/contact?topic=School+or+educator#contact-form">
-              Explore a partnership <ArrowUpRightIcon />
+            <Link href="/institutional-instructional-partnerships">
+              See the partnership model <ArrowUpRightIcon />
             </Link>
           </article>
           <article>
