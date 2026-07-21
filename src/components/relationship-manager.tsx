@@ -125,6 +125,7 @@ export function RelationshipManager({
       lastContactDate: "",
       nextFollowUpDate: "",
       nextAction: "",
+      actionPending: false,
       tags: "",
       notes: "",
       createdAt: timestamp,
@@ -161,14 +162,14 @@ export function RelationshipManager({
     const conversations = current.filter((contact) =>
       ["Conversation active", "Follow-up needed"].includes(contact.status),
     ).length;
-    const highPriority = current.filter(
-      (contact) => contact.priority === "High",
+    const pendingActions = current.filter(
+      (contact) => contact.actionPending,
     ).length;
     return {
       total: directory.contacts.length,
       due,
       conversations,
-      highPriority,
+      pendingActions,
     };
   }, [directory.contacts, today]);
 
@@ -229,6 +230,7 @@ export function RelationshipManager({
       "Last contact",
       "Next follow-up",
       "Next action",
+      "Direct action pending",
       "Tags",
       "Notes",
     ];
@@ -248,6 +250,7 @@ export function RelationshipManager({
       contact.lastContactDate,
       contact.nextFollowUpDate,
       contact.nextAction,
+      contact.actionPending ? "Yes" : "No",
       contact.tags,
       contact.notes,
     ]);
@@ -325,9 +328,9 @@ export function RelationshipManager({
           <p>Active or awaiting follow-up</p>
         </article>
         <article>
-          <span>High priority</span>
-          <strong>{metrics.highPriority}</strong>
-          <p>Open relationships</p>
+          <span>Action pending</span>
+          <strong>{metrics.pendingActions}</strong>
+          <p>Flagged for direct action</p>
         </article>
       </section>
 
@@ -426,7 +429,7 @@ export function RelationshipManager({
               <details
                 className={`relationship-record ${
                   followUpDue ? "follow-up-due" : ""
-                }`}
+                } ${contact.actionPending ? "action-pending" : ""}`}
                 key={contact.id}
                 open={expandedContactIds.has(contact.id)}
                 onToggle={(event) => {
@@ -441,7 +444,34 @@ export function RelationshipManager({
               >
                 <summary>
                   <span className="relationship-person">
-                    <strong>{contact.name || "New relationship"}</strong>
+                    <strong className="relationship-person-name">
+                      <span>{contact.name || "New relationship"}</span>
+                      {contact.actionPending ? (
+                        <span
+                          className="relationship-action-alert"
+                          role="img"
+                          aria-label="Direct action pending"
+                          title="Direct action pending"
+                        >
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M12 3 2.8 20h18.4L12 3Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M12 8v5.5M12 17h.01"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                      ) : null}
+                    </strong>
                     <small>
                       {[contact.role, contact.organization]
                         .filter(Boolean)
@@ -671,6 +701,22 @@ export function RelationshipManager({
                           }
                         />
                       </Field>
+                      <label
+                        className={`planner-check relationship-action-toggle ${
+                          contact.actionPending ? "is-pending" : ""
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={Boolean(contact.actionPending)}
+                          onChange={(event) =>
+                            updateContact(contact.id, {
+                              actionPending: event.target.checked,
+                            })
+                          }
+                        />
+                        <span>Direct action pending</span>
+                      </label>
                       <Field className="wide" label="Next action">
                         <textarea
                           rows={3}
