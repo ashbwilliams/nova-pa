@@ -455,18 +455,12 @@ export function RelationshipManager({
                         >
                           <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path
-                              d="M12 3 2.8 20h18.4L12 3Z"
+                              d="M5 21V5m0 0c3.5-2 6.5 2 10 0 1.2-.7 2.4-.9 4-.5v10c-1.6-.4-2.8-.2-4 .5-3.5 2-6.5-2-10 0"
                               fill="none"
                               stroke="currentColor"
                               strokeWidth="1.8"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M12 8v5.5M12 17h.01"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
                               strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </span>
