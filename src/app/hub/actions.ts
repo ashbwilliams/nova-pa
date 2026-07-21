@@ -10,6 +10,7 @@ import {
   verifyHubPassword,
 } from "@/lib/hub-auth";
 import {
+  deleteInquiry,
   getSiteState,
   inquiryStatuses,
   isNovaDataConfigured,
@@ -271,6 +272,19 @@ export async function saveInquiryReview(formData: FormData) {
   }
 
   await updateInquiry(id, status, internalNotes);
+  revalidatePath("/hub/dashboard");
+}
+
+export async function deleteInquiryRecord(formData: FormData) {
+  await requireHubSession();
+  storageIsReady();
+
+  const id = text(formData, "id", 80);
+  if (!/^[0-9a-f-]{36}$/i.test(id)) {
+    throw new Error("Invalid inquiry deletion.");
+  }
+
+  await deleteInquiry(id);
   revalidatePath("/hub/dashboard");
 }
 

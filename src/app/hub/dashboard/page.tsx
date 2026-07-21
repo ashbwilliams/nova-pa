@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
-  logoutHub,
   saveInquiryReview,
   saveProgramDetails,
   saveSiteContent,
@@ -14,6 +12,8 @@ import {
   listInquiries,
 } from "@/lib/nova-data";
 import { HubMediaLibrary } from "@/components/hub-media-library";
+import { HubSidebar } from "@/components/hub-sidebar";
+import { InquiryDeleteForm } from "@/components/inquiry-delete-form";
 import { mediaSlotDefinitions, resolveMediaSlot } from "@/lib/nova-media";
 
 export const dynamic = "force-dynamic";
@@ -69,28 +69,19 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
 
   return (
     <div className="hub-shell">
-      <aside className="hub-sidebar">
-        <div>
-          <span className="hub-monogram">N</span>
-          <p>NOVA Performing Arts</p>
-          <strong>Owner Hub</strong>
-        </div>
-        <nav aria-label="Hub sections">
-          <Link href="/hub/relationships">Relationship manager</Link>
-          <Link href="/hub/playground">Percussion Playground planner</Link>
-          <a href="#overview">Overview</a>
-          <a href="#inquiries">Inquiries</a>
-          <a href="#program">NOVA 8 Percussion</a>
-          <a href="#content">Site content</a>
-          <a href="#photos">Site photos</a>
-        </nav>
-        <div className="hub-sidebar-actions">
-          <Link href="/" target="_blank">View public site</Link>
-          <form action={logoutHub}>
-            <button type="submit">Sign out</button>
-          </form>
-        </div>
-      </aside>
+      <HubSidebar
+        items={[
+          { href: "/hub/relationships", label: "Relationship manager" },
+          { href: "/hub/playground", label: "Percussion Playground planner" },
+          { href: "/hub/dashboard#overview", label: "Overview" },
+          { href: "/hub/dashboard#inquiries", label: "Inquiries" },
+          { href: "/hub/dashboard#program", label: "NOVA 8 Percussion" },
+          { href: "/hub/dashboard#content", label: "Site content" },
+          { href: "/hub/dashboard#photos", label: "Site photos" },
+        ]}
+        publicHref="/"
+        publicLabel="View public site"
+      />
 
       <div className="hub-main">
         <header className="hub-topbar">
@@ -140,37 +131,49 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
 
           <div className="hub-inquiry-list">
             {inquiries.length ? inquiries.map((inquiry) => (
-              <article className={`hub-inquiry-card status-${inquiry.status}`} key={inquiry.id}>
-                <div className="hub-inquiry-meta">
-                  <span>{inquiry.topic}</span>
-                  <time dateTime={inquiry.created_at}>{formatDate(inquiry.created_at)}</time>
-                </div>
-                <div className="hub-inquiry-person">
-                  <div>
-                    <h3>{inquiry.name}</h3>
-                    <a href={`mailto:${inquiry.email}`}>{inquiry.email}</a>
-                    {inquiry.organization ? <p>{inquiry.organization}</p> : null}
+              <details className={`hub-inquiry-card status-${inquiry.status}`} key={inquiry.id}>
+                <summary className="hub-inquiry-summary">
+                  <span className="hub-inquiry-chevron" aria-hidden="true" />
+                  <span className="hub-inquiry-summary-copy">
+                    <span className="hub-inquiry-meta">
+                      <span>{inquiry.topic}</span>
+                      <time dateTime={inquiry.created_at}>{formatDate(inquiry.created_at)}</time>
+                    </span>
+                    <span className="hub-inquiry-person">
+                      <span>
+                        <strong>{inquiry.name}</strong>
+                        <small>{inquiry.organization || inquiry.email}</small>
+                      </span>
+                      <span>{formatStatus(inquiry.status)}</span>
+                    </span>
+                  </span>
+                </summary>
+                <div className="hub-inquiry-details">
+                  <a className="hub-inquiry-email" href={`mailto:${inquiry.email}`}>{inquiry.email}</a>
+                  {inquiry.organization ? <p className="hub-inquiry-organization">{inquiry.organization}</p> : null}
+                  <p className="hub-inquiry-message">{inquiry.message}</p>
+                  <form action={saveInquiryReview} className="hub-review-form">
+                    <input type="hidden" name="id" value={inquiry.id} />
+                    <label>
+                      Status
+                      <select name="status" defaultValue={inquiry.status}>
+                        {inquiryStatuses.map((status) => (
+                          <option value={status} key={status}>{formatStatus(status)}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="hub-notes-field">
+                      Internal notes
+                      <textarea name="internalNotes" defaultValue={inquiry.internal_notes} rows={3} maxLength={2000} />
+                    </label>
+                    <button className="hub-save-button" type="submit">Save changes</button>
+                  </form>
+                  <div className="hub-inquiry-delete-row">
+                    <p>Delete test, duplicate, or no-longer-needed inquiries permanently.</p>
+                    <InquiryDeleteForm id={inquiry.id} name={inquiry.name} />
                   </div>
-                  <span>{formatStatus(inquiry.status)}</span>
                 </div>
-                <p className="hub-inquiry-message">{inquiry.message}</p>
-                <form action={saveInquiryReview} className="hub-review-form">
-                  <input type="hidden" name="id" value={inquiry.id} />
-                  <label>
-                    Status
-                    <select name="status" defaultValue={inquiry.status}>
-                      {inquiryStatuses.map((status) => (
-                        <option value={status} key={status}>{formatStatus(status)}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="hub-notes-field">
-                    Internal notes
-                    <textarea name="internalNotes" defaultValue={inquiry.internal_notes} rows={3} maxLength={2000} />
-                  </label>
-                  <button className="hub-save-button" type="submit">Save changes</button>
-                </form>
-              </article>
+              </details>
             )) : (
               <div className="hub-empty-state">
                 <strong>No inquiries yet</strong>

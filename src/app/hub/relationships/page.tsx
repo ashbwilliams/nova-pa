@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { logoutHub } from "@/app/hub/actions";
+import { HubSidebar } from "@/components/hub-sidebar";
 import { RelationshipManager } from "@/components/relationship-manager";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
@@ -15,28 +14,15 @@ export default async function RelationshipsPage() {
 
   return (
     <div className="hub-shell planner-shell">
-      <aside className="hub-sidebar">
-        <div>
-          <span className="hub-monogram">N</span>
-          <p>NOVA Performing Arts</p>
-          <strong>Owner Hub</strong>
-        </div>
-        <nav aria-label="Hub sections">
-          <Link href="/hub/dashboard">Organization dashboard</Link>
-          <Link className="active" href="/hub/relationships">
-            Relationships
-          </Link>
-          <Link href="/hub/playground">Percussion Playground</Link>
-        </nav>
-        <div className="hub-sidebar-actions">
-          <Link href="/" target="_blank">
-            View public site
-          </Link>
-          <form action={logoutHub}>
-            <button type="submit">Sign out</button>
-          </form>
-        </div>
-      </aside>
+      <HubSidebar
+        items={[
+          { href: "/hub/dashboard", label: "Organization dashboard" },
+          { href: "/hub/relationships", label: "Relationship manager" },
+          { href: "/hub/playground", label: "Percussion Playground planner" },
+        ]}
+        publicHref="/"
+        publicLabel="View public site"
+      />
 
       <main className="hub-main planner-main">
         <header className="hub-topbar planner-topbar">

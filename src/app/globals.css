@@ -3356,6 +3356,10 @@ body:has(.hub-shell) {
 }
 
 .hub-sidebar nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--line-dark);
   color: #c5d2cb;
@@ -3365,6 +3369,17 @@ body:has(.hub-shell) {
 
 .hub-sidebar nav a:hover {
   color: var(--white);
+}
+
+.hub-sidebar nav a::before {
+  width: 0;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--firefly);
+  content: "";
+  opacity: 0;
+  transition: width 160ms ease, margin 160ms ease, opacity 160ms ease;
 }
 
 .hub-sidebar-actions {
@@ -3524,9 +3539,9 @@ body:has(.hub-shell) {
 }
 
 .hub-inquiry-card {
-  padding: 1.4rem;
   border: 1px solid var(--line);
   border-left: 5px solid #94a39b;
+  background: var(--white);
 }
 
 .hub-inquiry-card.status-new {
@@ -3539,6 +3554,46 @@ body:has(.hub-shell) {
 
 .hub-inquiry-card.status-closed {
   opacity: 0.72;
+}
+
+.hub-inquiry-summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.hub-inquiry-summary::-webkit-details-marker {
+  display: none;
+}
+
+.hub-inquiry-summary:hover {
+  background: #f7f9f7;
+}
+
+.hub-inquiry-summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.hub-inquiry-chevron {
+  width: 9px;
+  height: 9px;
+  margin-top: 0.3rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform 160ms ease;
+}
+
+.hub-inquiry-card[open] .hub-inquiry-chevron {
+  transform: rotate(45deg);
+}
+
+.hub-inquiry-summary-copy {
+  min-width: 0;
 }
 
 .hub-inquiry-meta,
@@ -3558,20 +3613,17 @@ body:has(.hub-shell) {
   text-transform: uppercase;
 }
 
-.hub-inquiry-person h3 {
-  margin-bottom: 0.25rem;
+.hub-inquiry-person strong {
+  display: block;
   font-size: 1.55rem;
 }
 
-.hub-inquiry-person a {
-  border-bottom: 1px solid var(--line);
-  font-size: 0.83rem;
-}
-
-.hub-inquiry-person p {
-  margin: 0.2rem 0 0;
+.hub-inquiry-person small {
+  display: block;
+  margin-top: 0.2rem;
   color: var(--muted);
   font-size: 0.8rem;
+  font-weight: 400;
 }
 
 .hub-inquiry-person > span {
@@ -3589,6 +3641,59 @@ body:has(.hub-shell) {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   white-space: pre-wrap;
+}
+
+.hub-inquiry-details {
+  padding: 0 1.4rem 1.4rem 3.4rem;
+}
+
+.hub-inquiry-email {
+  border-bottom: 1px solid var(--line);
+  font-size: 0.83rem;
+}
+
+.hub-inquiry-organization {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.hub-inquiry-delete-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.hub-inquiry-delete-row p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.hub-delete-button {
+  min-height: 42px;
+  padding: 0 0.9rem;
+  border: 1px solid #b86a62;
+  background: transparent;
+  color: #8d362f;
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.hub-delete-button:hover {
+  background: #fff1ef;
+}
+
+.hub-delete-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .hub-review-form {
@@ -3953,9 +4058,17 @@ body:has(.hub-shell) {
 /* Percussion Playground planning hub */
 
 .hub-sidebar nav a.active {
-  border-left: 3px solid var(--firefly);
-  padding-left: 0.75rem;
+  margin: 0.2rem -0.75rem;
+  padding: 0.75rem;
+  border-bottom-color: transparent;
+  background: #20332d;
   color: var(--white);
+}
+
+.hub-sidebar nav a.active::before {
+  width: 6px;
+  margin-right: 0.65rem;
+  opacity: 1;
 }
 
 .planner-main {
@@ -4958,6 +5071,11 @@ body:has(.hub-shell) {
     padding: 0.35rem 0;
   }
 
+  .hub-sidebar nav a.active {
+    margin: 0;
+    padding: 0.35rem 0.6rem;
+  }
+
   .hub-sidebar-actions {
     display: flex;
     gap: 1.5rem;
@@ -4977,6 +5095,11 @@ body:has(.hub-shell) {
 
   .hub-review-form {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .hub-inquiry-delete-row {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .hub-media-grid {
@@ -5200,6 +5323,15 @@ body:has(.hub-shell) {
   .hub-inquiry-person {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .hub-inquiry-details {
+    padding-left: 1.4rem;
+  }
+
+  .hub-delete-form,
+  .hub-delete-button {
+    width: 100%;
   }
 
   .form-submit-row .button,

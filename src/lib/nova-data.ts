@@ -326,3 +326,10 @@ export async function updateInquiry(
     }),
   });
 }
+
+export async function deleteInquiry(id: string) {
+  await supabaseRequest<void>(`nova_inquiries?id=eq.${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    headers: { Prefer: "return=minimal" },
+  });
+}
