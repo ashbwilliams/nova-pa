@@ -16,8 +16,8 @@ const opportunities = [
   {
     title: "Institutional instructional partnerships",
     body: "Collegiate studios and other high-level ensembles help connect advanced performers and practical resources to NOVA 8. In return, NOVA provides structured, mentored teaching-development opportunities through the NOVA 8 Teaching Fellowship.",
-    href: "/teaching-fellowship",
-    action: "Explore the Teaching Fellowship",
+    href: "/institutional-instructional-partnerships",
+    action: "Explore institutional partnerships",
   },
   {
     title: "Rehearsal home partnerships",
