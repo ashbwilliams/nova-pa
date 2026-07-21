@@ -4972,9 +4972,10 @@ body:has(.hub-shell) {
   min-height: 38px;
   flex: none;
   padding: 0 0.7rem;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
+  border: 1px solid color-mix(in srgb, var(--category-color) 42%, var(--line));
+  border-top: 3px solid var(--category-color);
+  background: var(--category-tint);
+  color: var(--category-color);
   cursor: pointer;
   font-size: 0.63rem;
   font-weight: 700;
@@ -4982,8 +4983,8 @@ body:has(.hub-shell) {
 
 .planner-filter-row button:hover,
 .planner-filter-row button.active {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: var(--category-color);
+  background: var(--category-color);
   color: var(--white);
 }
 
@@ -5054,6 +5055,10 @@ body:has(.hub-shell) {
   background: var(--white);
 }
 
+.planner-task {
+  border-top: 3px solid var(--category-color);
+}
+
 .planner-task.status-in_progress {
   border-left-color: #b39152;
 }
@@ -5079,6 +5084,7 @@ body:has(.hub-shell) {
 
 .planner-task summary {
   grid-template-columns: minmax(135px, 0.25fr) minmax(260px, 1fr) auto;
+  background: linear-gradient(90deg, var(--category-tint) 0, var(--white) 48%);
 }
 
 .planner-task summary::-webkit-details-marker,
@@ -5121,6 +5127,11 @@ body:has(.hub-shell) {
   font-size: 0.9rem;
 }
 
+.planner-task-category {
+  color: var(--category-color);
+  font-weight: 750;
+}
+
 .planner-status,
 .planner-rsvp,
 .planner-followup-label {
@@ -5149,6 +5160,7 @@ body:has(.hub-shell) {
 .planner-guest-details {
   padding: 1rem;
   border-top: 1px solid var(--line);
+  background: var(--white);
 }
 
 .planner-host-grid,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useMemo, useState, type CSSProperties } from "react";
 import {
   savePlaygroundPlan,
   type PlaygroundPlanSaveState,
@@ -46,6 +46,32 @@ const initialSaveState: PlaygroundPlanSaveState = {
   status: "idle",
   message: "",
 };
+
+const categoryColors: Record<string, { color: string; tint: string }> = {
+  All: { color: "#4f6f66", tint: "#edf3f0" },
+  Strategy: { color: "#5f7569", tint: "#edf2ef" },
+  "Venue & production": { color: "#60778c", tint: "#edf2f6" },
+  "Hosts & guests": { color: "#956b55", tint: "#f7f0ec" },
+  "Creative & invitation": { color: "#826b82", tint: "#f4eff4" },
+  "Hospitality & safety": { color: "#8a7849", tint: "#f7f3e8" },
+  Program: { color: "#4f7b78", tint: "#eaf3f2" },
+  "Event day": { color: "#955e54", tint: "#f7eeec" },
+  "Follow-up": { color: "#71805d", tint: "#f0f3eb" },
+  General: { color: "#69736e", tint: "#f0f2f1" },
+};
+
+type CategoryStyle = CSSProperties & {
+  "--category-color": string;
+  "--category-tint": string;
+};
+
+function categoryStyle(category: string): CategoryStyle {
+  const colors = categoryColors[category] ?? categoryColors.General;
+  return {
+    "--category-color": colors.color,
+    "--category-tint": colors.tint,
+  };
+}
 
 const uid = (prefix: string) =>
   `${prefix}-${typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : Date.now()}`;
@@ -298,19 +324,19 @@ export function PlaygroundPlanner({
           <SectionHeading eyebrow="Master schedule" title={plan.event.eventDate ? "Fixed event timeline" : "Relative event timeline"} detail={`${plan.timeline.length} tasks`} />
           <div className="planner-toolbar">
             <div className="planner-filter-row">
-              {taskCategories.map((category) => <button className={taskFilter === category ? "active" : ""} key={category} onClick={() => setTaskFilter(category)} type="button">{category}</button>)}
+              {taskCategories.map((category) => <button className={taskFilter === category ? "active" : ""} key={category} onClick={() => setTaskFilter(category)} style={categoryStyle(category)} type="button">{category}</button>)}
             </div>
             <button className="planner-secondary-button" type="button" onClick={() => change({ ...plan, timeline: [...plan.timeline, { id: uid("timeline"), title: "New task", category: "General", offsetDays: -14, owner: "", status: "not_started", priority: "standard", notes: "" }] })}>Add task</button>
           </div>
           <div className="planner-task-list">
             {visibleTasks.map((task) => (
-              <details className={`planner-task status-${task.status}`} key={task.id}>
+              <details className={`planner-task status-${task.status}`} key={task.id} style={categoryStyle(task.category)}>
                 <summary>
                   <span className="planner-task-date">
                     <strong>{plan.event.eventDate ? formatDate(dateForOffset(plan.event.eventDate, task.offsetDays)) : relativeLabel(task.offsetDays)}</strong>
                     {plan.event.eventDate ? <small>{relativeLabel(task.offsetDays)}</small> : null}
                   </span>
-                  <span className="planner-task-title"><strong>{task.title}</strong><small>{task.category}{task.owner ? ` · ${task.owner}` : ""}</small></span>
+                  <span className="planner-task-title"><strong>{task.title}</strong><small><span className="planner-task-category">{task.category}</span>{task.owner ? ` · ${task.owner}` : ""}</small></span>
                   <span className={`planner-status status-${task.status}`}>{statusLabel(task.status)}</span>
                 </summary>
                 <div className="planner-detail-grid">
