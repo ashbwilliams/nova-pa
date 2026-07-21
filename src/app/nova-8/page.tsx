@@ -170,6 +170,25 @@ export default async function Nova8Page() {
         </div>
       </section>
 
+      <section className="fellowship-feature-section">
+        <div>
+          <p className="eyebrow light">NOVA 8 Teaching Fellowship</p>
+          <h2>Young musicians grow. Emerging educators do, too.</h2>
+        </div>
+        <div>
+          <p>
+            Through partnerships with collegiate percussion studios and other
+            high-level ensembles, advanced performers can gain structured, mentored
+            teaching experience within NOVA 8. Partner organizations help connect
+            fellows and practical resources to the program; NOVA provides the
+            ensemble, supervision, and teaching-development structure.
+          </p>
+          <Link className="button button-light" href="/teaching-fellowship">
+            Explore the Teaching Fellowship
+          </Link>
+        </div>
+      </section>
+
       <CtaBand
         eyebrow="Make NOVA 8 Percussion possible"
         title="Students are ready to keep learning."

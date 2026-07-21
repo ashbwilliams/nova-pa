@@ -20,12 +20,14 @@ export function SiteFooter() {
           <p className="footer-label">Explore</p>
           <Link href="/about">About NOVA</Link>
           <Link href="/nova-8">NOVA 8 Percussion</Link>
+          <Link href="/teaching-fellowship">Teaching Fellowship</Link>
           <Link href="/percussion-playground">Percussion Playground</Link>
           <Link href="/impact">Access & Impact</Link>
           <Link href="/support">Support NOVA</Link>
         </div>
         <div className="footer-links">
           <p className="footer-label">Connect</p>
+          <Link href="/partnerships">Partnership opportunities</Link>
           <Link href="/contact">Start a conversation</Link>
           <Link href="/contact#contact-form">Send an inquiry</Link>
         </div>

@@ -13,6 +13,7 @@ const primaryNavigation = [
 
 const programNavigation = [
   { href: "/nova-8", label: "NOVA 8 Percussion" },
+  { href: "/teaching-fellowship", label: "Teaching Fellowship" },
   { href: "/percussion-playground", label: "Percussion Playground" },
 ];
 
