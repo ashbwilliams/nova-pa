@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/nova-8",
     "/teaching-fellowship",
     "/partnerships",
+    "/institutional-instructional-partnerships",
     "/percussion-playground",
     "/impact",
     "/support",
