@@ -10,6 +10,7 @@ import {
   verifyHubPassword,
 } from "@/lib/hub-auth";
 import {
+  appendDocumentVersion,
   deleteInquiry,
   getDocumentVersionHistory,
   getSiteState,
@@ -20,13 +21,13 @@ import {
   updateProgramDetails,
   updateRelationshipDirectory,
   updateBusinessPlan,
-  updateDocumentVersionHistory,
   updateFundraisingPackage,
   updateSiteContent,
   updateSiteMedia,
   type InquiryStatus,
   type ProgramDetails,
   type SiteContent,
+  NovaDataConflictError,
 } from "@/lib/nova-data";
 import { normalizePlaygroundPlan } from "@/lib/playground-plan";
 import { normalizeRelationshipDirectory } from "@/lib/relationship-directory";
@@ -433,8 +434,7 @@ export async function saveBusinessPlan(
 
   try {
     const plan = normalizeBusinessPlanSettings(JSON.parse(payload));
-    const savedAt = new Date().toISOString();
-    await updateBusinessPlan({ ...plan, updatedAt: savedAt });
+    const savedAt = await updateBusinessPlan(plan, plan.updatedAt);
     revalidatePath("/hub/business-plan");
     revalidatePath("/hub/dashboard");
     return {
@@ -442,7 +442,13 @@ export async function saveBusinessPlan(
       message: "Business-plan settings saved.",
       savedAt,
     };
-  } catch {
+  } catch (error) {
+    if (error instanceof NovaDataConflictError) {
+      return {
+        status: "error",
+        message: "A newer business-plan change was saved in another tab. Reload before saving again so it is not overwritten.",
+      };
+    }
     return {
       status: "error",
       message: "The business plan could not be saved. Review the entries and try again.",
@@ -486,7 +492,6 @@ export async function createDocumentVersion(
   }
 
   try {
-    const history = await getDocumentVersionHistory();
     const createdAt = new Date().toISOString();
     const creator = getVersionCreator();
 
@@ -496,7 +501,6 @@ export async function createDocumentVersion(
       if (status === "finalized" && blockers.length) {
         return { status: "error", message: blockers[0].message };
       }
-      await updateBusinessPlan({ ...snapshot, updatedAt: createdAt });
       const fileName = `NOVA_8_Business_Plan_${safeVersionFilePart(versionDate)}.zip`;
       const artifact = status === "finalized"
         ? createVersionArtifact(fileName, "application/zip", await buildBusinessPlanZip(snapshot))
@@ -514,11 +518,7 @@ export async function createDocumentVersion(
         snapshot: { ...snapshot, updatedAt: createdAt },
         artifact,
       };
-      await updateDocumentVersionHistory({
-        ...history,
-        businessPlan: [version, ...history.businessPlan],
-        updatedAt: createdAt,
-      });
+      await appendDocumentVersion(version);
     } else {
       const snapshot = normalizeFundraisingPackage(JSON.parse(payload));
       const { content } = await getSiteState();
@@ -527,7 +527,6 @@ export async function createDocumentVersion(
       if (status === "finalized" && blockers.length) {
         return { status: "error", message: blockers[0].message };
       }
-      await updateFundraisingPackage({ ...snapshot, updatedAt: createdAt });
       const fileName = `NOVA_8_Fundraising_Package_${safeVersionFilePart(versionDate)}.html`;
       const artifact = status === "finalized"
         ? createVersionArtifact(fileName, "text/html; charset=utf-8", await buildFundraisingPackageHtml(snapshot))
@@ -545,11 +544,7 @@ export async function createDocumentVersion(
         snapshot: { ...snapshot, updatedAt: createdAt },
         artifact,
       };
-      await updateDocumentVersionHistory({
-        ...history,
-        fundraisingPackage: [version, ...history.fundraisingPackage],
-        updatedAt: createdAt,
-      });
+      await appendDocumentVersion(version);
     }
 
     revalidatePath("/hub/business-plan");
@@ -587,10 +582,11 @@ export async function duplicateDocumentVersion(formData: FormData): Promise<Docu
       createdAt,
       artifact: undefined,
     };
-    const nextHistory = source.documentType === "business_plan"
-      ? { ...history, businessPlan: [copy as BusinessPlanVersion, ...history.businessPlan], updatedAt: createdAt }
-      : { ...history, fundraisingPackage: [copy as FundraisingPackageVersion, ...history.fundraisingPackage], updatedAt: createdAt };
-    await updateDocumentVersionHistory(nextHistory);
+    await appendDocumentVersion(
+      source.documentType === "business_plan"
+        ? copy as BusinessPlanVersion
+        : copy as FundraisingPackageVersion,
+    );
     revalidatePath("/hub/business-plan");
     revalidatePath("/hub/fundraising");
     return { status: "success", message: "A new saved copy was added to version history." };
@@ -602,6 +598,7 @@ export async function duplicateDocumentVersion(formData: FormData): Promise<Docu
 export async function restoreDocumentVersion(formData: FormData): Promise<DocumentVersionActionState> {
   await requireHubSession();
   const id = text(formData, "id", 80);
+  const expectedDraftUpdatedAt = text(formData, "expectedDraftUpdatedAt", 40);
   if (!id) return { status: "error", message: "That version could not be found." };
 
   try {
@@ -617,7 +614,7 @@ export async function restoreDocumentVersion(formData: FormData): Promise<Docume
         revisedDate: restoredDate,
         changeSummary: `Restored from the immutable version saved ${source.versionDate}.`,
         updatedAt: restoredAt,
-      });
+      }, expectedDraftUpdatedAt);
       revalidatePath("/hub/business-plan");
     } else {
       await updateFundraisingPackage({
@@ -625,12 +622,18 @@ export async function restoreDocumentVersion(formData: FormData): Promise<Docume
         revisionTitle: `${source.title} (restored draft)`.slice(0, 120),
         revisedDate: restoredDate,
         updatedAt: restoredAt,
-      });
+      }, expectedDraftUpdatedAt);
       revalidatePath("/hub/fundraising");
     }
     revalidatePath("/hub/dashboard");
     return { status: "success", message: "The selected version is now a new working draft. The original snapshot is unchanged." };
-  } catch {
+  } catch (error) {
+    if (error instanceof NovaDataConflictError) {
+      return {
+        status: "error",
+        message: "The working draft changed in another tab. Reload before restoring this version so newer work is not overwritten.",
+      };
+    }
     return { status: "error", message: "The version could not be restored." };
   }
 }
@@ -655,8 +658,10 @@ export async function saveFundraisingPackage(
 
   try {
     const fundraisingPackage = normalizeFundraisingPackage(JSON.parse(payload));
-    const savedAt = new Date().toISOString();
-    await updateFundraisingPackage({ ...fundraisingPackage, updatedAt: savedAt });
+    const savedAt = await updateFundraisingPackage(
+      fundraisingPackage,
+      fundraisingPackage.updatedAt,
+    );
     revalidatePath("/hub/fundraising");
     revalidatePath("/hub/dashboard");
     return {
@@ -664,7 +669,13 @@ export async function saveFundraisingPackage(
       message: "Fundraising package saved.",
       savedAt,
     };
-  } catch {
+  } catch (error) {
+    if (error instanceof NovaDataConflictError) {
+      return {
+        status: "error",
+        message: "A newer fundraising-package change was saved in another tab. Reload before saving again so it is not overwritten.",
+      };
+    }
     return {
       status: "error",
       message: "The fundraising package could not be saved. Review the entries and try again.",
