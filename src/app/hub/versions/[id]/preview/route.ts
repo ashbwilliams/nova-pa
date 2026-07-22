@@ -3,7 +3,11 @@ import { buildBusinessPlanZip } from "@/lib/business-plan-export";
 import { buildFundraisingPackageHtml } from "@/lib/fundraising-package-export";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getDocumentVersionHistory } from "@/lib/nova-data";
-import { findDocumentVersion } from "@/lib/document-versioning";
+import {
+  findDocumentVersion,
+  readVerifiedVersionArtifact,
+  VersionArtifactIntegrityError,
+} from "@/lib/document-versioning";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,14 +21,18 @@ export async function GET(_request: Request, context: RouteContext<"/hub/version
   if (!version) return Response.json({ error: "Version not found" }, { status: 404 });
 
   let html: string;
-  if (version.documentType === "fundraising_package") {
-    html = version.artifact
-      ? Buffer.from(version.artifact.dataBase64, "base64").toString("utf8")
-      : await buildFundraisingPackageHtml(version.snapshot);
-  } else {
-    const archive = version.artifact
-      ? Buffer.from(version.artifact.dataBase64, "base64")
-      : await buildBusinessPlanZip(version.snapshot);
+  try {
+    if (version.status === "finalized" && !version.artifact) {
+      throw new VersionArtifactIntegrityError("The finalized export is missing from its archive record.");
+    }
+    if (version.documentType === "fundraising_package") {
+      html = version.artifact
+        ? readVerifiedVersionArtifact(version.artifact).toString("utf8")
+        : await buildFundraisingPackageHtml(version.snapshot);
+    } else {
+      const archive = version.artifact
+        ? readVerifiedVersionArtifact(version.artifact)
+        : await buildBusinessPlanZip(version.snapshot);
     const zip = await JSZip.loadAsync(archive);
     const root = "NOVA_8_Offline_Business_Plan/";
     const page = zip.file(`${root}complete-business-plan.html`) ?? zip.file("complete-business-plan.html");
@@ -42,13 +50,22 @@ export async function GET(_request: Request, context: RouteContext<"/hub/version
       search.async("string"),
       mark.async("base64"),
     ]);
-    html = pageHtml
-      .replace('<link rel="stylesheet" href="assets/style.css">', `<style>${css}</style>`)
-      .replace('<script src="assets/search-index.js"></script>', `<script>${searchJs}</script>`)
-      .replace('<script src="assets/app.js"></script>', `<script>${appJs}</script>`)
-      .replaceAll('src="assets/nova-mark.png"', `src="data:image/png;base64,${markBase64}"`)
-      .replace('href="assets/nova-mark.png"', `href="data:image/png;base64,${markBase64}"`)
-      .replace(/href="(?!#)[^"]+\.(?:html|txt|md)(?:#[^"]*)?"/g, 'href="#"');
+      html = pageHtml
+        .replace('<link rel="stylesheet" href="assets/style.css">', `<style>${css}</style>`)
+        .replace('<script src="assets/search-index.js"></script>', `<script>${searchJs}</script>`)
+        .replace('<script src="assets/app.js"></script>', `<script>${appJs}</script>`)
+        .replaceAll('src="assets/nova-mark.png"', `src="data:image/png;base64,${markBase64}"`)
+        .replace('href="assets/nova-mark.png"', `href="data:image/png;base64,${markBase64}"`)
+        .replace(/href="(?!#)[^"]+\.(?:html|txt|md)(?:#[^"]*)?"/g, 'href="#"');
+    }
+  } catch (error) {
+    if (error instanceof VersionArtifactIntegrityError) {
+      return Response.json({ error: error.message }, {
+        status: 409,
+        headers: { "Cache-Control": "private, no-store" },
+      });
+    }
+    throw error;
   }
 
   return new Response(html, {
