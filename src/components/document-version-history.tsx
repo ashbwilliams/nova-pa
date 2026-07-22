@@ -98,6 +98,16 @@ export function DocumentVersionHistory({
     if (!window.confirm(`Replace the active working draft with “${versionTitle}”? The archived version will remain unchanged.`)) return;
     const data = new FormData();
     data.set("id", id);
+    try {
+      const currentDraft = JSON.parse(currentPayload) as { updatedAt?: unknown };
+      data.set(
+        "expectedDraftUpdatedAt",
+        typeof currentDraft.updatedAt === "string" ? currentDraft.updatedAt : "",
+      );
+    } catch {
+      setResult({ status: "error", message: "The current working draft could not be verified before restore." });
+      return;
+    }
     startTransition(async () => {
       const next = await restoreDocumentVersion(data);
       setResult(next);
