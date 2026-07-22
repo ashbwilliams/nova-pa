@@ -2,15 +2,33 @@ import { redirect } from "next/navigation";
 import { FundraisingPackageBuilder } from "@/components/fundraising-package-builder";
 import { HubSidebar } from "@/components/hub-sidebar";
 import { hasHubSession } from "@/lib/hub-auth";
-import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
+import { getDocumentVersionHistory, getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
 
 export const dynamic = "force-dynamic";
 
 export default async function FundraisingPackagePage() {
   if (!(await hasHubSession())) redirect("/hub");
 
-  const { content } = await getSiteState();
+  const [{ content }, history] = await Promise.all([
+    getSiteState(),
+    getDocumentVersionHistory(),
+  ]);
   const storageConfigured = isNovaDataConfigured();
+  const versions = history.fundraisingPackage.map((version) => ({
+    id: version.id,
+    title: version.title,
+    versionDate: version.versionDate,
+    status: version.status,
+    notes: version.notes,
+    creator: version.creator,
+    createdAt: version.createdAt,
+    recipient: version.recipient,
+    artifact: version.artifact ? {
+      fileName: version.artifact.fileName,
+      byteLength: version.artifact.byteLength,
+      sha256: version.artifact.sha256,
+    } : undefined,
+  }));
 
   return (
     <div className="hub-shell planner-shell business-plan-shell fundraising-shell">
@@ -46,9 +64,11 @@ export default async function FundraisingPackagePage() {
         ) : null}
 
         <FundraisingPackageBuilder
+          key={content.fundraisingPackage.updatedAt || "fundraising-package"}
           initialPackage={content.fundraisingPackage}
           businessPlan={content.businessPlan}
           storageConfigured={storageConfigured}
+          versions={versions}
         />
       </main>
     </div>

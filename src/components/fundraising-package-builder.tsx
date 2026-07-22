@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, useMemo, useState, type ReactNode } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   saveFundraisingPackage,
   type FundraisingPackageSaveState,
 } from "@/app/hub/actions";
+import { DocumentVersionHistory, type DocumentVersionSummary } from "@/components/document-version-history";
 import type { BusinessPlanSettings } from "@/lib/business-plan";
 import {
   applyBusinessPlanToFundraisingPackage,
@@ -20,7 +21,7 @@ import {
   type ImpactMetric,
 } from "@/lib/fundraising-package";
 
-type BuilderTab = "overview" | FundraisingSectionKey | "review";
+type BuilderTab = "overview" | FundraisingSectionKey | "review" | "versions";
 
 const tabs: { id: BuilderTab; label: string }[] = [
   { id: "overview", label: "Overview" },
@@ -29,6 +30,7 @@ const tabs: { id: BuilderTab; label: string }[] = [
   { id: "impact", label: "Impact" },
   { id: "details", label: "Donation details" },
   { id: "review", label: "Preview & export" },
+  { id: "versions", label: "Versions" },
 ];
 
 const initialSaveState: FundraisingPackageSaveState = {
@@ -156,14 +158,18 @@ export function FundraisingPackageBuilder({
   initialPackage,
   businessPlan,
   storageConfigured,
+  versions,
 }: {
   initialPackage: FundraisingPackageSettings;
   businessPlan: BusinessPlanSettings;
   storageConfigured: boolean;
+  versions: DocumentVersionSummary[];
 }) {
   const [fundraisingPackage, setFundraisingPackage] = useState(initialPackage);
   const [activeTab, setActiveTab] = useState<BuilderTab>("overview");
   const [dirty, setDirty] = useState(false);
+  const [autosaveState, setAutosaveState] = useState<FundraisingPackageSaveState>(initialSaveState);
+  const autosaveRevision = useRef(0);
   const [saveState, saveAction, saving] = useActionState(
     async (previousState: FundraisingPackageSaveState, formData: FormData) => {
       const result = await saveFundraisingPackage(previousState, formData);
@@ -191,6 +197,21 @@ export function FundraisingPackageBuilder({
       ))
     : 0;
   const exportReady = storageConfigured && !dirty && !saving && blockers.length === 0;
+  const currentPayload = useMemo(() => JSON.stringify(fundraisingPackage), [fundraisingPackage]);
+
+  useEffect(() => {
+    const revision = ++autosaveRevision.current;
+    if (!storageConfigured || !dirty || saving) return;
+    const timeout = window.setTimeout(async () => {
+      const formData = new FormData();
+      formData.set("fundraisingPackage", currentPayload);
+      const result = await saveFundraisingPackage(initialSaveState, formData);
+      if (revision !== autosaveRevision.current) return;
+      setAutosaveState(result);
+      if (result.status === "success") setDirty(false);
+    }, 1200);
+    return () => window.clearTimeout(timeout);
+  }, [currentPayload, dirty, saving, storageConfigured]);
 
   function change(next: FundraisingPackageSettings) {
     setFundraisingPackage(next);
@@ -252,12 +273,12 @@ export function FundraisingPackageBuilder({
         <div>
           <span className={`planner-unsaved ${dirty || saveState.status === "error" ? "visible" : ""}`}>
             {dirty
-              ? "Unsaved changes"
-              : saveState.status === "success"
-                ? "All changes saved"
+              ? "Autosave pending"
+              : autosaveState.status === "success" || saveState.status === "success"
+                ? "All changes autosaved"
                 : "Current package loaded"}
           </span>
-          <small>Last saved {formatSavedDate(saveState.savedAt ?? fundraisingPackage.updatedAt)}</small>
+          <small>Last saved {formatSavedDate(autosaveState.savedAt ?? saveState.savedAt ?? fundraisingPackage.updatedAt)}</small>
         </div>
         <form action={saveAction}>
           <input
@@ -270,7 +291,7 @@ export function FundraisingPackageBuilder({
             type="submit"
             disabled={!storageConfigured || saving || !dirty}
           >
-            {saving ? "Saving..." : "Save fundraising package"}
+            {saving ? "Saving..." : "Save now"}
           </button>
         </form>
       </div>
@@ -490,6 +511,19 @@ export function FundraisingPackageBuilder({
             <div><p className="eyebrow light">Self-contained donor edition</p><h3>Download one HTML file</h3><p>{!storageConfigured ? "Connect secure storage before export." : blockers.length ? "Resolve the blocking findings first." : dirty ? "Save the current revision before downloading." : "The file includes its design, NOVA mark, print styles, and donation QR code."}</p></div>
             {exportReady ? <a className="business-plan-export-button" href="/hub/fundraising/export">Download HTML <span aria-hidden="true">↓</span></a> : <button className="business-plan-export-button" type="button" disabled>Download HTML <span aria-hidden="true">↓</span></button>}
           </section>
+        </div>
+      ) : null}
+
+      {activeTab === "versions" ? (
+        <div className="planner-panel business-plan-panel">
+          <DocumentVersionHistory
+            documentType="fundraising_package"
+            currentPayload={currentPayload}
+            defaultTitle={fundraisingPackage.revisionTitle}
+            defaultDate={fundraisingPackage.revisedDate}
+            versions={versions}
+            finalizationBlocked={blockers.length > 0}
+          />
         </div>
       ) : null}
     </div>

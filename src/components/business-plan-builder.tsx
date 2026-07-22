@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useMemo, useState, type ReactNode } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { saveBusinessPlan, type BusinessPlanSaveState } from "@/app/hub/actions";
+import { DocumentVersionHistory, type DocumentVersionSummary } from "@/components/document-version-history";
 import {
   planReviewStatuses,
   planSectionLabels,
@@ -13,7 +14,7 @@ import {
   type ThreeYearNumbers,
 } from "@/lib/business-plan";
 
-type BuilderTab = "overview" | PlanSectionKey | "review";
+type BuilderTab = "overview" | PlanSectionKey | "review" | "versions";
 
 const tabs: { id: BuilderTab; label: string }[] = [
   { id: "overview", label: "Overview" },
@@ -23,6 +24,7 @@ const tabs: { id: BuilderTab; label: string }[] = [
   { id: "finance", label: "Finance" },
   { id: "evidence", label: "Evidence & risk" },
   { id: "review", label: "Review & export" },
+  { id: "versions", label: "Versions" },
 ];
 
 const initialSaveState: BusinessPlanSaveState = { status: "idle", message: "" };
@@ -117,10 +119,12 @@ function YearTextInputs({ label, values, onChange }: { label: string; values: Th
   );
 }
 
-export function BusinessPlanBuilder({ initialPlan, storageConfigured }: { initialPlan: BusinessPlanSettings; storageConfigured: boolean }) {
+export function BusinessPlanBuilder({ initialPlan, storageConfigured, versions }: { initialPlan: BusinessPlanSettings; storageConfigured: boolean; versions: DocumentVersionSummary[] }) {
   const [plan, setPlan] = useState(initialPlan);
   const [activeTab, setActiveTab] = useState<BuilderTab>("overview");
   const [dirty, setDirty] = useState(false);
+  const [autosaveState, setAutosaveState] = useState<BusinessPlanSaveState>(initialSaveState);
+  const autosaveRevision = useRef(0);
   const [saveState, saveAction, saving] = useActionState(
     async (previousState: BusinessPlanSaveState, formData: FormData) => {
       const result = await saveBusinessPlan(previousState, formData);
@@ -138,6 +142,21 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured }: { initia
     : 0;
   const operatingResults = plan.finance.projectedRevenue.map((revenue, index) => revenue - plan.finance.projectedExpenses[index]);
   const exportReady = storageConfigured && !dirty && !saving && saveState.status !== "error" && blockers.length === 0;
+  const currentPayload = useMemo(() => JSON.stringify(plan), [plan]);
+
+  useEffect(() => {
+    const revision = ++autosaveRevision.current;
+    if (!storageConfigured || !dirty || saving) return;
+    const timeout = window.setTimeout(async () => {
+      const formData = new FormData();
+      formData.set("businessPlan", currentPayload);
+      const result = await saveBusinessPlan(initialSaveState, formData);
+      if (revision !== autosaveRevision.current) return;
+      setAutosaveState(result);
+      if (result.status === "success") setDirty(false);
+    }, 1200);
+    return () => window.clearTimeout(timeout);
+  }, [currentPayload, dirty, saving, storageConfigured]);
 
   function change(next: BusinessPlanSettings) {
     setPlan(next);
@@ -164,14 +183,14 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured }: { initia
       <div className="planner-command-bar business-plan-command-bar">
         <div>
           <span className={`planner-unsaved ${dirty || saveState.status === "error" ? "visible" : ""}`}>
-            {dirty ? "Unsaved changes" : saveState.status === "success" ? "All changes saved" : "Current plan loaded"}
+            {dirty ? "Autosave pending" : autosaveState.status === "success" || saveState.status === "success" ? "All changes autosaved" : "Current plan loaded"}
           </span>
-          <small>Last saved {formatSavedDate(saveState.savedAt ?? plan.updatedAt)}</small>
+          <small>Last saved {formatSavedDate(autosaveState.savedAt ?? saveState.savedAt ?? plan.updatedAt)}</small>
         </div>
         <form action={saveAction}>
           <input type="hidden" name="businessPlan" value={JSON.stringify(plan)} />
           <button className="hub-save-button" type="submit" disabled={!storageConfigured || saving || !dirty}>
-            {saving ? "Saving..." : "Save business plan"}
+            {saving ? "Saving..." : "Save now"}
           </button>
         </form>
       </div>
@@ -335,6 +354,19 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured }: { initia
             <div><p className="eyebrow light">Portable offline edition</p><h3>Generate the complete ZIP</h3><p>{!storageConfigured ? "Connect secure storage before export." : blockers.length ? "Resolve the blocking findings first." : dirty ? "Save the current revision before downloading." : "The download will use the saved values shown above."}</p></div>
             {exportReady ? <a className="business-plan-export-button" href="/hub/business-plan/export">Download updated ZIP <span aria-hidden="true">↓</span></a> : <button className="business-plan-export-button" type="button" disabled>Download updated ZIP <span aria-hidden="true">↓</span></button>}
           </section>
+        </div>
+      ) : null}
+
+      {activeTab === "versions" ? (
+        <div className="planner-panel business-plan-panel">
+          <DocumentVersionHistory
+            documentType="business_plan"
+            currentPayload={currentPayload}
+            defaultTitle={plan.revisionTitle}
+            defaultDate={plan.revisedDate}
+            versions={versions}
+            finalizationBlocked={blockers.length > 0}
+          />
         </div>
       ) : null}
     </div>

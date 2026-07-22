@@ -2,15 +2,33 @@ import { redirect } from "next/navigation";
 import { BusinessPlanBuilder } from "@/components/business-plan-builder";
 import { HubSidebar } from "@/components/hub-sidebar";
 import { hasHubSession } from "@/lib/hub-auth";
-import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
+import { getDocumentVersionHistory, getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
 
 export const dynamic = "force-dynamic";
 
 export default async function BusinessPlanPage() {
   if (!(await hasHubSession())) redirect("/hub");
 
-  const { content } = await getSiteState();
+  const [{ content }, history] = await Promise.all([
+    getSiteState(),
+    getDocumentVersionHistory(),
+  ]);
   const storageConfigured = isNovaDataConfigured();
+  const versions = history.businessPlan.map((version) => ({
+    id: version.id,
+    title: version.title,
+    versionDate: version.versionDate,
+    status: version.status,
+    notes: version.notes,
+    creator: version.creator,
+    createdAt: version.createdAt,
+    recipient: version.recipient,
+    artifact: version.artifact ? {
+      fileName: version.artifact.fileName,
+      byteLength: version.artifact.byteLength,
+      sha256: version.artifact.sha256,
+    } : undefined,
+  }));
 
   return (
     <div className="hub-shell planner-shell business-plan-shell">
@@ -45,7 +63,12 @@ export default async function BusinessPlanPage() {
           </section>
         ) : null}
 
-        <BusinessPlanBuilder initialPlan={content.businessPlan} storageConfigured={storageConfigured} />
+        <BusinessPlanBuilder
+          key={content.businessPlan.updatedAt || "business-plan"}
+          initialPlan={content.businessPlan}
+          storageConfigured={storageConfigured}
+          versions={versions}
+        />
       </main>
     </div>
   );

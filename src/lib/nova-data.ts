@@ -22,6 +22,11 @@ import {
   normalizeFundraisingPackage,
   type FundraisingPackageSettings,
 } from "@/lib/fundraising-package";
+import {
+  emptyDocumentVersionHistory,
+  normalizeDocumentVersionHistory,
+  type DocumentVersionHistory,
+} from "@/lib/document-versioning";
 
 export { inquiryStatuses, inquiryTopics } from "@/lib/nova-types";
 export type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
@@ -295,6 +300,42 @@ export async function updateFundraisingPackage(
 ) {
   const { content } = await getSiteState();
   await updateSiteContent({ ...content, fundraisingPackage });
+}
+
+type VersionHistoryRow = {
+  content?: unknown;
+};
+
+export async function getDocumentVersionHistory(): Promise<DocumentVersionHistory> {
+  if (!getNovaDataConfig()) return emptyDocumentVersionHistory;
+
+  try {
+    const rows = await supabaseRequest<VersionHistoryRow[]>(
+      "nova_site_state?id=eq.version_history&select=content&limit=1",
+    );
+    return normalizeDocumentVersionHistory(
+      rows[0]?.content,
+      normalizeBusinessPlanSettings,
+      normalizeFundraisingPackage,
+    );
+  } catch {
+    return emptyDocumentVersionHistory;
+  }
+}
+
+export async function updateDocumentVersionHistory(history: DocumentVersionHistory) {
+  await supabaseRequest<void>("nova_site_state?on_conflict=id", {
+    method: "POST",
+    headers: {
+      Prefer: "resolution=merge-duplicates,return=minimal",
+    },
+    body: JSON.stringify({
+      id: "version_history",
+      content: history,
+      program: {},
+      updated_at: new Date().toISOString(),
+    }),
+  });
 }
 
 export async function updateProgramDetails(program: ProgramDetails) {

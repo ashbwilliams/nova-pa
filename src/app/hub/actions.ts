@@ -11,6 +11,7 @@ import {
 } from "@/lib/hub-auth";
 import {
   deleteInquiry,
+  getDocumentVersionHistory,
   getSiteState,
   inquiryStatuses,
   isNovaDataConfigured,
@@ -19,6 +20,7 @@ import {
   updateProgramDetails,
   updateRelationshipDirectory,
   updateBusinessPlan,
+  updateDocumentVersionHistory,
   updateFundraisingPackage,
   updateSiteContent,
   updateSiteMedia,
@@ -31,7 +33,21 @@ import { normalizeRelationshipDirectory } from "@/lib/relationship-directory";
 import { normalizeBusinessPlanSettings, reviewBusinessPlan } from "@/lib/business-plan";
 import {
   normalizeFundraisingPackage,
+  reviewFundraisingPackage,
 } from "@/lib/fundraising-package";
+import { buildBusinessPlanZip } from "@/lib/business-plan-export";
+import { buildFundraisingPackageHtml } from "@/lib/fundraising-package-export";
+import {
+  createVersionArtifact,
+  findDocumentVersion,
+  getVersionCreator,
+  newVersionId,
+  safeVersionFilePart,
+  type BusinessPlanVersion,
+  type DocumentVersionStatus,
+  type FundraisingPackageVersion,
+  type VersionedDocumentType,
+} from "@/lib/document-versioning";
 import {
   isMediaSlotKey,
   resolveMediaSlot,
@@ -67,6 +83,11 @@ export type FundraisingPackageSaveState = {
   status: "idle" | "success" | "error";
   message: string;
   savedAt?: string;
+};
+
+export type DocumentVersionActionState = {
+  status: "idle" | "success" | "error";
+  message: string;
 };
 
 function text(formData: FormData, key: string, max: number) {
@@ -412,14 +433,6 @@ export async function saveBusinessPlan(
 
   try {
     const plan = normalizeBusinessPlanSettings(JSON.parse(payload));
-    const blockers = reviewBusinessPlan(plan).filter((issue) => issue.level === "blocker");
-    if (blockers.length) {
-      return {
-        status: "error",
-        message: blockers[0].message,
-      };
-    }
-
     const savedAt = new Date().toISOString();
     await updateBusinessPlan({ ...plan, updatedAt: savedAt });
     revalidatePath("/hub/business-plan");
@@ -434,6 +447,191 @@ export async function saveBusinessPlan(
       status: "error",
       message: "The business plan could not be saved. Review the entries and try again.",
     };
+  }
+}
+
+function isVersionDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
+function documentTypeValue(value: FormDataEntryValue | null): VersionedDocumentType | null {
+  return value === "business_plan" || value === "fundraising_package" ? value : null;
+}
+
+function versionStatusValue(value: FormDataEntryValue | null): DocumentVersionStatus | null {
+  return value === "saved" || value === "finalized" ? value : null;
+}
+
+export async function createDocumentVersion(
+  _previousState: DocumentVersionActionState,
+  formData: FormData,
+): Promise<DocumentVersionActionState> {
+  await requireHubSession();
+
+  if (!isNovaDataConfigured()) {
+    return { status: "error", message: "Connect the NOVA data service before saving versions." };
+  }
+
+  const documentType = documentTypeValue(formData.get("documentType"));
+  const status = versionStatusValue(formData.get("status"));
+  const title = text(formData, "title", 160);
+  const versionDate = text(formData, "versionDate", 10);
+  const notes = text(formData, "notes", 2000);
+  const payload = String(formData.get("payload") ?? "");
+
+  if (!documentType || !status || !title || !isVersionDate(versionDate) || !payload || payload.length > 500_000) {
+    return { status: "error", message: "Add a title and valid version date, then try again." };
+  }
+
+  try {
+    const history = await getDocumentVersionHistory();
+    const createdAt = new Date().toISOString();
+    const creator = getVersionCreator();
+
+    if (documentType === "business_plan") {
+      const snapshot = normalizeBusinessPlanSettings(JSON.parse(payload));
+      const blockers = reviewBusinessPlan(snapshot).filter((issue) => issue.level === "blocker");
+      if (status === "finalized" && blockers.length) {
+        return { status: "error", message: blockers[0].message };
+      }
+      await updateBusinessPlan({ ...snapshot, updatedAt: createdAt });
+      const fileName = `NOVA_8_Business_Plan_${safeVersionFilePart(versionDate)}.zip`;
+      const artifact = status === "finalized"
+        ? createVersionArtifact(fileName, "application/zip", await buildBusinessPlanZip(snapshot))
+        : undefined;
+      const version: BusinessPlanVersion = {
+        id: newVersionId(),
+        documentType,
+        title,
+        versionDate,
+        status,
+        notes,
+        creator,
+        createdAt,
+        recipient: "",
+        snapshot: { ...snapshot, updatedAt: createdAt },
+        artifact,
+      };
+      await updateDocumentVersionHistory({
+        ...history,
+        businessPlan: [version, ...history.businessPlan],
+        updatedAt: createdAt,
+      });
+    } else {
+      const snapshot = normalizeFundraisingPackage(JSON.parse(payload));
+      const { content } = await getSiteState();
+      const blockers = reviewFundraisingPackage(snapshot, content.businessPlan)
+        .filter((issue) => issue.level === "blocker");
+      if (status === "finalized" && blockers.length) {
+        return { status: "error", message: blockers[0].message };
+      }
+      await updateFundraisingPackage({ ...snapshot, updatedAt: createdAt });
+      const fileName = `NOVA_8_Fundraising_Package_${safeVersionFilePart(versionDate)}.html`;
+      const artifact = status === "finalized"
+        ? createVersionArtifact(fileName, "text/html; charset=utf-8", await buildFundraisingPackageHtml(snapshot))
+        : undefined;
+      const version: FundraisingPackageVersion = {
+        id: newVersionId(),
+        documentType,
+        title,
+        versionDate,
+        status,
+        notes,
+        creator,
+        createdAt,
+        recipient: snapshot.preparedFor,
+        snapshot: { ...snapshot, updatedAt: createdAt },
+        artifact,
+      };
+      await updateDocumentVersionHistory({
+        ...history,
+        fundraisingPackage: [version, ...history.fundraisingPackage],
+        updatedAt: createdAt,
+      });
+    }
+
+    revalidatePath("/hub/business-plan");
+    revalidatePath("/hub/fundraising");
+    revalidatePath("/hub/dashboard");
+    return {
+      status: "success",
+      message: status === "finalized"
+        ? "Finalized version and its exact export were preserved."
+        : "Immutable milestone version saved.",
+    };
+  } catch {
+    return { status: "error", message: "The version could not be saved. Try again." };
+  }
+}
+
+export async function duplicateDocumentVersion(formData: FormData): Promise<DocumentVersionActionState> {
+  await requireHubSession();
+  const id = text(formData, "id", 80);
+  if (!id) return { status: "error", message: "That version could not be found." };
+
+  try {
+    const history = await getDocumentVersionHistory();
+    const source = findDocumentVersion(history, id);
+    if (!source) return { status: "error", message: "That version could not be found." };
+    const createdAt = new Date().toISOString();
+    const copy = {
+      ...source,
+      id: newVersionId(),
+      title: `Copy of ${source.title}`.slice(0, 160),
+      versionDate: createdAt.slice(0, 10),
+      status: "saved" as const,
+      notes: `Duplicated from ${source.title}.`,
+      creator: getVersionCreator(),
+      createdAt,
+      artifact: undefined,
+    };
+    const nextHistory = source.documentType === "business_plan"
+      ? { ...history, businessPlan: [copy as BusinessPlanVersion, ...history.businessPlan], updatedAt: createdAt }
+      : { ...history, fundraisingPackage: [copy as FundraisingPackageVersion, ...history.fundraisingPackage], updatedAt: createdAt };
+    await updateDocumentVersionHistory(nextHistory);
+    revalidatePath("/hub/business-plan");
+    revalidatePath("/hub/fundraising");
+    return { status: "success", message: "A new saved copy was added to version history." };
+  } catch {
+    return { status: "error", message: "The version could not be duplicated." };
+  }
+}
+
+export async function restoreDocumentVersion(formData: FormData): Promise<DocumentVersionActionState> {
+  await requireHubSession();
+  const id = text(formData, "id", 80);
+  if (!id) return { status: "error", message: "That version could not be found." };
+
+  try {
+    const history = await getDocumentVersionHistory();
+    const source = findDocumentVersion(history, id);
+    if (!source) return { status: "error", message: "That version could not be found." };
+    const restoredAt = new Date().toISOString();
+    const restoredDate = restoredAt.slice(0, 10);
+    if (source.documentType === "business_plan") {
+      await updateBusinessPlan({
+        ...source.snapshot,
+        revisionTitle: `${source.title} (restored draft)`.slice(0, 120),
+        revisedDate: restoredDate,
+        changeSummary: `Restored from the immutable version saved ${source.versionDate}.`,
+        updatedAt: restoredAt,
+      });
+      revalidatePath("/hub/business-plan");
+    } else {
+      await updateFundraisingPackage({
+        ...source.snapshot,
+        revisionTitle: `${source.title} (restored draft)`.slice(0, 120),
+        revisedDate: restoredDate,
+        updatedAt: restoredAt,
+      });
+      revalidatePath("/hub/fundraising");
+    }
+    revalidatePath("/hub/dashboard");
+    return { status: "success", message: "The selected version is now a new working draft. The original snapshot is unchanged." };
+  } catch {
+    return { status: "error", message: "The version could not be restored." };
   }
 }
 
