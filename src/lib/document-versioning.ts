@@ -45,12 +45,21 @@ export type DocumentVersionHistory = {
   businessPlan: BusinessPlanVersion[];
   fundraisingPackage: FundraisingPackageVersion[];
   updatedAt: string;
+  writeToken: string;
 };
+
+export class VersionArtifactIntegrityError extends Error {
+  constructor(message = "The preserved export failed its integrity check.") {
+    super(message);
+    this.name = "VersionArtifactIntegrityError";
+  }
+}
 
 export const emptyDocumentVersionHistory: DocumentVersionHistory = {
   businessPlan: [],
   fundraisingPackage: [],
   updatedAt: "",
+  writeToken: "",
 };
 
 function textValue(value: unknown, max: number) {
@@ -125,6 +134,7 @@ export function normalizeDocumentVersionHistory(
     businessPlan: businessPlan.sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
     fundraisingPackage: fundraisingPackage.sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
     updatedAt: textValue(input.updatedAt, 40),
+    writeToken: textValue(input.writeToken, 80),
   };
 }
 
@@ -137,6 +147,24 @@ export function createVersionArtifact(fileName: string, mimeType: string, data: 
     sha256: createHash("sha256").update(buffer).digest("hex"),
     dataBase64: buffer.toString("base64"),
   };
+}
+
+export function readVerifiedVersionArtifact(artifact: VersionArtifact) {
+  if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(artifact.dataBase64)) {
+    throw new VersionArtifactIntegrityError("The preserved export data is not valid Base64.");
+  }
+
+  const buffer = Buffer.from(artifact.dataBase64, "base64");
+  if (buffer.byteLength !== artifact.byteLength) {
+    throw new VersionArtifactIntegrityError("The preserved export size does not match its archive record.");
+  }
+
+  const actualHash = createHash("sha256").update(buffer).digest("hex");
+  if (actualHash !== artifact.sha256) {
+    throw new VersionArtifactIntegrityError("The preserved export hash does not match its archive record.");
+  }
+
+  return buffer;
 }
 
 export function newVersionId() {
