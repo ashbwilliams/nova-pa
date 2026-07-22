@@ -1,5 +1,7 @@
 import "server-only";
 
+import { randomUUID } from "node:crypto";
+
 import type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
 import type { SiteMediaState } from "@/lib/nova-media";
 import {
@@ -25,6 +27,7 @@ import {
 import {
   emptyDocumentVersionHistory,
   normalizeDocumentVersionHistory,
+  type DocumentVersion,
   type DocumentVersionHistory,
 } from "@/lib/document-versioning";
 
@@ -184,7 +187,22 @@ function mergeProgramDetails(
 type SiteStateRow = {
   content?: Partial<SiteContent> | null;
   program?: Partial<ProgramDetails> | null;
+  updated_at?: string;
 };
+
+export class NovaDataConflictError extends Error {
+  constructor(message = "A newer change was saved elsewhere.") {
+    super(message);
+    this.name = "NovaDataConflictError";
+  }
+}
+
+export class NovaDataReadError extends Error {
+  constructor(message = "NOVA data could not be read safely.") {
+    super(message);
+    this.name = "NovaDataReadError";
+  }
+}
 
 export function getNovaDataConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
@@ -290,52 +308,165 @@ export async function updateRelationshipDirectory(
   await updateSiteContent({ ...content, relationshipDirectory });
 }
 
-export async function updateBusinessPlan(businessPlan: BusinessPlanSettings) {
-  const { content } = await getSiteState();
-  await updateSiteContent({ ...content, businessPlan });
+export async function updateBusinessPlan(
+  businessPlan: BusinessPlanSettings,
+  expectedUpdatedAt = businessPlan.updatedAt,
+) {
+  return updateContentSection("businessPlan", businessPlan, expectedUpdatedAt);
 }
 
 export async function updateFundraisingPackage(
   fundraisingPackage: FundraisingPackageSettings,
+  expectedUpdatedAt = fundraisingPackage.updatedAt,
 ) {
-  const { content } = await getSiteState();
-  await updateSiteContent({ ...content, fundraisingPackage });
+  return updateContentSection(
+    "fundraisingPackage",
+    fundraisingPackage,
+    expectedUpdatedAt,
+  );
 }
 
 type VersionHistoryRow = {
   content?: unknown;
+  updated_at?: string;
 };
+
+async function getSiteStateRowStrict(): Promise<Required<SiteStateRow>> {
+  let rows: SiteStateRow[];
+  try {
+    rows = await supabaseRequest<SiteStateRow[]>(
+      "nova_site_state?id=eq.primary&select=content,program,updated_at&limit=1",
+    );
+  } catch (error) {
+    throw new NovaDataReadError(
+      error instanceof Error ? error.message : undefined,
+    );
+  }
+
+  const row = rows[0];
+  if (!row?.updated_at) {
+    throw new NovaDataReadError("The primary NOVA data record is unavailable.");
+  }
+  return {
+    content: row.content ?? {},
+    program: row.program ?? {},
+    updated_at: row.updated_at,
+  };
+}
+
+async function updateContentSection<
+  K extends "businessPlan" | "fundraisingPackage",
+>(
+  section: K,
+  value: SiteContent[K],
+  expectedSectionUpdatedAt: string,
+) {
+  const nextUpdatedAt = new Date().toISOString();
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const row = await getSiteStateRowStrict();
+    const content = mergeSiteContent(row.content);
+    const currentSectionUpdatedAt = content[section].updatedAt;
+    if (currentSectionUpdatedAt !== expectedSectionUpdatedAt) {
+      throw new NovaDataConflictError();
+    }
+
+    const nextValue = { ...value, updatedAt: nextUpdatedAt } as SiteContent[K];
+    const path = `nova_site_state?id=eq.primary&updated_at=eq.${encodeURIComponent(row.updated_at)}&select=updated_at`;
+    const updated = await supabaseRequest<{ updated_at: string }[]>(path, {
+      method: "PATCH",
+      headers: { Prefer: "return=representation" },
+      body: JSON.stringify({
+        content: { ...content, [section]: nextValue },
+        updated_at: nextUpdatedAt,
+      }),
+    });
+
+    if (updated.length === 1) return nextUpdatedAt;
+  }
+
+  throw new NovaDataConflictError(
+    "The draft changed repeatedly while this save was in progress.",
+  );
+}
+
+async function getVersionHistoryRowStrict(): Promise<VersionHistoryRow | null> {
+  try {
+    const rows = await supabaseRequest<VersionHistoryRow[]>(
+      "nova_site_state?id=eq.version_history&select=content,updated_at&limit=1",
+    );
+    return rows[0] ?? null;
+  } catch (error) {
+    throw new NovaDataReadError(
+      error instanceof Error ? error.message : undefined,
+    );
+  }
+}
 
 export async function getDocumentVersionHistory(): Promise<DocumentVersionHistory> {
   if (!getNovaDataConfig()) return emptyDocumentVersionHistory;
 
-  try {
-    const rows = await supabaseRequest<VersionHistoryRow[]>(
-      "nova_site_state?id=eq.version_history&select=content&limit=1",
-    );
-    return normalizeDocumentVersionHistory(
-      rows[0]?.content,
+  const row = await getVersionHistoryRowStrict();
+  return normalizeDocumentVersionHistory(
+    row?.content,
+    normalizeBusinessPlanSettings,
+    normalizeFundraisingPackage,
+  );
+}
+
+export async function appendDocumentVersion(version: DocumentVersion) {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const row = await getVersionHistoryRowStrict();
+    const history = normalizeDocumentVersionHistory(
+      row?.content,
       normalizeBusinessPlanSettings,
       normalizeFundraisingPackage,
     );
-  } catch {
-    return emptyDocumentVersionHistory;
-  }
-}
+    if ([...history.businessPlan, ...history.fundraisingPackage]
+      .some((item) => item.id === version.id)) return;
 
-export async function updateDocumentVersionHistory(history: DocumentVersionHistory) {
-  await supabaseRequest<void>("nova_site_state?on_conflict=id", {
-    method: "POST",
-    headers: {
-      Prefer: "resolution=merge-duplicates,return=minimal",
-    },
-    body: JSON.stringify({
-      id: "version_history",
-      content: history,
-      program: {},
-      updated_at: new Date().toISOString(),
-    }),
-  });
+    const updatedAt = version.createdAt;
+    const writeToken = randomUUID();
+    const nextHistory: DocumentVersionHistory = version.documentType === "business_plan"
+      ? { ...history, businessPlan: [version, ...history.businessPlan], updatedAt, writeToken }
+      : { ...history, fundraisingPackage: [version, ...history.fundraisingPackage], updatedAt, writeToken };
+
+    if (!row) {
+      const inserted = await supabaseRequest<VersionHistoryRow[]>(
+        "nova_site_state?on_conflict=id&select=updated_at",
+        {
+          method: "POST",
+          headers: { Prefer: "resolution=ignore-duplicates,return=representation" },
+          body: JSON.stringify({
+            id: "version_history",
+            content: nextHistory,
+            program: {},
+            updated_at: updatedAt,
+          }),
+        },
+      );
+      if (inserted.length === 1) return;
+      continue;
+    }
+
+    if (!row.updated_at) {
+      throw new NovaDataReadError("Version-history concurrency metadata is missing.");
+    }
+    const tokenFilter = history.writeToken
+      ? `eq.${encodeURIComponent(history.writeToken)}`
+      : "is.null";
+    const path = `nova_site_state?id=eq.version_history&updated_at=eq.${encodeURIComponent(row.updated_at)}&content->>writeToken=${tokenFilter}&select=updated_at`;
+    const updated = await supabaseRequest<VersionHistoryRow[]>(path, {
+      method: "PATCH",
+      headers: { Prefer: "return=representation" },
+      body: JSON.stringify({ content: nextHistory, updated_at: updatedAt }),
+    });
+    if (updated.length === 1) return;
+  }
+
+  throw new NovaDataConflictError(
+    "Version history changed repeatedly while this version was being saved.",
+  );
 }
 
 export async function updateProgramDetails(program: ProgramDetails) {
