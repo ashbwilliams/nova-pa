@@ -18,6 +18,9 @@ function mediaHost() {
 const storage = mediaHost();
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/hub/business-plan/export": ["./src/content/business-plan/**/*"],
+  },
   images: {
     remotePatterns: [
       {

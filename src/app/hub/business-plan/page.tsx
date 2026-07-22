@@ -1,19 +1,19 @@
 import { redirect } from "next/navigation";
+import { BusinessPlanBuilder } from "@/components/business-plan-builder";
 import { HubSidebar } from "@/components/hub-sidebar";
-import { PlaygroundPlanner } from "@/components/playground-planner";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
 
 export const dynamic = "force-dynamic";
 
-export default async function PlaygroundPlanningPage() {
+export default async function BusinessPlanPage() {
   if (!(await hasHubSession())) redirect("/hub");
 
   const { content } = await getSiteState();
   const storageConfigured = isNovaDataConfigured();
 
   return (
-    <div className="hub-shell planner-shell">
+    <div className="hub-shell planner-shell business-plan-shell">
       <HubSidebar
         items={[
           { href: "/hub/dashboard", label: "Organization dashboard" },
@@ -21,16 +21,16 @@ export default async function PlaygroundPlanningPage() {
           { href: "/hub/playground", label: "Percussion Playground planner" },
           { href: "/hub/business-plan", label: "Business Plan Builder" },
         ]}
-        publicHref="/percussion-playground"
-        publicLabel="View event page"
+        publicHref="/"
+        publicLabel="View public site"
       />
 
-      <main className="hub-main planner-main" id="planner">
+      <main className="hub-main planner-main business-plan-main">
         <header className="hub-topbar planner-topbar">
           <div>
-            <p className="eyebrow">Percussion Playground</p>
-            <h1>Event planning hub</h1>
-            <p>Build the room, stage the experience, and manage every relationship that follows.</p>
+            <p className="eyebrow">NOVA 8 strategy</p>
+            <h1>Business Plan Builder</h1>
+            <p>Update the assumptions that change, review the complete revision, and export a new offline package.</p>
           </div>
           <span className={`hub-system-status ${storageConfigured ? "ready" : "setup"}`}>
             {storageConfigured ? "Private plan connected" : "Setup required"}
@@ -39,12 +39,12 @@ export default async function PlaygroundPlanningPage() {
 
         {!storageConfigured ? (
           <section className="hub-alert" role="status">
-            <strong>Connect secure storage to save the event plan.</strong>
-            <p>You can review the full workspace now, but changes will not persist until the existing NOVA data service is connected.</p>
+            <strong>Connect secure storage to save and export revisions.</strong>
+            <p>You can inspect the full builder with its founding defaults now. Saved revisions remain private within the owner hub.</p>
           </section>
         ) : null}
 
-        <PlaygroundPlanner initialPlan={content.playgroundPlan} storageConfigured={storageConfigured} />
+        <BusinessPlanBuilder initialPlan={content.businessPlan} storageConfigured={storageConfigured} />
       </main>
     </div>
   );

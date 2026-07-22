@@ -12,6 +12,11 @@ import {
   normalizeRelationshipDirectory,
   type RelationshipDirectory,
 } from "@/lib/relationship-directory";
+import {
+  defaultBusinessPlanSettings,
+  normalizeBusinessPlanSettings,
+  type BusinessPlanSettings,
+} from "@/lib/business-plan";
 
 export { inquiryStatuses, inquiryTopics } from "@/lib/nova-types";
 export type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
@@ -43,6 +48,7 @@ export type SiteContent = {
   media: SiteMediaState;
   playgroundPlan: PlaygroundPlan;
   relationshipDirectory: RelationshipDirectory;
+  businessPlan: BusinessPlanSettings;
 };
 
 export type ProgramDetails = {
@@ -74,6 +80,7 @@ export const defaultSiteContent: SiteContent = {
   media: {},
   playgroundPlan: defaultPlaygroundPlan,
   relationshipDirectory: defaultRelationshipDirectory,
+  businessPlan: defaultBusinessPlanSettings,
 };
 
 const legacySiteContent = {
@@ -107,6 +114,7 @@ function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
     relationshipDirectory: normalizeRelationshipDirectory(
       content?.relationshipDirectory,
     ),
+    businessPlan: normalizeBusinessPlanSettings(content?.businessPlan),
   };
 
   if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
@@ -267,6 +275,11 @@ export async function updateRelationshipDirectory(
 ) {
   const { content } = await getSiteState();
   await updateSiteContent({ ...content, relationshipDirectory });
+}
+
+export async function updateBusinessPlan(businessPlan: BusinessPlanSettings) {
+  const { content } = await getSiteState();
+  await updateSiteContent({ ...content, businessPlan });
 }
 
 export async function updateProgramDetails(program: ProgramDetails) {

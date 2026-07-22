@@ -17,6 +17,716 @@
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/* NOVA 8 business-plan builder */
+
+.business-plan-main {
+  max-width: 1760px;
+}
+
+.business-plan-builder {
+  min-width: 0;
+}
+
+.business-plan-tabs button {
+  position: relative;
+}
+
+.business-plan-tabs button > span {
+  display: inline-grid;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+  margin-left: 0.45rem;
+  border-radius: 999px;
+  background: #e5ede2;
+  color: #36574f;
+  font-size: 0.62rem;
+}
+
+.business-plan-panel {
+  padding-bottom: 2rem;
+}
+
+.business-plan-hero,
+.business-plan-section-head,
+.business-plan-review-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(220px, 0.45fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: end;
+  padding: clamp(1.6rem, 4vw, 3.4rem);
+  background: #20332d;
+  color: var(--white);
+}
+
+.business-plan-hero h2,
+.business-plan-section-head h2,
+.business-plan-review-hero h2 {
+  max-width: 900px;
+  margin: 0.25rem 0 0.6rem;
+  color: inherit;
+  font-size: clamp(2.2rem, 4.2vw, 4.6rem);
+  line-height: 0.98;
+}
+
+.business-plan-hero p:not(.eyebrow),
+.business-plan-section-head p:not(.eyebrow),
+.business-plan-review-hero p:not(.eyebrow) {
+  max-width: 780px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7;
+}
+
+.business-plan-date {
+  display: grid;
+  gap: 0.3rem;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--accent);
+}
+
+.business-plan-date span,
+.business-plan-date small {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.68rem;
+}
+
+.business-plan-date strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.business-plan-metrics article:nth-child(4) {
+  border-right: 0;
+}
+
+.business-plan-edition-card,
+.business-plan-assumption-review {
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+}
+
+.business-plan-form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.business-plan-form-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.business-plan-form-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.business-plan-form-grid.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.business-plan-form-grid .wide {
+  grid-column: 1 / -1;
+}
+
+.business-plan-field {
+  display: grid;
+  gap: 0.45rem;
+  color: #49615b;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.business-plan-field input,
+.business-plan-field textarea,
+.business-plan-review-control select,
+.business-plan-year-field input {
+  width: 100%;
+  min-height: 45px;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid #cbd7ce;
+  border-radius: 2px;
+  outline: none;
+  background: #fbfcfa;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 520;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.business-plan-field textarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.business-plan-field input:focus,
+.business-plan-field textarea:focus,
+.business-plan-review-control select:focus,
+.business-plan-year-field input:focus {
+  border-color: #6f9a78;
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(111, 154, 120, 0.16);
+}
+
+.business-plan-field > small {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+.business-plan-prefixed-input,
+.business-plan-suffixed-input {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  border: 1px solid #cbd7ce;
+  background: #fbfcfa;
+}
+
+.business-plan-suffixed-input {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.business-plan-prefixed-input i,
+.business-plan-suffixed-input i {
+  padding: 0 0.75rem;
+  color: #72817c;
+  font-style: normal;
+  font-size: 0.85rem;
+}
+
+.business-plan-prefixed-input input,
+.business-plan-suffixed-input input {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.business-plan-section-directory {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.business-plan-section-directory button {
+  position: relative;
+  display: grid;
+  min-height: 180px;
+  align-content: start;
+  gap: 0.55rem;
+  padding: 1.2rem;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.business-plan-section-directory button:last-child {
+  border-right: 0;
+}
+
+.business-plan-section-directory button:hover {
+  background: #f1f5ee;
+}
+
+.business-plan-section-directory strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+.business-plan-section-directory small {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.45;
+}
+
+.business-plan-section-directory b {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  color: var(--accent);
+}
+
+.business-plan-status {
+  width: max-content;
+  padding: 0.28rem 0.48rem;
+  border-radius: 2px;
+  background: #e6ece8;
+  color: #49615b;
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.business-plan-status.status-approved {
+  background: #deedd8;
+  color: #37613f;
+}
+
+.business-plan-status.status-needs_review {
+  background: #f5e8c6;
+  color: #735b23;
+}
+
+.business-plan-status.status-working {
+  background: #e2e8e7;
+  color: #5a6b67;
+}
+
+.business-plan-section-head {
+  align-items: center;
+  background: #e6ede4;
+  color: var(--ink);
+}
+
+.business-plan-section-head p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.business-plan-review-control {
+  display: grid;
+  gap: 0.45rem;
+  color: #49615b;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.business-plan-review-control select {
+  min-width: 180px;
+  background: var(--white);
+}
+
+.business-plan-year-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.business-plan-year-field {
+  margin: 0;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.business-plan-year-field legend {
+  padding: 0 0.25rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 720;
+}
+
+.business-plan-year-field > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.business-plan-year-field label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.business-plan-year-field label > span:first-child {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.business-plan-finance-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.business-plan-finance-summary article {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.2rem;
+  border-right: 1px solid var(--line);
+}
+
+.business-plan-finance-summary article:last-child {
+  border-right: 0;
+}
+
+.business-plan-finance-summary span {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.business-plan-finance-summary strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2vw, 2.2rem);
+}
+
+.business-plan-result-table {
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.business-plan-result-table > div {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+
+.business-plan-result-table > div:last-child {
+  border-bottom: 0;
+}
+
+.business-plan-result-table span,
+.business-plan-result-table strong,
+.business-plan-result-table b {
+  padding: 0.85rem 1rem;
+  border-right: 1px solid var(--line);
+  text-align: right;
+}
+
+.business-plan-result-table span:first-child,
+.business-plan-result-table strong {
+  text-align: left;
+}
+
+.business-plan-result-table span {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.business-plan-result-table b.negative {
+  color: #9c3934;
+}
+
+.business-plan-review-hero {
+  align-items: center;
+}
+
+.business-plan-readiness {
+  display: grid;
+  width: 160px;
+  aspect-ratio: 1;
+  place-content: center;
+  justify-self: end;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  text-align: center;
+}
+
+.business-plan-readiness span,
+.business-plan-readiness small {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.business-plan-readiness strong {
+  margin: 0.15rem 0;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 3rem;
+}
+
+.business-plan-readiness.ready {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 7px rgba(207, 230, 177, 0.08);
+}
+
+.business-plan-review-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.business-plan-review-grid article {
+  display: grid;
+  min-height: 180px;
+  align-content: start;
+  gap: 0.55rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.business-plan-review-grid h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.business-plan-review-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.business-plan-review-grid button {
+  width: max-content;
+  margin-top: auto;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 750;
+}
+
+.business-plan-assumption-review dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 1rem 0 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.business-plan-assumption-review dl > div {
+  min-height: 100px;
+  padding: 0.85rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.business-plan-assumption-review dt {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.business-plan-assumption-review dd {
+  margin: 0.5rem 0 0;
+  color: var(--ink);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.business-plan-issue-list {
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.business-plan-issue-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.business-plan-issue-heading h3,
+.business-plan-issue-heading p {
+  margin: 0;
+}
+
+.business-plan-issue-heading p {
+  max-width: 540px;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.business-plan-issue {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 80px 210px minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.business-plan-issue:last-child {
+  border-bottom: 0;
+}
+
+.business-plan-issue:hover {
+  background: #f4f7f2;
+}
+
+.business-plan-issue > span {
+  color: #8a672a;
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.business-plan-issue.blocker > span {
+  color: #9c3934;
+}
+
+.business-plan-issue p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.business-plan-no-issues {
+  padding: 1.2rem;
+  border-left: 5px solid #6f9a78;
+  background: #edf4e8;
+  color: #36574f;
+}
+
+.business-plan-no-issues p {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+}
+
+.business-plan-export-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: center;
+  padding: clamp(1.4rem, 3vw, 2.4rem);
+  background: #20332d;
+  color: var(--white);
+}
+
+.business-plan-export-card h3 {
+  margin: 0.25rem 0 0.45rem;
+  color: inherit;
+  font-size: 2rem;
+}
+
+.business-plan-export-card p:not(.eyebrow) {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.75rem;
+}
+
+.business-plan-export-button {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 1.1rem;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #20332d;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.03em;
+}
+
+.business-plan-export-button:disabled {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.45);
+  cursor: not-allowed;
+}
+
+@media (max-width: 1180px) {
+  .business-plan-section-directory,
+  .business-plan-review-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .business-plan-section-directory button:nth-child(3),
+  .business-plan-review-grid article:nth-child(3) {
+    border-right: 0;
+  }
+
+  .business-plan-form-grid.four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .business-plan-hero,
+  .business-plan-section-head,
+  .business-plan-review-hero,
+  .business-plan-export-card {
+    grid-template-columns: 1fr;
+  }
+
+  .business-plan-date,
+  .business-plan-review-control,
+  .business-plan-readiness {
+    justify-self: stretch;
+  }
+
+  .business-plan-readiness {
+    width: 130px;
+    justify-self: start;
+  }
+
+  .business-plan-form-grid.two,
+  .business-plan-form-grid.three,
+  .business-plan-form-grid.four,
+  .business-plan-year-grid,
+  .business-plan-finance-summary,
+  .business-plan-section-directory,
+  .business-plan-review-grid,
+  .business-plan-assumption-review dl {
+    grid-template-columns: 1fr;
+  }
+
+  .business-plan-finance-summary article,
+  .business-plan-section-directory button {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .business-plan-section-directory button:last-child {
+    border-bottom: 0;
+  }
+
+  .business-plan-year-field > div {
+    grid-template-columns: 1fr;
+  }
+
+  .business-plan-issue-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .business-plan-issue {
+    grid-template-columns: 1fr auto;
+  }
+
+  .business-plan-issue p,
+  .business-plan-issue strong {
+    grid-column: 1 / -1;
+  }
+
+  .business-plan-export-button {
+    justify-content: center;
+  }
+}
+
 /* Partnership opportunities and Teaching Fellowship */
 
 .partnerships-intro {

@@ -18,6 +18,7 @@ import {
   updatePlaygroundPlan,
   updateProgramDetails,
   updateRelationshipDirectory,
+  updateBusinessPlan,
   updateSiteContent,
   updateSiteMedia,
   type InquiryStatus,
@@ -26,6 +27,7 @@ import {
 } from "@/lib/nova-data";
 import { normalizePlaygroundPlan } from "@/lib/playground-plan";
 import { normalizeRelationshipDirectory } from "@/lib/relationship-directory";
+import { normalizeBusinessPlanSettings, reviewBusinessPlan } from "@/lib/business-plan";
 import {
   isMediaSlotKey,
   resolveMediaSlot,
@@ -46,6 +48,12 @@ export type PlaygroundPlanSaveState = {
 };
 
 export type RelationshipDirectorySaveState = {
+  status: "idle" | "success" | "error";
+  message: string;
+  savedAt?: string;
+};
+
+export type BusinessPlanSaveState = {
   status: "idle" | "success" | "error";
   message: string;
   savedAt?: string;
@@ -128,6 +136,7 @@ export async function saveSiteContent(formData: FormData) {
     media: currentContent.media,
     playgroundPlan: currentContent.playgroundPlan,
     relationshipDirectory: currentContent.relationshipDirectory,
+    businessPlan: currentContent.businessPlan,
   };
 
   if (
@@ -368,6 +377,51 @@ export async function saveRelationshipDirectory(
     return {
       status: "error",
       message: "The relationship directory could not be saved. Review the entries and try again.",
+    };
+  }
+}
+
+export async function saveBusinessPlan(
+  _previousState: BusinessPlanSaveState,
+  formData: FormData,
+): Promise<BusinessPlanSaveState> {
+  await requireHubSession();
+
+  if (!isNovaDataConfigured()) {
+    return {
+      status: "error",
+      message: "Connect the NOVA data service before saving the business plan.",
+    };
+  }
+
+  const payload = String(formData.get("businessPlan") ?? "");
+  if (!payload || payload.length > 500_000) {
+    return { status: "error", message: "The business plan could not be saved." };
+  }
+
+  try {
+    const plan = normalizeBusinessPlanSettings(JSON.parse(payload));
+    const blockers = reviewBusinessPlan(plan).filter((issue) => issue.level === "blocker");
+    if (blockers.length) {
+      return {
+        status: "error",
+        message: blockers[0].message,
+      };
+    }
+
+    const savedAt = new Date().toISOString();
+    await updateBusinessPlan({ ...plan, updatedAt: savedAt });
+    revalidatePath("/hub/business-plan");
+    revalidatePath("/hub/dashboard");
+    return {
+      status: "success",
+      message: "Business-plan settings saved.",
+      savedAt,
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "The business plan could not be saved. Review the entries and try again.",
     };
   }
 }

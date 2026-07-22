@@ -19,6 +19,7 @@ export default async function RelationshipsPage() {
           { href: "/hub/dashboard", label: "Organization dashboard" },
           { href: "/hub/relationships", label: "Relationship manager" },
           { href: "/hub/playground", label: "Percussion Playground planner" },
+          { href: "/hub/business-plan", label: "Business Plan Builder" },
         ]}
         publicHref="/"
         publicLabel="View public site"

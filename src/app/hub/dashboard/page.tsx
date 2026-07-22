@@ -73,6 +73,7 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
         items={[
           { href: "/hub/relationships", label: "Relationship manager" },
           { href: "/hub/playground", label: "Percussion Playground planner" },
+          { href: "/hub/business-plan", label: "Business Plan Builder" },
           { href: "/hub/dashboard#overview", label: "Overview" },
           { href: "/hub/dashboard#inquiries", label: "Inquiries" },
           { href: "/hub/dashboard#program", label: "NOVA 8 Percussion" },
