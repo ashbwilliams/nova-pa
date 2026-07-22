@@ -20,6 +20,7 @@ export default async function BusinessPlanPage() {
           { href: "/hub/relationships", label: "Relationship manager" },
           { href: "/hub/playground", label: "Percussion Playground planner" },
           { href: "/hub/business-plan", label: "Business Plan Builder" },
+          { href: "/hub/fundraising", label: "Fundraising Package Builder" },
         ]}
         publicHref="/"
         publicLabel="View public site"

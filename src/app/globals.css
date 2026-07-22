@@ -755,6 +755,315 @@
   }
 }
 
+/* NOVA 8 fundraising-package builder */
+
+.fundraising-hero {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(175, 196, 184, 0.15), transparent 30%),
+    #20332d;
+}
+
+.fundraising-section-directory {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.fundraising-section-directory button {
+  min-height: 165px;
+}
+
+.fundraising-edition-heading {
+  align-items: end;
+}
+
+.fundraising-goal-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+  gap: 1.5rem;
+  align-items: end;
+  padding: 1.35rem;
+}
+
+.fundraising-allocation-check {
+  display: grid;
+  gap: 0.2rem;
+  min-height: 92px;
+  align-content: center;
+  padding: 0.9rem 1rem;
+  border-left: 4px solid #a67b33;
+  background: #f6ecd5;
+}
+
+.fundraising-allocation-check.balanced {
+  border-color: #6f9a78;
+  background: #edf4e8;
+}
+
+.fundraising-allocation-check span {
+  color: var(--muted);
+  font-size: 0.59rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fundraising-allocation-check strong {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+}
+
+.fundraising-allocation-check p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.fundraising-row-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.fundraising-row-list.two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.fundraising-edit-row {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: #f6f8f4;
+}
+
+.fundraising-row-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.fundraising-row-title > span {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.fundraising-row-title > strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.fundraising-remove-button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid #9c3934;
+  background: transparent;
+  color: #8a3935;
+  cursor: pointer;
+  font-size: 0.61rem;
+  font-weight: 750;
+}
+
+.fundraising-remove-button:disabled {
+  border-color: transparent;
+  color: #aeb8b3;
+  cursor: not-allowed;
+}
+
+.fundraising-document-preview {
+  overflow: hidden;
+  border: 1px solid #9eaaa3;
+  background: #edf2ee;
+  box-shadow: 0 20px 45px rgba(23, 37, 33, 0.08);
+}
+
+.fundraising-preview-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 1.2rem;
+  background: #0b1118;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.fundraising-preview-nav strong {
+  color: var(--white);
+}
+
+.fundraising-preview-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+  gap: 2rem;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  background:
+    radial-gradient(circle at 92% 16%, rgba(175, 196, 184, 0.15), transparent 28%),
+    #20332d;
+  color: var(--white);
+}
+
+.fundraising-preview-hero p {
+  margin: 0 0 0.45rem;
+  color: var(--accent-light);
+  font-size: 0.6rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.fundraising-preview-hero h3 {
+  max-width: 760px;
+  margin: 0;
+  color: inherit;
+  font-size: clamp(2.25rem, 5vw, 4.8rem);
+  line-height: 0.95;
+}
+
+.fundraising-preview-hero > div > strong {
+  display: block;
+  max-width: 650px;
+  margin-top: 0.75rem;
+  color: var(--firefly);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 550;
+}
+
+.fundraising-preview-hero aside {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  background: rgba(11, 17, 24, 0.2);
+}
+
+.fundraising-preview-hero aside span,
+.fundraising-preview-hero aside small {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+}
+
+.fundraising-preview-hero aside b {
+  color: var(--firefly);
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+}
+
+.fundraising-preview-copy {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.55fr) minmax(0, 1.45fr);
+  gap: 0.3rem 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--white);
+}
+
+.fundraising-preview-copy h3 {
+  grid-row: 2;
+  margin: 0;
+  font-size: 1.65rem;
+  line-height: 1.05;
+}
+
+.fundraising-preview-copy > p:last-child {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.fundraising-preview-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: #20332d;
+  color: var(--white);
+}
+
+.fundraising-preview-stats article {
+  display: grid;
+  min-height: 115px;
+  align-content: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.fundraising-preview-stats article:last-child {
+  border-right: 0;
+}
+
+.fundraising-preview-stats strong {
+  color: var(--firefly);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+}
+
+.fundraising-preview-stats span {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.61rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1180px) {
+  .fundraising-section-directory {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fundraising-row-list.two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .fundraising-goal-card,
+  .fundraising-preview-hero,
+  .fundraising-preview-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .fundraising-preview-copy > p:last-child,
+  .fundraising-preview-copy h3 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .fundraising-preview-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fundraising-preview-stats article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .fundraising-preview-stats article:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+}
+
+@media (max-width: 520px) {
+  .fundraising-section-directory,
+  .fundraising-preview-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .fundraising-preview-stats article {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .fundraising-preview-stats article:last-child {
+    border-bottom: 0;
+  }
+}
+
 /* Partnership opportunities and Teaching Fellowship */
 
 .partnerships-intro {

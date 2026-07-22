@@ -17,6 +17,11 @@ import {
   normalizeBusinessPlanSettings,
   type BusinessPlanSettings,
 } from "@/lib/business-plan";
+import {
+  defaultFundraisingPackageSettings,
+  normalizeFundraisingPackage,
+  type FundraisingPackageSettings,
+} from "@/lib/fundraising-package";
 
 export { inquiryStatuses, inquiryTopics } from "@/lib/nova-types";
 export type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
@@ -49,6 +54,7 @@ export type SiteContent = {
   playgroundPlan: PlaygroundPlan;
   relationshipDirectory: RelationshipDirectory;
   businessPlan: BusinessPlanSettings;
+  fundraisingPackage: FundraisingPackageSettings;
 };
 
 export type ProgramDetails = {
@@ -81,6 +87,7 @@ export const defaultSiteContent: SiteContent = {
   playgroundPlan: defaultPlaygroundPlan,
   relationshipDirectory: defaultRelationshipDirectory,
   businessPlan: defaultBusinessPlanSettings,
+  fundraisingPackage: defaultFundraisingPackageSettings,
 };
 
 const legacySiteContent = {
@@ -115,6 +122,7 @@ function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
       content?.relationshipDirectory,
     ),
     businessPlan: normalizeBusinessPlanSettings(content?.businessPlan),
+    fundraisingPackage: normalizeFundraisingPackage(content?.fundraisingPackage),
   };
 
   if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
@@ -280,6 +288,13 @@ export async function updateRelationshipDirectory(
 export async function updateBusinessPlan(businessPlan: BusinessPlanSettings) {
   const { content } = await getSiteState();
   await updateSiteContent({ ...content, businessPlan });
+}
+
+export async function updateFundraisingPackage(
+  fundraisingPackage: FundraisingPackageSettings,
+) {
+  const { content } = await getSiteState();
+  await updateSiteContent({ ...content, fundraisingPackage });
 }
 
 export async function updateProgramDetails(program: ProgramDetails) {

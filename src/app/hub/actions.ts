@@ -19,6 +19,7 @@ import {
   updateProgramDetails,
   updateRelationshipDirectory,
   updateBusinessPlan,
+  updateFundraisingPackage,
   updateSiteContent,
   updateSiteMedia,
   type InquiryStatus,
@@ -28,6 +29,9 @@ import {
 import { normalizePlaygroundPlan } from "@/lib/playground-plan";
 import { normalizeRelationshipDirectory } from "@/lib/relationship-directory";
 import { normalizeBusinessPlanSettings, reviewBusinessPlan } from "@/lib/business-plan";
+import {
+  normalizeFundraisingPackage,
+} from "@/lib/fundraising-package";
 import {
   isMediaSlotKey,
   resolveMediaSlot,
@@ -54,6 +58,12 @@ export type RelationshipDirectorySaveState = {
 };
 
 export type BusinessPlanSaveState = {
+  status: "idle" | "success" | "error";
+  message: string;
+  savedAt?: string;
+};
+
+export type FundraisingPackageSaveState = {
   status: "idle" | "success" | "error";
   message: string;
   savedAt?: string;
@@ -137,6 +147,7 @@ export async function saveSiteContent(formData: FormData) {
     playgroundPlan: currentContent.playgroundPlan,
     relationshipDirectory: currentContent.relationshipDirectory,
     businessPlan: currentContent.businessPlan,
+    fundraisingPackage: currentContent.fundraisingPackage,
   };
 
   if (
@@ -422,6 +433,43 @@ export async function saveBusinessPlan(
     return {
       status: "error",
       message: "The business plan could not be saved. Review the entries and try again.",
+    };
+  }
+}
+
+export async function saveFundraisingPackage(
+  _previousState: FundraisingPackageSaveState,
+  formData: FormData,
+): Promise<FundraisingPackageSaveState> {
+  await requireHubSession();
+
+  if (!isNovaDataConfigured()) {
+    return {
+      status: "error",
+      message: "Connect the NOVA data service before saving the fundraising package.",
+    };
+  }
+
+  const payload = String(formData.get("fundraisingPackage") ?? "");
+  if (!payload || payload.length > 500_000) {
+    return { status: "error", message: "The fundraising package could not be saved." };
+  }
+
+  try {
+    const fundraisingPackage = normalizeFundraisingPackage(JSON.parse(payload));
+    const savedAt = new Date().toISOString();
+    await updateFundraisingPackage({ ...fundraisingPackage, updatedAt: savedAt });
+    revalidatePath("/hub/fundraising");
+    revalidatePath("/hub/dashboard");
+    return {
+      status: "success",
+      message: "Fundraising package saved.",
+      savedAt,
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "The fundraising package could not be saved. Review the entries and try again.",
     };
   }
 }
