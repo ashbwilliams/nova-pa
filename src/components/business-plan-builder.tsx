@@ -33,6 +33,10 @@ const currency = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+const wholeNumber = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
+
 const statusLabels: Record<PlanReviewStatus, string> = {
   working: "Working",
   needs_review: "Needs review",
@@ -49,6 +53,24 @@ function formatSavedDate(value: string) {
 
 function Field({ label, hint, className = "", children }: { label: string; hint?: string; className?: string; children: ReactNode }) {
   return <label className={`business-plan-field ${className}`}>{label}{children}{hint ? <small>{hint}</small> : null}</label>;
+}
+
+function CurrencyInput({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+  return (
+    <span className="business-plan-prefixed-input business-plan-currency-input">
+      <i aria-hidden="true">$</i>
+      <input
+        type="text"
+        inputMode="numeric"
+        pattern="[0-9,]*"
+        value={wholeNumber.format(value)}
+        onChange={(event) => {
+          const digits = event.target.value.replace(/[^0-9]/g, "");
+          onChange(digits ? Number(digits) : 0);
+        }}
+      />
+    </span>
+  );
 }
 
 function SectionReview({ section, value, onChange }: { section: PlanSectionKey; value: PlanReviewStatus; onChange: (value: PlanReviewStatus) => void }) {
@@ -68,7 +90,14 @@ function YearInputs({ label, values, onChange, prefix }: { label: string; values
       <legend>{label}</legend>
       <div>
         {values.map((value, index) => (
-          <label key={index}><span>Year {index + 1}</span><span className={prefix ? "business-plan-prefixed-input" : undefined}>{prefix ? <i>{prefix}</i> : null}<input type="number" min="0" value={value} onChange={(event) => { const next = [...values] as ThreeYearNumbers; next[index] = Number(event.target.value); onChange(next); }} /></span></label>
+          <label key={index}>
+            <span>Year {index + 1}</span>
+            {prefix ? (
+              <CurrencyInput value={value} onChange={(nextValue) => { const next = [...values] as ThreeYearNumbers; next[index] = nextValue; onChange(next); }} />
+            ) : (
+              <input type="number" min="0" value={value} onChange={(event) => { const next = [...values] as ThreeYearNumbers; next[index] = Number(event.target.value); onChange(next); }} />
+            )}
+          </label>
         ))}
       </div>
     </fieldset>
@@ -219,7 +248,7 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured }: { initia
           <section className="business-plan-section-head"><div><p className="eyebrow">Pricing and access</p><h2>Family-facing terms</h2><p>These figures update the pricing table, unit economics, refund language, and current assumptions.</p></div><SectionReview section="pricing" value={plan.sectionStatus.pricing} onChange={(value) => updateReviewStatus("pricing", value)} /></section>
           <section className="planner-card"><div className="business-plan-form-grid three">
             {([[
-              "Core eight-week tuition", "coreTuition"], ["8th Grade Intensive tuition", "intensiveTuition"], ["Enrollment deposit", "deposit"], ["Public clinic participant", "clinicParticipant"], ["Public clinic observer", "clinicObserver"], ["Playground participant", "playgroundParticipant"], ["Playground observer", "playgroundObserver"]] as [string, keyof BusinessPlanSettings["pricing"]][]).map(([label, key]) => <Field label={label} key={key}><span className="business-plan-prefixed-input"><i>$</i><input type="number" min="0" value={plan.pricing[key] as number} onChange={(event) => updateSection("pricing", { [key]: Number(event.target.value) })} /></span></Field>)}
+              "Core eight-week tuition", "coreTuition"], ["8th Grade Intensive tuition", "intensiveTuition"], ["Enrollment deposit", "deposit"], ["Public clinic participant", "clinicParticipant"], ["Public clinic observer", "clinicObserver"], ["Playground participant", "playgroundParticipant"], ["Playground observer", "playgroundObserver"]] as [string, keyof BusinessPlanSettings["pricing"]][]).map(([label, key]) => <Field label={label} key={key}><CurrencyInput value={plan.pricing[key] as number} onChange={(value) => updateSection("pricing", { [key]: value })} /></Field>)}
             <Field label="Aid allowance"><span className="business-plan-suffixed-input"><input type="number" min="0" max="100" value={plan.pricing.financialAidRate} onChange={(event) => updateSection("pricing", { financialAidRate: Number(event.target.value) })} /><i>%</i></span></Field>
             <Field className="wide" label="Refund and cancellation policy" hint="This must be concrete enough for a family to understand before paying a deposit."><textarea rows={6} value={plan.pricing.refundPolicy} onChange={(event) => updateSection("pricing", { refundPolicy: event.target.value })} /></Field>
           </div></section>
@@ -250,16 +279,16 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured }: { initia
             <article><span>Remaining</span><strong>{currency.format(Math.max(0, plan.finance.foundingCampaignTarget - plan.finance.foundingCampaignSecured))}</strong></article>
             <article><span>Funding gate</span><strong>{currency.format(Math.round(plan.finance.foundingCampaignTarget * .75))}</strong></article>
           </section>
-          <section className="planner-card"><div className="business-plan-form-grid two">
-            <Field label="Founding campaign target"><span className="business-plan-prefixed-input"><i>$</i><input type="number" min="0" value={plan.finance.foundingCampaignTarget} onChange={(event) => updateSection("finance", { foundingCampaignTarget: Number(event.target.value) })} /></span></Field>
-            <Field label="Founding support secured"><span className="business-plan-prefixed-input"><i>$</i><input type="number" min="0" value={plan.finance.foundingCampaignSecured} onChange={(event) => updateSection("finance", { foundingCampaignSecured: Number(event.target.value) })} /></span></Field>
-            <Field className="wide" label="Current campaign priority"><textarea rows={4} value={plan.finance.campaignPriority} onChange={(event) => updateSection("finance", { campaignPriority: event.target.value })} /></Field>
+          <section className="planner-card business-plan-campaign-card"><div className="business-plan-form-grid two">
+            <Field label="Founding campaign target"><CurrencyInput value={plan.finance.foundingCampaignTarget} onChange={(value) => updateSection("finance", { foundingCampaignTarget: value })} /></Field>
+            <Field label="Founding support secured"><CurrencyInput value={plan.finance.foundingCampaignSecured} onChange={(value) => updateSection("finance", { foundingCampaignSecured: value })} /></Field>
+            <Field className="wide" label="Current campaign priority"><textarea rows={3} value={plan.finance.campaignPriority} onChange={(event) => updateSection("finance", { campaignPriority: event.target.value })} /></Field>
           </div></section>
           <section className="business-plan-year-grid finance">
             <YearInputs prefix="$" label="Projected cash revenue" values={plan.finance.projectedRevenue} onChange={(values) => updateSection("finance", { projectedRevenue: values })} />
-            <YearInputs prefix="$" label="Projected cash expense" values={plan.finance.projectedExpenses} onChange={(values) => updateSection("finance", { projectedExpenses: values })} />
+            <YearInputs prefix="$" label="Projected cash expenses" values={plan.finance.projectedExpenses} onChange={(values) => updateSection("finance", { projectedExpenses: values })} />
           </section>
-          <section className="business-plan-result-table"><div><span>Operating result</span><span>Year 1</span><span>Year 2</span><span>Year 3</span></div><div><strong>Revenue less expense</strong>{operatingResults.map((value, index) => <b className={value < 0 ? "negative" : ""} key={index}>{currency.format(value)}</b>)}</div></section>
+          <section className="business-plan-result-table"><div><span>Operating result</span><span>Year 1</span><span>Year 2</span><span>Year 3</span></div><div><strong>Revenue less expenses</strong>{operatingResults.map((value, index) => <b className={value < 0 ? "negative" : ""} key={index}>{currency.format(value)}</b>)}</div></section>
         </div>
       ) : null}
 
