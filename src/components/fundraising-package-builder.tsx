@@ -174,6 +174,9 @@ export function FundraisingPackageBuilder({
     async (previousState: FundraisingPackageSaveState, formData: FormData) => {
       const result = await saveFundraisingPackage(previousState, formData);
       setDirty(result.status !== "success");
+      if (result.status === "success" && result.savedAt) {
+        setFundraisingPackage((current) => ({ ...current, updatedAt: result.savedAt! }));
+      }
       return result;
     },
     initialSaveState,
@@ -208,7 +211,12 @@ export function FundraisingPackageBuilder({
       const result = await saveFundraisingPackage(initialSaveState, formData);
       if (revision !== autosaveRevision.current) return;
       setAutosaveState(result);
-      if (result.status === "success") setDirty(false);
+      if (result.status === "success") {
+        setDirty(false);
+        if (result.savedAt) {
+          setFundraisingPackage((current) => ({ ...current, updatedAt: result.savedAt! }));
+        }
+      }
     }, 1200);
     return () => window.clearTimeout(timeout);
   }, [currentPayload, dirty, saving, storageConfigured]);
