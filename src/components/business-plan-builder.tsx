@@ -129,6 +129,9 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured, versions }
     async (previousState: BusinessPlanSaveState, formData: FormData) => {
       const result = await saveBusinessPlan(previousState, formData);
       setDirty(result.status !== "success");
+      if (result.status === "success" && result.savedAt) {
+        setPlan((current) => ({ ...current, updatedAt: result.savedAt! }));
+      }
       return result;
     },
     initialSaveState,
@@ -153,7 +156,12 @@ export function BusinessPlanBuilder({ initialPlan, storageConfigured, versions }
       const result = await saveBusinessPlan(initialSaveState, formData);
       if (revision !== autosaveRevision.current) return;
       setAutosaveState(result);
-      if (result.status === "success") setDirty(false);
+      if (result.status === "success") {
+        setDirty(false);
+        if (result.savedAt) {
+          setPlan((current) => ({ ...current, updatedAt: result.savedAt! }));
+        }
+      }
     }, 1200);
     return () => window.clearTimeout(timeout);
   }, [currentPayload, dirty, saving, storageConfigured]);
