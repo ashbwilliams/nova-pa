@@ -257,6 +257,16 @@ function isWebUrl(value: string) {
   }
 }
 
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidIsoDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
 export function reviewFundraisingPackage(
   settings: FundraisingPackageSettings,
   businessPlan?: BusinessPlanSettings,
@@ -266,6 +276,15 @@ export function reviewFundraisingPackage(
     issues.push({ level, section, message });
   const allocated = settings.fundingUses.reduce((sum, item) => sum + item.amount, 0);
 
+  if (!settings.revisionTitle) {
+    add("blocker", "details", "Add a revision title before export.");
+  }
+  if (!isValidIsoDate(settings.revisedDate)) {
+    add("blocker", "details", "Enter a valid revision date before export.");
+  }
+  if (!settings.campaignTitle || !settings.campaignSubtitle) {
+    add("blocker", "story", "Add both a campaign title and subtitle before export.");
+  }
   if (settings.caseForSupport.length < 150 || settings.needStatement.length < 80 || settings.solutionStatement.length < 80) {
     add("blocker", "story", "The case for support needs a substantive case, need statement, and solution before export.");
   }
@@ -298,6 +317,9 @@ export function reviewFundraisingPackage(
   }
   if (!settings.contactName || ![settings.contactEmail, settings.contactPhone, settings.contactUrl].some(Boolean)) {
     add("blocker", "details", "Add a contact name and at least one contact method.");
+  }
+  if (settings.contactEmail && !isValidEmail(settings.contactEmail)) {
+    add("blocker", "details", "Enter a valid contact email address or remove it before export.");
   }
   if (settings.contactUrl && !isWebUrl(settings.contactUrl)) {
     add("blocker", "details", "The contact-page URL is not a complete web address.");
