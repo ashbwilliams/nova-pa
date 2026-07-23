@@ -238,24 +238,23 @@ Evaluation should match the claims. A program that promises musicianship, belong
 
 No single measure proves that the program caused a life outcome. Together, these indicators can show whether the educational mechanisms described in this paper are present and whether students are experiencing them equitably.
 
-# 9. The case for NOVA
+# 9. Implications for NOVA
 
-For NOVA, the case is not that every young person should choose marching percussion. It is that every young person who might discover music through this discipline should have a credible opportunity to find out.
+The evidence in this paper does not establish that marching percussion benefits every student or that participation alone produces transferable life skills. It does, however, identify the conditions under which marching percussion can become a meaningful educational pathway.
 
-That opportunity is educational because it gives students access to:
+For NOVA, those findings create a practical standard. Its programs should:
 
-- rigorous rhythmic and technical instruction;
-- embodied ways of understanding musical ideas;
-- a role whose quality matters to a real ensemble;
-- repeated cycles of effort, feedback, revision, and performance;
-- guided practice in responsibility, communication, persistence, and leadership;
-- a community in which musical identity and belonging can grow.
+- provide rigorous, developmentally appropriate percussion instruction;
+- welcome students who may not yet have access to advanced marching-percussion training;
+- complement, rather than replace, school-based music education;
+- use progressive physical demands and explicit hearing, heat, and injury protections;
+- cultivate belonging without making conformity a condition of participation;
+- teach reflection and transfer deliberately when developing responsibility, communication, persistence, and leadership;
+- evaluate musical growth, student experience, retention, safety, and continued engagement with music.
 
-NOVA can make its strongest case by resisting exaggerated promises. It need not claim that percussion raises test scores, solves adolescent development, or guarantees success elsewhere. The more credible promise is also the more meaningful one:
+NOVA's role is therefore not to promise that marching percussion will transform every student. It is to create the conditions in which the right student can discover whether this form of music-making speaks to them.
 
-**NOVA can create a safe, rigorous, accessible setting in which a student may become a musician, a trusted ensemble member, and a more capable learner through the disciplined work of marching percussion.**
-
-For some students, that experience will complement an existing love of music. For others, it may be the first form of music education that feels physically intuitive, socially consequential, and personally theirs. That is why access to marching percussion should be understood not merely as access to an activity, but as access to a distinctive form of learning.
+For some, marching percussion will deepen an existing musical identity. For others, its combination of rhythm, movement, repetition, ensemble responsibility, and shared performance may make music meaningful in a way that other opportunities have not. Providing a credible opportunity for that discovery is the educational case for NOVA.
 
 # Conclusion
 
