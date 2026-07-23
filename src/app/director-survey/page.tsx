@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
+import { getSiteState } from "@/lib/nova-data";
 import { DirectorSurveyForm } from "./survey-form";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Band & Percussion Program Survey",
@@ -12,7 +15,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DirectorSurveyPage() {
+export default async function DirectorSurveyPage() {
+  const { content } = await getSiteState();
+
   return (
     <>
       <PageHero
@@ -40,7 +45,7 @@ export default function DirectorSurveyPage() {
           </p>
           <p className="director-survey-time">About three minutes</p>
         </div>
-        <DirectorSurveyForm />
+        <DirectorSurveyForm config={content.directorSurvey} />
       </section>
     </>
   );

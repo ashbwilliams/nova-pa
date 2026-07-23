@@ -3,6 +3,11 @@ import "server-only";
 import { randomUUID } from "node:crypto";
 
 import type { InquiryStatus, InquiryTopic } from "@/lib/nova-types";
+import {
+  defaultDirectorSurveyConfig,
+  normalizeDirectorSurveyConfig,
+  type DirectorSurveyConfig,
+} from "@/lib/director-survey";
 import type { SiteMediaState } from "@/lib/nova-media";
 import {
   defaultPlaygroundPlan,
@@ -63,6 +68,7 @@ export type SiteContent = {
   relationshipDirectory: RelationshipDirectory;
   businessPlan: BusinessPlanSettings;
   fundraisingPackage: FundraisingPackageSettings;
+  directorSurvey: DirectorSurveyConfig;
 };
 
 export type ProgramDetails = {
@@ -96,6 +102,7 @@ export const defaultSiteContent: SiteContent = {
   relationshipDirectory: defaultRelationshipDirectory,
   businessPlan: defaultBusinessPlanSettings,
   fundraisingPackage: defaultFundraisingPackageSettings,
+  directorSurvey: defaultDirectorSurveyConfig,
 };
 
 const legacySiteContent = {
@@ -131,6 +138,7 @@ function mergeSiteContent(content: Partial<SiteContent> | null | undefined) {
     ),
     businessPlan: normalizeBusinessPlanSettings(content?.businessPlan),
     fundraisingPackage: normalizeFundraisingPackage(content?.fundraisingPackage),
+    directorSurvey: normalizeDirectorSurveyConfig(content?.directorSurvey),
   };
 
   if (legacySiteContent.homeHeroBody.includes(merged.homeHeroBody)) {
@@ -306,6 +314,13 @@ export async function updateRelationshipDirectory(
 ) {
   const { content } = await getSiteState();
   await updateSiteContent({ ...content, relationshipDirectory });
+}
+
+export async function updateDirectorSurvey(
+  directorSurvey: DirectorSurveyConfig,
+) {
+  const { content } = await getSiteState();
+  await updateSiteContent({ ...content, directorSurvey });
 }
 
 export async function updateBusinessPlan(

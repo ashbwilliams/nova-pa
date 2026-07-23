@@ -21,6 +21,7 @@ import {
   updateProgramDetails,
   updateRelationshipDirectory,
   updateBusinessPlan,
+  updateDirectorSurvey,
   updateFundraisingPackage,
   updateSiteContent,
   updateSiteMedia,
@@ -29,6 +30,11 @@ import {
   type SiteContent,
   NovaDataConflictError,
 } from "@/lib/nova-data";
+import {
+  directorSurveyQuestionKeys,
+  normalizeDirectorSurveyConfig,
+  type DirectorSurveyConfig,
+} from "@/lib/director-survey";
 import { normalizePlaygroundPlan } from "@/lib/playground-plan";
 import { normalizeRelationshipDirectory } from "@/lib/relationship-directory";
 import { normalizeBusinessPlanSettings, reviewBusinessPlan } from "@/lib/business-plan";
@@ -91,8 +97,24 @@ export type DocumentVersionActionState = {
   message: string;
 };
 
+export type DirectorSurveySaveState = {
+  status: "idle" | "success" | "error";
+  message: string;
+};
+
 function text(formData: FormData, key: string, max: number) {
   return String(formData.get(key) ?? "").trim().slice(0, max);
+}
+
+function lines(formData: FormData, key: string) {
+  return Array.from(
+    new Set(
+      String(formData.get(key) ?? "")
+        .split(/\r?\n/)
+        .map((item) => item.trim().slice(0, 160))
+        .filter(Boolean),
+    ),
+  ).slice(0, 24);
 }
 
 function storageIsReady() {
@@ -170,6 +192,7 @@ export async function saveSiteContent(formData: FormData) {
     relationshipDirectory: currentContent.relationshipDirectory,
     businessPlan: currentContent.businessPlan,
     fundraisingPackage: currentContent.fundraisingPackage,
+    directorSurvey: currentContent.directorSurvey,
   };
 
   if (
@@ -188,6 +211,82 @@ export async function saveSiteContent(formData: FormData) {
   revalidatePath("/support");
   revalidatePath("/contact");
   revalidatePath("/hub/dashboard");
+}
+
+export async function saveDirectorSurvey(
+  _previousState: DirectorSurveySaveState,
+  formData: FormData,
+): Promise<DirectorSurveySaveState> {
+  await requireHubSession();
+
+  if (!isNovaDataConfigured()) {
+    return {
+      status: "error",
+      message: "Connect the NOVA data service before editing the survey.",
+    };
+  }
+
+  const questions = Object.fromEntries(
+    directorSurveyQuestionKeys.map((key) => [
+      key,
+      text(formData, `question_${key}`, 240),
+    ]),
+  ) as DirectorSurveyConfig["questions"];
+  const draft: DirectorSurveyConfig = {
+    questions,
+    roles: lines(formData, "options_roles"),
+    studentGroups: lines(formData, "options_studentGroups"),
+    percussionStudentCounts: lines(
+      formData,
+      "options_percussionStudentCounts",
+    ),
+    programNeeds: lines(formData, "options_programNeeds"),
+    novaOpportunities: lines(formData, "options_novaOpportunities"),
+    supportTimings: lines(formData, "options_supportTimings"),
+    involvementOptions: lines(formData, "options_involvementOptions"),
+    rehearsalSpaceOptions: lines(
+      formData,
+      "options_rehearsalSpaceOptions",
+    ),
+    followUpOptions: lines(formData, "options_followUpOptions"),
+  };
+  const lists = [
+    draft.roles,
+    draft.studentGroups,
+    draft.percussionStudentCounts,
+    draft.programNeeds,
+    draft.novaOpportunities,
+    draft.supportTimings,
+    draft.involvementOptions,
+    draft.rehearsalSpaceOptions,
+    draft.followUpOptions,
+  ];
+
+  if (
+    directorSurveyQuestionKeys.some((key) => questions[key].length < 4) ||
+    lists.some((list) => list.length < 2)
+  ) {
+    return {
+      status: "error",
+      message:
+        "Each question needs wording, and every answer-choice group needs at least two choices.",
+    };
+  }
+
+  try {
+    await updateDirectorSurvey(normalizeDirectorSurveyConfig(draft));
+    revalidatePath("/director-survey");
+    revalidatePath("/hub/survey");
+    return {
+      status: "success",
+      message: "Survey questions saved and published.",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "The survey could not be saved. Please try again.",
+    };
+  }
 }
 
 export async function saveMediaSlot(formData: FormData) {

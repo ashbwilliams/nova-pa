@@ -1,17 +1,6 @@
 "use server";
 
-import {
-  directorRoles,
-  followUpOptions,
-  involvementOptions,
-  novaOpportunities,
-  percussionStudentCounts,
-  programNeeds,
-  rehearsalSpaceOptions,
-  studentGroups,
-  supportTimings,
-} from "@/lib/director-survey";
-import { createInquiry } from "@/lib/nova-data";
+import { createInquiry, getSiteState } from "@/lib/nova-data";
 
 export type DirectorSurveyState = {
   status: "idle" | "success" | "error";
@@ -51,25 +40,27 @@ export async function submitDirectorSurvey(
     };
   }
 
+  const { content } = await getSiteState();
+  const config = content.directorSurvey;
   const name = text(formData, "name", 100);
   const organization = text(formData, "organization", 160);
-  const roles = selected(formData, "roles", directorRoles);
+  const roles = selected(formData, "roles", config.roles);
   const roleOther = text(formData, "roleOther", 160);
-  const students = selected(formData, "students", studentGroups);
+  const students = selected(formData, "students", config.studentGroups);
   const studentOther = text(formData, "studentOther", 160);
   const percussionStudentCount = text(formData, "percussionStudentCount", 40);
-  const needs = selected(formData, "needs", programNeeds, 3);
+  const needs = selected(formData, "needs", config.programNeeds, 3);
   const needOther = text(formData, "needOther", 160);
   const opportunities = selected(
     formData,
     "opportunities",
-    novaOpportunities,
+    config.novaOpportunities,
   );
   const timing = text(formData, "timing", 80);
   const involvement = selected(
     formData,
     "involvement",
-    involvementOptions,
+    config.involvementOptions,
   );
   const rehearsalSpace = text(formData, "rehearsalSpace", 100);
   const spaceDetails = text(formData, "spaceDetails", 600);
@@ -82,18 +73,14 @@ export async function submitDirectorSurvey(
     !organization ||
     !roles.length ||
     !students.length ||
-    !percussionStudentCounts.includes(
-      percussionStudentCount as (typeof percussionStudentCounts)[number],
-    ) ||
+    !config.percussionStudentCounts.includes(percussionStudentCount) ||
     !needs.length ||
     !opportunities.length ||
-    !supportTimings.includes(timing as (typeof supportTimings)[number]) ||
+    !config.supportTimings.includes(timing) ||
     !involvement.length ||
-    !rehearsalSpaceOptions.includes(
-      rehearsalSpace as (typeof rehearsalSpaceOptions)[number],
-    ) ||
-    !followUpOptions.includes(followUp as (typeof followUpOptions)[number]) ||
-    (followUp !== "No follow-up needed" && !contact)
+    !config.rehearsalSpaceOptions.includes(rehearsalSpace) ||
+    !config.followUpOptions.includes(followUp) ||
+    (followUp !== config.followUpOptions.at(-1) && !contact)
   ) {
     return {
       status: "error",

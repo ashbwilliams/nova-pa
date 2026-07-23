@@ -27,6 +27,7 @@ export function SiteFooter() {
         </div>
         <div className="footer-links">
           <p className="footer-label">Connect</p>
+          <Link href="/director-survey">Educator survey</Link>
           <Link href="/partnerships">Partnership opportunities</Link>
           <Link href="/contact">Start a conversation</Link>
           <Link href="/contact#contact-form">Send an inquiry</Link>

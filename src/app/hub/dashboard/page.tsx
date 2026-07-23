@@ -78,6 +78,7 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
     <div className="hub-shell">
       <HubSidebar
         items={[
+          { href: "/hub/survey", label: "Educator survey" },
           { href: "/hub/relationships", label: "Relationship manager" },
           { href: "/hub/playground", label: "Percussion Playground planner" },
           { href: "/hub/business-plan", label: "Business Plan Builder" },
