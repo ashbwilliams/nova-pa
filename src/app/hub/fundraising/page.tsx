@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { FundraisingPackageBuilder } from "@/components/fundraising-package-builder";
-import { HubSidebar } from "@/components/hub-sidebar";
+import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getDocumentVersionHistory, getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
 
@@ -33,14 +33,7 @@ export default async function FundraisingPackagePage() {
   return (
     <div className="hub-shell planner-shell business-plan-shell fundraising-shell">
       <HubSidebar
-        items={[
-          { href: "/hub/dashboard", label: "Organization dashboard" },
-          { href: "/hub/survey", label: "Educator survey" },
-          { href: "/hub/relationships", label: "Relationship manager" },
-          { href: "/hub/playground", label: "Percussion Playground planner" },
-          { href: "/hub/business-plan", label: "Business Plan Builder" },
-          { href: "/hub/fundraising", label: "Fundraising Package Builder" },
-        ]}
+        items={hubPrimaryNavigation}
         publicHref="/support"
         publicLabel="View support page"
       />

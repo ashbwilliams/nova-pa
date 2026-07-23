@@ -2,13 +2,47 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { logoutHub } from "@/app/hub/actions";
 
 export type HubSidebarItem = {
   href: string;
   label: string;
+  group?: string;
 };
+
+export const hubPrimaryNavigation: HubSidebarItem[] = [
+  {
+    href: "/hub/dashboard",
+    label: "Organization dashboard",
+    group: "Overview",
+  },
+  {
+    href: "/hub/survey",
+    label: "Educator survey",
+    group: "Outreach",
+  },
+  {
+    href: "/hub/relationships",
+    label: "Relationship manager",
+    group: "Outreach",
+  },
+  {
+    href: "/hub/playground",
+    label: "Percussion Playground",
+    group: "Planning",
+  },
+  {
+    href: "/hub/business-plan",
+    label: "Business plan",
+    group: "Planning",
+  },
+  {
+    href: "/hub/fundraising",
+    label: "Fundraising package",
+    group: "Planning",
+  },
+];
 
 type HubSidebarProps = {
   items: HubSidebarItem[];
@@ -72,28 +106,28 @@ export function HubSidebar({ items, publicHref, publicLabel }: HubSidebarProps) 
         <strong>Owner Hub</strong>
       </div>
       <nav aria-label="Hub sections">
-        {items.map((item) => {
+        {items.map((item, index) => {
           const path = hrefPath(item.href);
           const hash = hrefHash(item.href);
           const isActive = hash
             ? activeHref === item.href
-            : path === pathname && !items.some(
-                (candidate) =>
-                  hrefPath(candidate.href) === pathname &&
-                  hrefHash(candidate.href) &&
-                  activeHref === candidate.href,
-              );
+            : path === pathname;
+          const showGroup = item.group && item.group !== items[index - 1]?.group;
 
           return (
-            <Link
-              className={isActive ? "active" : undefined}
-              href={item.href}
-              key={item.href}
-              aria-current={isActive ? (hash ? "location" : "page") : undefined}
-              onClick={() => setActiveHref(item.href)}
-            >
-              <span>{item.label}</span>
-            </Link>
+            <Fragment key={item.href}>
+              {showGroup ? (
+                <span className="hub-sidebar-group">{item.group}</span>
+              ) : null}
+              <Link
+                className={isActive ? "active" : undefined}
+                href={item.href}
+                aria-current={isActive ? (hash ? "location" : "page") : undefined}
+                onClick={() => setActiveHref(item.href)}
+              >
+                <span>{item.label}</span>
+              </Link>
+            </Fragment>
           );
         })}
       </nav>

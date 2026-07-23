@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { HubSidebar } from "@/components/hub-sidebar";
+import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
 import { RelationshipManager } from "@/components/relationship-manager";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
@@ -15,14 +15,7 @@ export default async function RelationshipsPage() {
   return (
     <div className="hub-shell planner-shell">
       <HubSidebar
-        items={[
-          { href: "/hub/dashboard", label: "Organization dashboard" },
-          { href: "/hub/survey", label: "Educator survey" },
-          { href: "/hub/relationships", label: "Relationship manager" },
-          { href: "/hub/playground", label: "Percussion Playground planner" },
-          { href: "/hub/business-plan", label: "Business Plan Builder" },
-          { href: "/hub/fundraising", label: "Fundraising Package Builder" },
-        ]}
+        items={hubPrimaryNavigation}
         publicHref="/"
         publicLabel="View public site"
       />

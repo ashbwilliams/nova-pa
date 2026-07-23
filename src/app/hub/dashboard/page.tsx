@@ -12,7 +12,7 @@ import {
   listInquiries,
 } from "@/lib/nova-data";
 import { HubMediaLibrary } from "@/components/hub-media-library";
-import { HubSidebar } from "@/components/hub-sidebar";
+import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
 import { InquiryDeleteForm } from "@/components/inquiry-delete-form";
 import { mediaSlotDefinitions, resolveMediaSlot } from "@/lib/nova-media";
 
@@ -78,16 +78,12 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
     <div className="hub-shell">
       <HubSidebar
         items={[
-          { href: "/hub/survey", label: "Educator survey" },
-          { href: "/hub/relationships", label: "Relationship manager" },
-          { href: "/hub/playground", label: "Percussion Playground planner" },
-          { href: "/hub/business-plan", label: "Business Plan Builder" },
-          { href: "/hub/fundraising", label: "Fundraising Package Builder" },
-          { href: "/hub/dashboard#overview", label: "Overview" },
-          { href: "/hub/dashboard#inquiries", label: "Inquiries" },
-          { href: "/hub/dashboard#program", label: "NOVA 8 Percussion" },
-          { href: "/hub/dashboard#content", label: "Site content" },
-          { href: "/hub/dashboard#photos", label: "Site photos" },
+          ...hubPrimaryNavigation,
+          { href: "/hub/dashboard#overview", label: "Overview", group: "Dashboard sections" },
+          { href: "/hub/dashboard#inquiries", label: "All inquiries", group: "Dashboard sections" },
+          { href: "/hub/dashboard#program", label: "NOVA 8 Percussion", group: "Dashboard sections" },
+          { href: "/hub/dashboard#content", label: "Site content", group: "Dashboard sections" },
+          { href: "/hub/dashboard#photos", label: "Site photos", group: "Dashboard sections" },
         ]}
         publicHref="/"
         publicLabel="View public site"

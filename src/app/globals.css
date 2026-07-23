@@ -6104,8 +6104,28 @@ body:has(.hub-shell) {
 
 .hub-sidebar nav {
   display: grid;
+  min-height: 0;
   gap: 0.25rem;
   margin: 3rem 0 auto;
+  padding-right: 0.4rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: #40534a transparent;
+  scrollbar-width: thin;
+}
+
+.hub-sidebar-group {
+  margin-top: 1rem;
+  padding: 0.2rem 0;
+  color: #7f958a;
+  font-size: 0.59rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hub-sidebar-group:first-child {
+  margin-top: 0;
 }
 
 .hub-sidebar nav a {
@@ -6136,8 +6156,10 @@ body:has(.hub-shell) {
 }
 
 .hub-sidebar-actions {
+  flex: none;
   display: grid;
   gap: 0.7rem;
+  padding-top: 1rem;
 }
 
 .hub-sidebar-actions a,
@@ -6409,6 +6431,27 @@ body:has(.hub-shell) {
   margin: 0.35rem 0 0;
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.survey-response-manage-link {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  padding: 0 0.85rem;
+  border: 1px solid var(--line);
+  color: var(--accent-dark);
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.survey-response-manage-link:hover {
+  border-color: var(--accent);
+  background: var(--paper);
+}
+
+#responses,
+#editor {
+  scroll-margin-top: 1.5rem;
 }
 
 .hub-inquiry-delete-row {
@@ -7947,6 +7990,13 @@ body:has(.hub-shell) {
     flex-wrap: wrap;
     gap: 0.4rem 1.2rem;
     margin: 1.4rem 0;
+    padding-right: 0;
+    overflow: visible;
+  }
+
+  .hub-sidebar-group {
+    width: 100%;
+    margin: 0.8rem 0 0;
   }
 
   .hub-sidebar nav a {
