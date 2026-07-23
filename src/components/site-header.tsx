@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 const primaryNavigation = [
   { href: "/about", label: "About" },
   { href: "/impact", label: "Access & Impact" },
+  { href: "/resources", label: "Resources" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -36,6 +37,8 @@ export function SiteHeader() {
   const mobileMenuRef = useRef<HTMLDetailsElement>(null);
   const programIsActive = programNavigation.some((item) => item.href === pathname);
   const playgroundIsActive = pathname === "/percussion-playground";
+  const isCurrent = (href: string) =>
+    pathname === href || (href === "/resources" && pathname.startsWith("/resources/"));
 
   useEffect(() => {
     programMenuRef.current?.removeAttribute("open");
@@ -58,7 +61,7 @@ export function SiteHeader() {
             ref={programMenuRef}
           >
             <summary>
-              Programs &amp; Experiences
+              Programs
               <span className="nav-chevron" aria-hidden="true" />
             </summary>
             <div className="desktop-programs-menu">
@@ -76,7 +79,7 @@ export function SiteHeader() {
           {primaryNavigation.slice(1).map((item) => (
             <Link
               href={item.href}
-              aria-current={pathname === item.href ? "page" : undefined}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
               key={item.href}
             >
               {item.label}
@@ -117,7 +120,7 @@ export function SiteHeader() {
             {primaryNavigation.slice(1).map((item) => (
               <Link
                 href={item.href}
-                aria-current={pathname === item.href ? "page" : undefined}
+                aria-current={isCurrent(item.href) ? "page" : undefined}
                 key={item.href}
               >
                 {item.label}

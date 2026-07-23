@@ -22,6 +22,7 @@ export function SiteFooter() {
           <Link href="/nova-8">NOVA 8 Percussion</Link>
           <Link href="/percussion-playground">Percussion Playground</Link>
           <Link href="/impact">Access & Impact</Link>
+          <Link href="/resources">Resources</Link>
           <Link href="/support">Support NOVA</Link>
         </div>
         <div className="footer-links">

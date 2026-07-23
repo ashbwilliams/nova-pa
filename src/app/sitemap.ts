@@ -11,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/institutional-instructional-partnerships",
     "/percussion-playground",
     "/impact",
+    "/resources",
+    "/resources/marching-percussion-as-an-educational-discipline",
     "/support",
     "/contact",
   ];
