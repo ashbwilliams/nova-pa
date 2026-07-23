@@ -1,3 +1,4 @@
+/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
 import { redirect } from "next/navigation";
 import {
   saveInquiryReview,
@@ -29,6 +30,13 @@ function formatDate(value: string) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
+}
+
+function contactHref(value: string) {
+  if (value === "No follow-up requested") return null;
+  if (value.includes("@")) return `mailto:${value}`;
+  const phone = value.replace(/[^\d+]/g, "");
+  return phone.length >= 7 ? `tel:${phone}` : null;
 }
 
 type HubDashboardPageProps = {
@@ -151,7 +159,13 @@ export default async function HubDashboardPage({ searchParams }: HubDashboardPag
                   </span>
                 </summary>
                 <div className="hub-inquiry-details">
-                  <a className="hub-inquiry-email" href={`mailto:${inquiry.email}`}>{inquiry.email}</a>
+                  {contactHref(inquiry.email) ? (
+                    <a className="hub-inquiry-email" href={contactHref(inquiry.email) ?? undefined}>
+                      {inquiry.email}
+                    </a>
+                  ) : (
+                    <p className="hub-inquiry-email">{inquiry.email}</p>
+                  )}
                   {inquiry.organization ? <p className="hub-inquiry-organization">{inquiry.organization}</p> : null}
                   <p className="hub-inquiry-message">{inquiry.message}</p>
                   <form action={saveInquiryReview} className="hub-review-form">
