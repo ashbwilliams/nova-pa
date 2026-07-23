@@ -1,16 +1,15 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { marked, Renderer, type Tokens } from "marked";
+import {
+  getResourceCatalogItem,
+  type ResourceCatalogItem,
+} from "@/lib/resource-library";
 
 export type ResourceSection = {
   id: string;
   title: string;
 };
-
-const RESOURCE_PATH = join(
-  process.cwd(),
-  "src/content/resources/marching-percussion-as-an-educational-discipline.md",
-);
 
 function escapeHtml(value: string) {
   return value
@@ -77,8 +76,12 @@ class ResourceRenderer extends Renderer {
   }
 }
 
-export function getMarchingPercussionPaper() {
-  const source = readFileSync(RESOURCE_PATH, "utf8").replace(
+function getResourceDocument(resource: ResourceCatalogItem) {
+  const resourcePath = join(
+    process.cwd(),
+    `src/content/resources/${resource.slug}.md`,
+  );
+  const source = readFileSync(resourcePath, "utf8").replace(
     /^(?:%[^\n]*\n){3}\s*/,
     "",
   );
@@ -97,8 +100,21 @@ export function getMarchingPercussionPaper() {
   });
 
   return {
+    ...resource,
     html,
     readingMinutes: Math.max(1, Math.round(wordCount / 235)),
     sections,
   };
+}
+
+export function getMarchingPercussionPaper() {
+  return getResourceDocument(
+    getResourceCatalogItem(
+      "marching-percussion-as-an-educational-discipline",
+    ),
+  );
+}
+
+export function getResourceBrief(slug: string) {
+  return getResourceDocument(getResourceCatalogItem(slug));
 }

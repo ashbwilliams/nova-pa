@@ -13,6 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/impact",
     "/resources",
     "/resources/marching-percussion-as-an-educational-discipline",
+    "/resources/what-is-marching-percussion",
+    "/resources/what-it-takes-to-put-an-ensemble-on-the-floor",
+    "/resources/a-students-journey-through-nova-8",
+    "/resources/ways-to-help-young-musicians-begin",
     "/support",
     "/contact",
   ];

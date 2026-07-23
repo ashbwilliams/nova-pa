@@ -3,12 +3,16 @@ import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/arrow-up-right-icon";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
+import { resourceCatalog } from "@/lib/resource-library";
 
 export const metadata: Metadata = {
   title: "Resources",
   description:
     "Research, practical guidance, and educational resources from NOVA Performing Arts.",
 };
+
+const featuredResource = resourceCatalog[0];
+const practicalResources = resourceCatalog.slice(1);
 
 export default function ResourcesPage() {
   return (
@@ -27,61 +31,88 @@ export default function ResourcesPage() {
           <h2>Useful ideas, built to be shared.</h2>
         </div>
         <p>
-          NOVA&apos;s resource library will bring together research papers, planning
-          guides, and practical tools that support thoughtful, student-centered
-          marching arts education.
+          NOVA&apos;s resource library brings together research and clear,
+          shareable guides for people who want to understand the work, explain
+          the need, or help a young musician begin.
         </p>
       </section>
 
-      <section className="resource-library" aria-labelledby="featured-resource">
+      <section className="resource-library">
         <div className="resource-library-heading">
           <p className="eyebrow">Featured research</p>
-          <p>July 2026 · White paper</p>
+          <p>
+            {featuredResource.published} · {featuredResource.format}
+          </p>
         </div>
         <article className="resource-card">
           <div className="resource-card-number" aria-hidden="true">
             01
           </div>
           <div className="resource-card-copy">
-            <h2 id="featured-resource">
-              Marching Percussion as an Educational Discipline
-            </h2>
+            <h2>{featuredResource.title}</h2>
             <p className="resource-card-subtitle">
-              Why it can become a critical pathway to music, belonging, and growth
-              for the right student
+              {featuredResource.subtitle}
             </p>
-            <p>
-              A careful, evidence-based case for marching percussion as a
-              distinctive mode of music learning, with explicit limits on what the
-              research does and does not support.
-            </p>
+            <p>{featuredResource.summary}</p>
             <div className="resource-card-actions">
               <Link
                 className="button button-dark"
-                href="/resources/marching-percussion-as-an-educational-discipline"
+                href={`/resources/${featuredResource.slug}`}
               >
                 Read the paper
               </Link>
               <a
                 className="text-link"
                 download
-                href="/resources/marching-percussion-as-an-educational-discipline.pdf"
+                href={featuredResource.pdfPath}
               >
                 Download PDF <ArrowUpRightIcon />
               </a>
             </div>
           </div>
         </article>
+
+        <div className="resource-collection-heading">
+          <div>
+            <p className="eyebrow">Practical fundraising guides</p>
+            <h2>Four clear ways to explain the opportunity.</h2>
+          </div>
+          <p>
+            Short, accessible resources built for donor meetings, community
+            introductions, prospective hosts, and anyone encountering NOVA for
+            the first time.
+          </p>
+        </div>
+
+        <div className="resource-guide-grid">
+          {practicalResources.map((resource, index) => (
+            <article className="resource-guide-card" key={resource.slug}>
+              <div className="resource-guide-meta">
+                <span>{String(index + 2).padStart(2, "0")}</span>
+                <span>{resource.format}</span>
+              </div>
+              <h3>{resource.title}</h3>
+              <p className="resource-guide-subtitle">{resource.subtitle}</p>
+              <p>{resource.summary}</p>
+              <div className="resource-guide-actions">
+                <Link href={`/resources/${resource.slug}`}>Read the guide</Link>
+                <a download href={resource.pdfPath}>
+                  Download PDF
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <CtaBand
-        eyebrow="A growing library"
-        title="Have a question NOVA should explore?"
-        body="We are developing resources around access, instruction, program design, and the educational value of the marching arts."
-        primaryHref="/contact"
-        primaryLabel="Start a conversation"
-        secondaryHref="/about"
-        secondaryLabel="About NOVA"
+        eyebrow="Put the resources to work"
+        title="Share the idea. Start the right conversation."
+        body="Use these guides to introduce marching percussion, explain what a program requires, or help a potential donor or partner see where they fit."
+        primaryHref="/support"
+        primaryLabel="Explore ways to help"
+        secondaryHref="/contact"
+        secondaryLabel="Start a conversation"
       />
     </>
   );
