@@ -63,28 +63,6 @@ export default async function Home() {
         </Link>
       </section>
 
-      <section className="home-event-feature">
-        <div className="home-event-image">
-          <ManagedImage
-            media={playgroundImage}
-            fill
-            sizes="(max-width: 820px) 100vw, 50vw"
-          />
-        </div>
-        <div className="home-event-copy">
-          <p className="eyebrow light">A new hands-on NOVA experience</p>
-          <h2>Percussion Playground</h2>
-          <p>
-            Don’t just watch the ensemble. Step inside it, try the instruments,
-            learn a musical part, and discover how the whole sound comes together.
-          </p>
-          <p className="home-event-status">Dates and location are being planned.</p>
-          <Link className="button button-light" href="/percussion-playground">
-            Explore Percussion Playground
-          </Link>
-        </div>
-      </section>
-
       <section className="editorial-section split-feature">
         <div className="feature-copy">
           <p className="eyebrow">The need</p>
@@ -174,6 +152,28 @@ export default async function Home() {
             28 total responses. NOVA 8 Percussion responds to that demonstrated need
             with an accessible, noncompetitive model focused on continued education.
           </p>
+        </div>
+      </section>
+
+      <section className="home-event-feature">
+        <div className="home-event-image">
+          <ManagedImage
+            media={playgroundImage}
+            fill
+            sizes="(max-width: 820px) 100vw, 50vw"
+          />
+        </div>
+        <div className="home-event-copy">
+          <p className="eyebrow light">A new hands-on NOVA experience</p>
+          <h2>Percussion Playground</h2>
+          <p>
+            Don’t just watch the ensemble. Step inside it, try the instruments,
+            learn a musical part, and discover how the whole sound comes together.
+          </p>
+          <p className="home-event-status">Dates and location are being planned.</p>
+          <Link className="button button-light" href="/percussion-playground">
+            Explore Percussion Playground
+          </Link>
         </div>
       </section>
 
