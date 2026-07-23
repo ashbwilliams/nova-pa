@@ -12,7 +12,8 @@ import {
   listInquiries,
 } from "@/lib/nova-data";
 import { HubMediaLibrary } from "@/components/hub-media-library";
-import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
+import { HubSidebar } from "@/components/hub-sidebar";
+import { hubPrimaryNavigation } from "@/lib/hub-navigation";
 import { InquiryDeleteForm } from "@/components/inquiry-delete-form";
 import { mediaSlotDefinitions, resolveMediaSlot } from "@/lib/nova-media";
 

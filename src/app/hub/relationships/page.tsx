@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
+import { HubSidebar } from "@/components/hub-sidebar";
+import { hubPrimaryNavigation } from "@/lib/hub-navigation";
 import { RelationshipManager } from "@/components/relationship-manager";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getSiteState, isNovaDataConfigured } from "@/lib/nova-data";

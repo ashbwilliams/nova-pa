@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { FundraisingPackageBuilder } from "@/components/fundraising-package-builder";
-import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
+import { HubSidebar } from "@/components/hub-sidebar";
+import { hubPrimaryNavigation } from "@/lib/hub-navigation";
 import { hasHubSession } from "@/lib/hub-auth";
 import { getDocumentVersionHistory, getSiteState, isNovaDataConfigured } from "@/lib/nova-data";
 

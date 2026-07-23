@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { DirectorSurveyEditor } from "@/components/director-survey-editor";
-import { HubSidebar, hubPrimaryNavigation } from "@/components/hub-sidebar";
+import { HubSidebar } from "@/components/hub-sidebar";
 import { hasHubSession } from "@/lib/hub-auth";
+import { hubPrimaryNavigation } from "@/lib/hub-navigation";
 import {
   getSiteState,
   isNovaDataConfigured,
