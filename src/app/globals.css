@@ -5674,11 +5674,29 @@ h3 {
   font-size: clamp(2.7rem, 4.8vw, 5rem);
 }
 
-.director-survey-intro > p:last-child,
+.director-survey-intro .director-survey-summary,
+.director-survey-intro .director-survey-purpose,
 .director-survey-success > p:last-child {
   color: var(--accent-light);
   font-size: 1.05rem;
   line-height: 1.65;
+}
+
+.director-survey-intro .director-survey-purpose {
+  margin-top: 1.4rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.director-survey-time {
+  display: inline-block;
+  margin-top: 1.8rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line-dark);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .director-survey-form {
